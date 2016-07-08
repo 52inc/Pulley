@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
         
         // To create in code (uncomment next 3 lines)
-        let mainContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryContentViewController")
-        let drawerContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("DrawerContentViewController")
-        window?.rootViewController = PulleyViewController(contentViewController: mainContentVC, drawerViewController: drawerContentVC)
+//        let mainContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryContentViewController")
+//        let drawerContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("DrawerContentViewController")
+//        window?.rootViewController = PulleyViewController(contentViewController: mainContentVC, drawerViewController: drawerContentVC)
         
         window?.makeKeyAndVisible()
         
