@@ -51,21 +51,21 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
     
     @IBAction func runPrimaryContentTransitionWithoutAnimation(sender: AnyObject) {
         
-        if let drawer = self.parentViewController as? PulleyViewController
+        if let drawer = self.parent as? PulleyViewController
         {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryTransitionTargetViewController")
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
-            drawer.setPrimaryContentViewController(primaryContent, animated: false)
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
         }
     }
     
     @IBAction func runPrimaryContentTransition(sender: AnyObject) {
         
-        if let drawer = self.parentViewController as? PulleyViewController
+        if let drawer = self.parent as? PulleyViewController
         {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryTransitionTargetViewController")
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
-            drawer.setPrimaryContentViewController(primaryContent, animated: true)
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: true)
         }
     }
 }

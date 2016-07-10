@@ -1,5 +1,5 @@
-#Pulley
-A library to imitate the drawer in Maps for iOS 10.
+#Pulley (Swift 3 Beta)
+A library to imitate the drawer in Maps for iOS 10. This branch compiles and runs in Swift 3 as of Xcode 8 Beta 2.
 
 ###Introduction
 Pulley is an easy to use drawer library meant to imitate the drawer in iOS 10's Maps app. It exposes a simple API that allows you to use any UIViewController subclass as the drawer content or the primary content.

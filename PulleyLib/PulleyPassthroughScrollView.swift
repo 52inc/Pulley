@@ -17,17 +17,17 @@ protocol PulleyPassthroughScrollViewDelegate: class {
 class PulleyPassthroughScrollView: UIScrollView {
     
     weak var touchDelegate: PulleyPassthroughScrollViewDelegate?
-
-    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         
         if let touchDel = touchDelegate
         {
-            if touchDel.shouldTouchPassthroughScrollView(self, point: point)
+            if touchDel.shouldTouchPassthroughScrollView(scrollView: self, point: point)
             {
-                return touchDel.viewToReceiveTouch(self).hitTest(touchDel.viewToReceiveTouch(self).convertPoint(point, fromView: self), withEvent: event)
+                return touchDel.viewToReceiveTouch(scrollView: self).hitTest(touchDel.viewToReceiveTouch(scrollView: self).convert(point, from: self), with: event)
             }
         }
-
-        return super.hitTest(point, withEvent: event)
+        
+        return super.hitTest(point, with: event)
     }
 }
