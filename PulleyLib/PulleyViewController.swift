@@ -94,7 +94,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             self.primaryContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
             
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -124,7 +124,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             self.drawerContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
             
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -140,7 +140,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The inset from the top of the view controller when fully open.
     public var topInset: CGFloat = 50.0 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -150,7 +150,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The corner radius for the drawer.
     public var drawerCornerRadius: CGFloat = 13.0 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -160,7 +160,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The opacity of the drawer shadow.
     public var shadowOpacity: Float = 0.1 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -170,7 +170,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The radius of the drawer shadow.
     public var shadowRadius: CGFloat = 3.0 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -178,9 +178,9 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     }
     
     /// The opaque color of the background dimming view.
-    public var backgroundDimmingColor: UIColor = UIColor.black() {
+    public var backgroundDimmingColor: UIColor = UIColor.black {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 backgroundDimmingView.backgroundColor = backgroundDimmingColor
             }
@@ -191,7 +191,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     public var backgroundDimmingOpacity: CGFloat = 0.5 {
         didSet {
             
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.scrollViewDidScroll(drawerScrollView)
             }
@@ -245,7 +245,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         }
         
         // Setup
-        primaryContentContainer.backgroundColor = UIColor.white()
+        primaryContentContainer.backgroundColor = UIColor.white
         
         drawerScrollView.bounces = false
         drawerScrollView.delegate = self
@@ -254,15 +254,15 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         drawerScrollView.showsHorizontalScrollIndicator = false
         drawerScrollView.delaysContentTouches = true
         drawerScrollView.canCancelContentTouches = true
-        drawerScrollView.backgroundColor = UIColor.clear()
+        drawerScrollView.backgroundColor = UIColor.clear
         drawerScrollView.decelerationRate = UIScrollViewDecelerationRateFast
         drawerScrollView.touchDelegate = self
         
         drawerShadowView.layer.shadowOpacity = shadowOpacity
         drawerShadowView.layer.shadowRadius = shadowRadius
-        drawerShadowView.backgroundColor = UIColor.clear()
+        drawerShadowView.backgroundColor = UIColor.clear
         
-        drawerContentContainer.backgroundColor = UIColor.clear()
+        drawerContentContainer.backgroundColor = UIColor.clear
         
         backgroundDimmingView.backgroundColor = backgroundDimmingColor
         backgroundDimmingView.isUserInteractionEnabled = false
@@ -274,9 +274,9 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         drawerScrollView.addSubview(drawerShadowView)
         drawerScrollView.addSubview(drawerContentContainer)
         
-        primaryContentContainer.backgroundColor = UIColor.white()
+        primaryContentContainer.backgroundColor = UIColor.white
         
-        self.view.backgroundColor = UIColor.white()
+        self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(primaryContentContainer)
         self.view.addSubview(backgroundDimmingView)
@@ -342,8 +342,8 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         
         let cardMaskLayer = CAShapeLayer()
         cardMaskLayer.path = borderPath
-        cardMaskLayer.fillColor = UIColor.white().cgColor
-        cardMaskLayer.backgroundColor = UIColor.clear().cgColor
+        cardMaskLayer.fillColor = UIColor.white.cgColor
+        cardMaskLayer.backgroundColor = UIColor.clear.cgColor
         drawerContentContainer.layer.mask = cardMaskLayer
         drawerShadowView.layer.shadowPath = borderPath
         
