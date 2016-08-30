@@ -13,10 +13,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool
+    {
         // Override point for customization after application launch.
         
-        window = UIWindow(frame: UIScreen.main().bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
         
         // To create from a Storyboard
         window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!
@@ -52,7 +53,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

@@ -21,7 +21,7 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
 
         // Do any additional setup after loading the view.
         gripperView.layer.cornerRadius = 2.5
-        seperatorHeightConstraint.constant = 1.0 / UIScreen.main().scale
+        seperatorHeightConstraint.constant = 1.0 / UIScreen.main.scale
     }
 
     override func didReceiveMemoryWarning() {
