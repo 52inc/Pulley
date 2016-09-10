@@ -13,9 +13,9 @@ import UIKit
  */
 @objc public protocol PulleyDelegate: class {
     
-    optional func drawerPositionDidChange(drawer: PulleyViewController)
-    optional func makeUIAdjustmentsForFullscreen(progress: CGFloat)
-    optional func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat)
+    @objc optional func drawerPositionDidChange(drawer: PulleyViewController)
+    @objc optional func makeUIAdjustmentsForFullscreen(progress: CGFloat)
+    @objc optional func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat)
 }
 
 /**
@@ -38,15 +38,15 @@ import UIKit
 /**
  Represents a Pulley drawer position.
  
- - Collapsed:         When the drawer is in its smallest form, at the bottom of the screen.
- - PartiallyRevealed: When the drawer is partially revealed.
- - Open:              When the drawer is fully open.
+ - collapsed:         When the drawer is in its smallest form, at the bottom of the screen.
+ - partiallyRevealed: When the drawer is partially revealed.
+ - open:              When the drawer is fully open.
  */
 public enum PulleyPosition {
     
-    case Collapsed
-    case PartiallyRevealed
-    case Open
+    case collapsed
+    case partiallyRevealed
+    case open
 }
 
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
@@ -94,7 +94,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             self.primaryContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
             
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -124,7 +124,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             self.drawerContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
             
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -135,12 +135,32 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     public weak var delegate: PulleyDelegate?
     
     /// The current position of the drawer.
-    public private(set) var drawerPosition: PulleyPosition = .Collapsed
+    public private(set) var drawerPosition: PulleyPosition = .collapsed {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
+    /// The background visual effect layer for the drawer. By default this is the extraLight effect. You can change this if you want, or assign nil to remove it.
+    public var drawerBackgroundVisualEffectView: UIVisualEffectView? = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight)) {
+        willSet {
+            drawerBackgroundVisualEffectView?.removeFromSuperview()
+        }
+        didSet {
+            
+            if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView, self.isViewLoaded
+            {
+                drawerScrollView.insertSubview(drawerBackgroundVisualEffectView, aboveSubview: drawerShadowView)
+                drawerBackgroundVisualEffectView.clipsToBounds = true
+                drawerBackgroundVisualEffectView.layer.cornerRadius = drawerCornerRadius
+            }
+        }
+    }
     
     /// The inset from the top of the view controller when fully open.
     public var topInset: CGFloat = 50.0 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -150,9 +170,10 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The corner radius for the drawer.
     public var drawerCornerRadius: CGFloat = 13.0 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
+                drawerBackgroundVisualEffectView?.layer.cornerRadius = drawerCornerRadius
             }
         }
     }
@@ -160,7 +181,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The opacity of the drawer shadow.
     public var shadowOpacity: Float = 0.1 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -170,7 +191,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     /// The radius of the drawer shadow.
     public var shadowRadius: CGFloat = 3.0 {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -178,9 +199,9 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     }
     
     /// The opaque color of the background dimming view.
-    public var backgroundDimmingColor: UIColor = UIColor.blackColor() {
+    public var backgroundDimmingColor: UIColor = UIColor.black {
         didSet {
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 backgroundDimmingView.backgroundColor = backgroundDimmingColor
             }
@@ -191,7 +212,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     public var backgroundDimmingOpacity: CGFloat = 0.5 {
         didSet {
             
-            if self.isViewLoaded()
+            if self.isViewLoaded
             {
                 self.scrollViewDidScroll(drawerScrollView)
             }
@@ -245,7 +266,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         }
         
         // Setup
-        primaryContentContainer.backgroundColor = UIColor.whiteColor()
+        primaryContentContainer.backgroundColor = UIColor.white
         
         drawerScrollView.bounces = false
         drawerScrollView.delegate = self
@@ -254,29 +275,38 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         drawerScrollView.showsHorizontalScrollIndicator = false
         drawerScrollView.delaysContentTouches = true
         drawerScrollView.canCancelContentTouches = true
-        drawerScrollView.backgroundColor = UIColor.clearColor()
+        drawerScrollView.backgroundColor = UIColor.clear
         drawerScrollView.decelerationRate = UIScrollViewDecelerationRateFast
         drawerScrollView.touchDelegate = self
         
         drawerShadowView.layer.shadowOpacity = shadowOpacity
         drawerShadowView.layer.shadowRadius = shadowRadius
-        drawerShadowView.backgroundColor = UIColor.clearColor()
+        drawerShadowView.backgroundColor = UIColor.clear
         
-        drawerContentContainer.backgroundColor = UIColor.clearColor()
+        drawerContentContainer.backgroundColor = UIColor.clear
         
         backgroundDimmingView.backgroundColor = backgroundDimmingColor
-        backgroundDimmingView.userInteractionEnabled = false
+        backgroundDimmingView.isUserInteractionEnabled = false
         backgroundDimmingView.alpha = 0.0
         
-        dimmingViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PulleyViewController.dimmingViewTapRecognizer(_:)))
+        drawerBackgroundVisualEffectView?.clipsToBounds = true
+        
+        dimmingViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PulleyViewController.dimmingViewTapRecognizerAction(gestureRecognizer:)))
         backgroundDimmingView.addGestureRecognizer(dimmingViewTapRecognizer!)
         
         drawerScrollView.addSubview(drawerShadowView)
+        
+        if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView
+        {
+            drawerScrollView.addSubview(drawerBackgroundVisualEffectView)
+            drawerBackgroundVisualEffectView.layer.cornerRadius = drawerCornerRadius
+        }
+        
         drawerScrollView.addSubview(drawerContentContainer)
         
-        primaryContentContainer.backgroundColor = UIColor.whiteColor()
+        primaryContentContainer.backgroundColor = UIColor.white
         
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(primaryContentContainer)
         self.view.addSubview(backgroundDimmingView)
@@ -331,19 +361,21 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             partialRevealHeight = drawerVCCompliant.partialRevealDrawerHeight()
         }
         
-        let lowestStop = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight].minElement() ?? 0
+        let lowestStop = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight].min() ?? 0
         let bounceOverflowMargin: CGFloat = 20.0
         drawerContentContainer.frame = CGRect(x: 0, y: drawerScrollView.bounds.height - lowestStop, width: drawerScrollView.bounds.width, height: drawerScrollView.bounds.height + bounceOverflowMargin)
+        drawerBackgroundVisualEffectView?.frame = drawerContentContainer.frame
         drawerShadowView.frame = drawerContentContainer.frame
         drawerScrollView.contentSize = CGSize(width: drawerScrollView.bounds.width, height: (drawerScrollView.bounds.height - lowestStop) + drawerScrollView.bounds.height)
         
         // Update rounding mask and shadows
-        let borderPath = UIBezierPath(roundedRect: drawerContentContainer.bounds, byRoundingCorners: [.TopLeft, .TopRight], cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius)).CGPath
+        let borderPath = UIBezierPath(roundedRect: drawerContentContainer.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius)).cgPath
         
         let cardMaskLayer = CAShapeLayer()
         cardMaskLayer.path = borderPath
-        cardMaskLayer.fillColor = UIColor.whiteColor().CGColor
-        cardMaskLayer.backgroundColor = UIColor.clearColor().CGColor
+        cardMaskLayer.frame = drawerContentContainer.bounds
+        cardMaskLayer.fillColor = UIColor.white.cgColor
+        cardMaskLayer.backgroundColor = UIColor.clear.cgColor
         drawerContentContainer.layer.mask = cardMaskLayer
         drawerShadowView.layer.shadowPath = borderPath
         
@@ -382,30 +414,30 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         
         switch drawerPosition {
             
-        case .Collapsed:
+        case .collapsed:
             stopToMoveTo = collapsedHeight
             
-        case .PartiallyRevealed:
+        case .partiallyRevealed:
             stopToMoveTo = partialRevealHeight
             
-        case .Open:
+        case .open:
             stopToMoveTo = (self.view.bounds.size.height - topInset)
         }
         
         let drawerStops = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight]
-        let lowestStop = drawerStops.minElement() ?? 0
+        let lowestStop = drawerStops.min() ?? 0
         
         if animated
         {
-            UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: .CurveEaseInOut, animations: { [weak self] () -> Void in
+            UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: .curveEaseInOut, animations: { [weak self] () -> Void in
                 
                 self?.drawerScrollView.setContentOffset(CGPoint(x: 0, y: stopToMoveTo - lowestStop), animated: false)
                 
                 if let drawer = self
                 {
-                    drawer.delegate?.drawerPositionDidChange?(drawer)
-                    (drawer.drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer)
-                    (drawer.primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer)
+                    drawer.delegate?.drawerPositionDidChange?(drawer: drawer)
+                    (drawer.drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: drawer)
+                    (drawer.primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: drawer)
                     
                     drawer.view.layoutIfNeeded()
                 }
@@ -416,9 +448,9 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         {
             drawerScrollView.setContentOffset(CGPoint(x: 0, y: stopToMoveTo - lowestStop), animated: false)
             
-            delegate?.drawerPositionDidChange?(self)
-            (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(self)
-            (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(self)
+            delegate?.drawerPositionDidChange?(drawer: self)
+            (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: self)
+            (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: self)
         }
     }
     
@@ -432,7 +464,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     {
         if animated
         {
-            UIView.transitionWithView(primaryContentContainer, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { [weak self] () -> Void in
+            UIView.transition(with: primaryContentContainer, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.primaryContentViewController = controller
                 
@@ -454,29 +486,29 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     {
         if animated
         {
-            UIView.transitionWithView(drawerContentContainer, duration: 0.5, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { [weak self] () -> Void in
+            UIView.transition(with: drawerContentContainer, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.drawerContentViewController = controller
-                self?.setDrawerPosition(self?.drawerPosition ?? .Collapsed, animated: false)
+                self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
                 
                 }, completion: nil)
         }
         else
         {
             drawerContentViewController = controller
-            setDrawerPosition(drawerPosition, animated: false)
+            setDrawerPosition(position: drawerPosition, animated: false)
         }
     }
     
     // MARK: Actions
     
-    func dimmingViewTapRecognizer(gestureRecognizer: UITapGestureRecognizer)
+    func dimmingViewTapRecognizerAction(gestureRecognizer: UITapGestureRecognizer)
     {
         if gestureRecognizer == dimmingViewTapRecognizer
         {
-            if gestureRecognizer.state == .Recognized
+            if gestureRecognizer.state == .began
             {
-                self.setDrawerPosition(.Collapsed, animated: true)
+                self.setDrawerPosition(position: .collapsed, animated: true)
             }
         }
     }
@@ -485,7 +517,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     
     private var lastDragTargetContentOffset: CGPoint = CGPoint.zero
     
-    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         if scrollView == drawerScrollView
         {
@@ -500,7 +532,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             }
             
             let drawerStops = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight]
-            let lowestStop = drawerStops.minElement() ?? 0
+            let lowestStop = drawerStops.min() ?? 0
             
             let distanceFromBottomOfView = lowestStop + lastDragTargetContentOffset.y
             
@@ -516,28 +548,28 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             
             if abs(Float(currentClosestStop - (self.view.bounds.size.height - topInset))) <= FLT_EPSILON
             {
-                setDrawerPosition(.Open, animated: true)
+                setDrawerPosition(position: .open, animated: true)
             } else if abs(Float(currentClosestStop - collapsedHeight)) <= FLT_EPSILON
             {
-                setDrawerPosition(.Collapsed, animated: true)
+                setDrawerPosition(position: .collapsed, animated: true)
             } else {
-                setDrawerPosition(.PartiallyRevealed, animated: true)
+                setDrawerPosition(position: .partiallyRevealed, animated: true)
             }
         }
     }
     
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
         if scrollView == drawerScrollView
         {
-            lastDragTargetContentOffset = targetContentOffset.memory
+            lastDragTargetContentOffset = targetContentOffset.pointee
             
             // Halt intertia
-            targetContentOffset.memory = scrollView.contentOffset
+            targetContentOffset.pointee = scrollView.contentOffset
         }
     }
     
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView == drawerScrollView
         {
@@ -551,7 +583,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             }
             
             let drawerStops = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight]
-            let lowestStop = drawerStops.minElement() ?? 0
+            let lowestStop = drawerStops.min() ?? 0
             
             if scrollView.contentOffset.y > partialRevealHeight - lowestStop
             {
@@ -560,13 +592,13 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
                 
                 let progress = (scrollView.contentOffset.y - (partialRevealHeight - lowestStop)) / (fullRevealHeight - (partialRevealHeight))
                 
-                delegate?.makeUIAdjustmentsForFullscreen?(progress)
-                (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress)
-                (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress)
+                delegate?.makeUIAdjustmentsForFullscreen?(progress: progress)
+                (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress: progress)
+                (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress: progress)
                 
                 backgroundDimmingView.alpha = progress * backgroundDimmingOpacity
                 
-                backgroundDimmingView.userInteractionEnabled = true
+                backgroundDimmingView.isUserInteractionEnabled = true
             }
             else
             {
@@ -574,17 +606,17 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
                 {
                     backgroundDimmingView.alpha = 0.0
                     
-                    delegate?.makeUIAdjustmentsForFullscreen?(0.0)
-                    (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.makeUIAdjustmentsForFullscreen?(0.0)
-                    (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.makeUIAdjustmentsForFullscreen?(0.0)
+                    delegate?.makeUIAdjustmentsForFullscreen?(progress: 0.0)
+                    (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress: 0.0)
+                    (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress: 0.0)
                     
-                    backgroundDimmingView.userInteractionEnabled = false
+                    backgroundDimmingView.isUserInteractionEnabled = false
                 }
             }
             
-            delegate?.drawerChangedDistanceFromBottom?(self, distance: scrollView.contentOffset.y + lowestStop)
-            (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerChangedDistanceFromBottom?(self, distance: scrollView.contentOffset.y + lowestStop)
-            (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerChangedDistanceFromBottom?(self, distance: scrollView.contentOffset.y + lowestStop)
+            delegate?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop)
+            (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop)
+            (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop)
         }
     }
     
@@ -604,11 +636,34 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     
     func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView) -> UIView
     {
-        if drawerPosition == .Open
+        if drawerPosition == .open
         {
             return backgroundDimmingView
         }
         
         return primaryContentContainer
+    }
+    
+    // MARK: Propogate child view controller style / status bar presentation based on drawer state
+    
+    override public var childViewControllerForStatusBarStyle: UIViewController? {
+        get {
+            
+            if drawerPosition == .open {
+                return drawerContentViewController
+            }
+            
+            return primaryContentViewController
+        }
+    }
+    
+    override public var childViewControllerForStatusBarHidden: UIViewController? {
+        get {
+            if drawerPosition == .open {
+                return drawerContentViewController
+            }
+            
+            return primaryContentViewController
+        }
     }
 }

@@ -21,7 +21,7 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
 
         // Do any additional setup after loading the view.
         gripperView.layer.cornerRadius = 2.5
-        seperatorHeightConstraint.constant = 1.0 / UIScreen.mainScreen().scale
+        seperatorHeightConstraint.constant = 1.0 / UIScreen.main.scale
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,32 +30,32 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     // MARK: Tableview data source & delegate
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 50
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier("SampleCell", forIndexPath: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "SampleCell", for: indexPath)
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 81.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
-        if let drawer = self.parentViewController as? PulleyViewController
+        if let drawer = self.parent as? PulleyViewController
         {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryTransitionTargetViewController")
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
-            drawer.setDrawerPosition(.Collapsed, animated: true)
+            drawer.setDrawerPosition(position: .collapsed, animated: true)
 
-            drawer.setPrimaryContentViewController(primaryContent, animated: false)
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
         }
     }
 
@@ -73,20 +73,20 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
 
     func drawerPositionDidChange(drawer: PulleyViewController)
     {
-        tableView.scrollEnabled = drawer.drawerPosition == .Open
+        tableView.isScrollEnabled = drawer.drawerPosition == .open
         
-        if drawer.drawerPosition != .Open
+        if drawer.drawerPosition != .open
         {
             searchBar.resignFirstResponder()
         }
     }
     
     // MARK: Search Bar delegate
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         
-        if let drawerVC = self.parentViewController as? PulleyViewController
+        if let drawerVC = self.parent as? PulleyViewController
         {
-            drawerVC.setDrawerPosition(.Open, animated: true)
+            drawerVC.setDrawerPosition(position: .open, animated: true)
         }
     }
 }

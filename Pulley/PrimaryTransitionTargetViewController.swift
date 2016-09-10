@@ -24,11 +24,11 @@ class PrimaryTransitionTargetViewController: UIViewController {
 
     @IBAction func goBackButtonPressed(sender: AnyObject) {
         
-        if let drawer = self.parentViewController as? PulleyViewController
+        if let drawer = self.parent as? PulleyViewController
         {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryContentViewController")
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryContentViewController")
             
-            drawer.setPrimaryContentViewController(primaryContent, animated: true)
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: true)
         }
     }
 }

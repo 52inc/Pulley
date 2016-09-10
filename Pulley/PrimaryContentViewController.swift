@@ -26,6 +26,16 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
         controlsContainer.layer.cornerRadius = 10.0
         temperatureLabel.layer.cornerRadius = 7.0
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        Uncomment if you want to change the visual effect style to dark. Note: The rest of the sample app's UI isn't made for dark theme. This just shows you how to do it.
+//        if let drawer = self.parent as? PulleyViewController
+//        {
+//            drawer.drawerBackgroundVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,21 +61,21 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
     
     @IBAction func runPrimaryContentTransitionWithoutAnimation(sender: AnyObject) {
         
-        if let drawer = self.parentViewController as? PulleyViewController
+        if let drawer = self.parent as? PulleyViewController
         {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryTransitionTargetViewController")
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
-            drawer.setPrimaryContentViewController(primaryContent, animated: false)
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
         }
     }
     
     @IBAction func runPrimaryContentTransition(sender: AnyObject) {
         
-        if let drawer = self.parentViewController as? PulleyViewController
+        if let drawer = self.parent as? PulleyViewController
         {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryTransitionTargetViewController")
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
-            drawer.setPrimaryContentViewController(primaryContent, animated: true)
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: true)
         }
     }
 }
