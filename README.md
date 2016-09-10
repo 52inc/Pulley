@@ -94,7 +94,8 @@ if let drawer = self.parentViewController as? PulleyViewController
 4. You can adjust the shadow opacity applied to the drawer by setting the -shadowOpacity property on the `PulleyViewController`.
 5. You can adjust the shadow radius applied to the drawer by setting the -shadowRadius property on the `PulleyViewController`.
 6. You can adjust the background dimming color by setting the -backgroundDimmingColor to an opaque color on the `PulleyViewController`.
-7. You can adjust the alpha of the background dimming color by setting the -backgroundDimmingOpacity property on the `PulleyViewController`.
-8. You can change the drawer position by calling setDrawerPosition( : ) on the `PulleyViewController`.
-9. If an object needs to receive delegate callbacks and _isn't_ one of the view controller's presented then you can use the -delegate property on the `PulleyViewController`.
-10. The Swift Interface for `PulleyViewController` is documented in case you want to see real documentation instead of a numbered list of useful things.
+7. You can adjust / remove the background blur effect by setting the -drawerBackgroundVisualEffectView property on the `PulleyViewController`.
+8. You can adjust the alpha of the background dimming color by setting the -backgroundDimmingOpacity property on the `PulleyViewController`.
+9. You can change the drawer position by calling setDrawerPosition( : ) on the `PulleyViewController`.
+10. If an object needs to receive delegate callbacks and _isn't_ one of the view controller's presented then you can use the -delegate property on the `PulleyViewController`.
+11. The Swift Interface for `PulleyViewController` is documented in case you want to see real documentation instead of a numbered list of useful things.

@@ -53,7 +53,7 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
         {
             let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
-            drawer.setDrawerPosition(position: .Collapsed, animated: true)
+            drawer.setDrawerPosition(position: .collapsed, animated: true)
 
             drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
         }
@@ -73,9 +73,9 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
 
     func drawerPositionDidChange(drawer: PulleyViewController)
     {
-        tableView.isScrollEnabled = drawer.drawerPosition == .Open
+        tableView.isScrollEnabled = drawer.drawerPosition == .open
         
-        if drawer.drawerPosition != .Open
+        if drawer.drawerPosition != .open
         {
             searchBar.resignFirstResponder()
         }
@@ -86,7 +86,7 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
         
         if let drawerVC = self.parent as? PulleyViewController
         {
-            drawerVC.setDrawerPosition(position: .Open, animated: true)
+            drawerVC.setDrawerPosition(position: .open, animated: true)
         }
     }
 }

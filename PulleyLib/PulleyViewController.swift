@@ -38,15 +38,15 @@ import UIKit
 /**
  Represents a Pulley drawer position.
  
- - Collapsed:         When the drawer is in its smallest form, at the bottom of the screen.
- - PartiallyRevealed: When the drawer is partially revealed.
- - Open:              When the drawer is fully open.
+ - collapsed:         When the drawer is in its smallest form, at the bottom of the screen.
+ - partiallyRevealed: When the drawer is partially revealed.
+ - open:              When the drawer is fully open.
  */
 public enum PulleyPosition {
     
-    case Collapsed
-    case PartiallyRevealed
-    case Open
+    case collapsed
+    case partiallyRevealed
+    case open
 }
 
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
@@ -135,7 +135,27 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     public weak var delegate: PulleyDelegate?
     
     /// The current position of the drawer.
-    public private(set) var drawerPosition: PulleyPosition = .Collapsed
+    public private(set) var drawerPosition: PulleyPosition = .collapsed {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
+    /// The background visual effect layer for the drawer. By default this is the extraLight effect. You can change this if you want, or assign nil to remove it.
+    public var drawerBackgroundVisualEffectView: UIVisualEffectView? = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight)) {
+        willSet {
+            drawerBackgroundVisualEffectView?.removeFromSuperview()
+        }
+        didSet {
+            
+            if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView, self.isViewLoaded
+            {
+                drawerScrollView.insertSubview(drawerBackgroundVisualEffectView, aboveSubview: drawerShadowView)
+                drawerBackgroundVisualEffectView.clipsToBounds = true
+                drawerBackgroundVisualEffectView.layer.cornerRadius = drawerCornerRadius
+            }
+        }
+    }
     
     /// The inset from the top of the view controller when fully open.
     public var topInset: CGFloat = 50.0 {
@@ -153,6 +173,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
+                drawerBackgroundVisualEffectView?.layer.cornerRadius = drawerCornerRadius
             }
         }
     }
@@ -268,10 +289,19 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         backgroundDimmingView.isUserInteractionEnabled = false
         backgroundDimmingView.alpha = 0.0
         
+        drawerBackgroundVisualEffectView?.clipsToBounds = true
+        
         dimmingViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PulleyViewController.dimmingViewTapRecognizerAction(gestureRecognizer:)))
         backgroundDimmingView.addGestureRecognizer(dimmingViewTapRecognizer!)
         
         drawerScrollView.addSubview(drawerShadowView)
+        
+        if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView
+        {
+            drawerScrollView.addSubview(drawerBackgroundVisualEffectView)
+            drawerBackgroundVisualEffectView.layer.cornerRadius = drawerCornerRadius
+        }
+        
         drawerScrollView.addSubview(drawerContentContainer)
         
         primaryContentContainer.backgroundColor = UIColor.white
@@ -334,6 +364,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         let lowestStop = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight].min() ?? 0
         let bounceOverflowMargin: CGFloat = 20.0
         drawerContentContainer.frame = CGRect(x: 0, y: drawerScrollView.bounds.height - lowestStop, width: drawerScrollView.bounds.width, height: drawerScrollView.bounds.height + bounceOverflowMargin)
+        drawerBackgroundVisualEffectView?.frame = drawerContentContainer.frame
         drawerShadowView.frame = drawerContentContainer.frame
         drawerScrollView.contentSize = CGSize(width: drawerScrollView.bounds.width, height: (drawerScrollView.bounds.height - lowestStop) + drawerScrollView.bounds.height)
         
@@ -342,6 +373,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         
         let cardMaskLayer = CAShapeLayer()
         cardMaskLayer.path = borderPath
+        cardMaskLayer.frame = drawerContentContainer.bounds
         cardMaskLayer.fillColor = UIColor.white.cgColor
         cardMaskLayer.backgroundColor = UIColor.clear.cgColor
         drawerContentContainer.layer.mask = cardMaskLayer
@@ -382,13 +414,13 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         
         switch drawerPosition {
             
-        case .Collapsed:
+        case .collapsed:
             stopToMoveTo = collapsedHeight
             
-        case .PartiallyRevealed:
+        case .partiallyRevealed:
             stopToMoveTo = partialRevealHeight
             
-        case .Open:
+        case .open:
             stopToMoveTo = (self.view.bounds.size.height - topInset)
         }
         
@@ -457,7 +489,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             UIView.transition(with: drawerContentContainer, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.drawerContentViewController = controller
-                self?.setDrawerPosition(position: self?.drawerPosition ?? .Collapsed, animated: false)
+                self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
                 
                 }, completion: nil)
         }
@@ -476,7 +508,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         {
             if gestureRecognizer.state == .began
             {
-                self.setDrawerPosition(position: .Collapsed, animated: true)
+                self.setDrawerPosition(position: .collapsed, animated: true)
             }
         }
     }
@@ -516,12 +548,12 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
             
             if abs(Float(currentClosestStop - (self.view.bounds.size.height - topInset))) <= FLT_EPSILON
             {
-                setDrawerPosition(position: .Open, animated: true)
+                setDrawerPosition(position: .open, animated: true)
             } else if abs(Float(currentClosestStop - collapsedHeight)) <= FLT_EPSILON
             {
-                setDrawerPosition(position: .Collapsed, animated: true)
+                setDrawerPosition(position: .collapsed, animated: true)
             } else {
-                setDrawerPosition(position: .PartiallyRevealed, animated: true)
+                setDrawerPosition(position: .partiallyRevealed, animated: true)
             }
         }
     }
@@ -604,11 +636,34 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     
     func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView) -> UIView
     {
-        if drawerPosition == .Open
+        if drawerPosition == .open
         {
             return backgroundDimmingView
         }
         
         return primaryContentContainer
+    }
+    
+    // MARK: Propogate child view controller style / status bar presentation based on drawer state
+    
+    override public var childViewControllerForStatusBarStyle: UIViewController? {
+        get {
+            
+            if drawerPosition == .open {
+                return drawerContentViewController
+            }
+            
+            return primaryContentViewController
+        }
+    }
+    
+    override public var childViewControllerForStatusBarHidden: UIViewController? {
+        get {
+            if drawerPosition == .open {
+                return drawerContentViewController
+            }
+            
+            return primaryContentViewController
+        }
     }
 }

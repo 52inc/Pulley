@@ -26,6 +26,16 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
         controlsContainer.layer.cornerRadius = 10.0
         temperatureLabel.layer.cornerRadius = 7.0
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        Uncomment if you want to change the visual effect style to dark. Note: The rest of the sample app's UI isn't made for dark theme. This just shows you how to do it.
+//        if let drawer = self.parent as? PulleyViewController
+//        {
+//            drawer.drawerBackgroundVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
