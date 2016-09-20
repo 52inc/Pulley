@@ -52,7 +52,7 @@ public enum PulleyPosition {
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
 private let kPulleyDefaultPartialRevealHeight: CGFloat = 264.0
 
-public class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyPassthroughScrollViewDelegate {
+open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyPassthroughScrollViewDelegate {
     
     // Interface Builder
     
@@ -251,7 +251,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         super.init(coder: aDecoder)
     }
     
-    public override func loadView() {
+    override open func loadView() {
         super.loadView()
         
         // IB Support
@@ -313,7 +313,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         self.view.addSubview(drawerScrollView)
     }
     
-    public override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         // IB Support
@@ -341,7 +341,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         scrollViewDidScroll(drawerScrollView)
     }
     
-    public override func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         // Layout main content
@@ -384,7 +384,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         drawerContentViewController.view.frame = CGRect(x: drawerContentContainer.bounds.minX, y: drawerContentContainer.bounds.minY, width: drawerContentContainer.bounds.width, height: drawerContentContainer.bounds.height)
     }
     
-    public override func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -646,7 +646,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     
     // MARK: Propogate child view controller style / status bar presentation based on drawer state
     
-    override public var childViewControllerForStatusBarStyle: UIViewController? {
+    override open var childViewControllerForStatusBarStyle: UIViewController? {
         get {
             
             if drawerPosition == .open {
@@ -657,7 +657,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
         }
     }
     
-    override public var childViewControllerForStatusBarHidden: UIViewController? {
+    override open var childViewControllerForStatusBarHidden: UIViewController? {
         get {
             if drawerPosition == .open {
                 return drawerContentViewController
