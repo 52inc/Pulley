@@ -79,7 +79,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
     private var dimmingViewTapRecognizer: UITapGestureRecognizer?
     
     /// The current content view controller (shown behind the drawer).
-    fileprivate(set) var primaryContentViewController: UIViewController! {
+    public fileprivate(set) var primaryContentViewController: UIViewController! {
         willSet {
             
             guard let controller = primaryContentViewController else {
@@ -109,7 +109,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
     }
     
     /// The current drawer view controller (shown in the drawer).
-    fileprivate(set) var drawerContentViewController: UIViewController! {
+    public fileprivate(set) var drawerContentViewController: UIViewController! {
         willSet {
             
             guard let controller = drawerContentViewController else {
