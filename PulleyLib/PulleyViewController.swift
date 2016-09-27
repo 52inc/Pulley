@@ -104,6 +104,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
+                self.setNeedsSupportedDrawerPositionsUpdate()
             }
         }
     }
@@ -131,11 +132,10 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             self.drawerContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
             
-            self.setNeedsSupportedDrawerPositionsUpdate()
-            
             if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
+                self.setNeedsSupportedDrawerPositionsUpdate()
             }
         }
     }
