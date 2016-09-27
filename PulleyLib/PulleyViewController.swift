@@ -438,8 +438,8 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
         drawerShadowView.layer.shadowPath = borderPath
         
         // Make VC views match frames
-        primaryContentViewController.view.frame = primaryContentContainer.bounds
-        drawerContentViewController.view.frame = CGRect(x: drawerContentContainer.bounds.minX, y: drawerContentContainer.bounds.minY, width: drawerContentContainer.bounds.width, height: drawerContentContainer.bounds.height)
+        primaryContentViewController?.view.frame = primaryContentContainer.bounds
+        drawerContentViewController?.view.frame = CGRect(x: drawerContentContainer.bounds.minX, y: drawerContentContainer.bounds.minY, width: drawerContentContainer.bounds.width, height: drawerContentContainer.bounds.height)
     }
     
     override open func didReceiveMemoryWarning() {
