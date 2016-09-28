@@ -145,10 +145,10 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
     
     /// The current position of the drawer.
 	public private(set) var drawerPosition: PulleyPosition = .Collapsed{
-		        didSet {
-			            setNeedsStatusBarAppearanceUpdate()
-			        }
-		    }
+		didSet {
+			setNeedsStatusBarAppearanceUpdate()
+		}
+	}
 	
 	
 	public var drawerBackgroundVisualEffectView: UIVisualEffectView? = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight)) {
@@ -254,7 +254,7 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
 									return pos1.rawValue < pos2.rawValue
 								}) ?? .Collapsed
 							
-                 setDrawerPosition(lowestDrawerState, animated: false)
+								setDrawerPosition(lowestDrawerState, animated: false)
              }
  
              drawerScrollView.scrollEnabled = supportedDrawerPositions.count > 1
@@ -761,18 +761,18 @@ public class PulleyViewController: UIViewController, UIScrollViewDelegate, Pulle
  
 	
     override public func childViewControllerForStatusBarStyle() -> UIViewController? {
-            if drawerPosition == .Open {
-                return drawerContentViewController
-            }
- 
-            return primaryContentViewController
+			if drawerPosition == .Open {
+					return drawerContentViewController
+			}
+
+			return primaryContentViewController
     }
  
     override public func childViewControllerForStatusBarHidden() -> UIViewController? {
-            if drawerPosition == .Open {
-                return drawerContentViewController
-            }
- 
-            return primaryContentViewController
+			if drawerPosition == .Open {
+					return drawerContentViewController
+			}
+
+			return primaryContentViewController
     }
 }
