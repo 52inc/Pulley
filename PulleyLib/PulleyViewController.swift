@@ -48,11 +48,13 @@ public enum PulleyPosition: Int {
     case collapsed = 0
     case partiallyRevealed = 1
     case open = 2
+    case closed = 3
     
     static var all: [PulleyPosition] = [
         .collapsed,
         .partiallyRevealed,
-        .open
+        .open,
+        .closed
     ]
 }
 
@@ -484,6 +486,9 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             
         case .open:
             stopToMoveTo = (self.view.bounds.size.height - topInset)
+            
+        case .closed:
+            stopToMoveTo = 0
         }
         
         let drawerStops = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight]
