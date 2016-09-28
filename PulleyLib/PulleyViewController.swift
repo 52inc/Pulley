@@ -588,7 +588,10 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
     {
         if gestureRecognizer == dimmingViewTapRecognizer
         {
-            self.setDrawerPosition(position: .collapsed, animated: true)
+            if gestureRecognizer.state == .began
+            {
+                self.setDrawerPosition(position: .collapsed, animated: true)
+            }
         }
     }
     
