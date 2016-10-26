@@ -50,7 +50,7 @@ public enum PulleyPosition: Int {
     case open = 2
     case closed = 3
     
-    static var all: [PulleyPosition] = [
+    public static let all: [PulleyPosition] = [
         .collapsed,
         .partiallyRevealed,
         .open,
