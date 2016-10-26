@@ -100,3 +100,5 @@ if let drawer = self.parentViewController as? PulleyViewController
 10. You can change the drawer position by calling setDrawerPosition( : ) on the `PulleyViewController`.
 11. If an object needs to receive delegate callbacks and _isn't_ one of the view controller's presented then you can use the -delegate property on the `PulleyViewController`.
 12. The Swift Interface for `PulleyViewController` is documented in case you want to see real documentation instead of a numbered list of useful things.
+13. You can set the initial drawer position by using the initialDrawerPosition property on the `PulleyViewController`.
+14. Most settings for the `PulleyViewController` are exposed in Interface Builder. Select the `PulleyViewController` View Controller (not the view) to access them via IBInspectable.
