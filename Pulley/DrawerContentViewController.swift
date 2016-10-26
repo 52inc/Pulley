@@ -72,7 +72,7 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func supportedDrawerPositions() -> [PulleyPosition] {
-        return PulleyPosition.all // You can specify the drawer positions you support. This is the same as: [.open, .partiallyRevealed, .collapsed]
+        return PulleyPosition.all // You can specify the drawer positions you support. This is the same as: [.open, .partiallyRevealed, .collapsed, .closed]
     }
 
     func drawerPositionDidChange(drawer: PulleyViewController)
