@@ -117,6 +117,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             }
             
             controller.view.removeFromSuperview()
+            controller.willMove(toParentViewController: nil)
             controller.removeFromParentViewController()
         }
         
@@ -130,6 +131,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             
             self.primaryContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
+            controller.didMove(toParentViewController: self)
             
             if self.isViewLoaded
             {
@@ -148,6 +150,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             }
             
             controller.view.removeFromSuperview()
+            controller.willMove(toParentViewController: nil)
             controller.removeFromParentViewController()
         }
         
@@ -161,6 +164,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             
             self.drawerContentContainer.addSubview(controller.view)
             self.addChildViewController(controller)
+            controller.didMove(toParentViewController: self)
             
             if self.isViewLoaded
             {
