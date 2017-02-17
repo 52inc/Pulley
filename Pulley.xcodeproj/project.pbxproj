@@ -52,7 +52,7 @@
 		C6131BB31D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryTransitionTargetViewController.swift; sourceTree = "<group>"; };
 		C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PulleyPassthroughScrollView.swift; path = PulleyLib/PulleyPassthroughScrollView.swift; sourceTree = SOURCE_ROOT; };
 		C6131BB81D305995002F27F3 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PulleyViewController.swift; path = PulleyLib/PulleyViewController.swift; sourceTree = SOURCE_ROOT; };
-		C6DF73CF1D2DE2B500735EBC /* Pulley.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pulley.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6DF73CF1D2DE2B500735EBC /* PulleyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PulleyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6DF73D21D2DE2B500735EBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6DF73D41D2DE2B500735EBC /* PrimaryContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryContentViewController.swift; sourceTree = "<group>"; };
 		C6DF73D91D2DE2B500735EBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		C6DF73C61D2DE2B500735EBC = {
 			isa = PBXGroup;
 			children = (
-				C6DF73D11D2DE2B500735EBC /* Example */,
+				C6DF73D11D2DE2B500735EBC /* Demo App */,
 				355DBF141E40EA4300671CDD /* Pulley */,
 				C6DF73D01D2DE2B500735EBC /* Products */,
 			);
@@ -114,16 +114,15 @@
 		C6DF73D01D2DE2B500735EBC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6DF73CF1D2DE2B500735EBC /* Pulley.app */,
+				C6DF73CF1D2DE2B500735EBC /* PulleyDemo.app */,
 				355DBF131E40EA4300671CDD /* Pulley.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C6DF73D11D2DE2B500735EBC /* Example */ = {
+		C6DF73D11D2DE2B500735EBC /* Demo App */ = {
 			isa = PBXGroup;
 			children = (
-				C6DF73E41D2DE2D800735EBC /* PulleyLib */,
 				C6DF73EB1D2E027500735EBC /* Main.storyboard */,
 				C6DF73D21D2DE2B500735EBC /* AppDelegate.swift */,
 				C6DF73D41D2DE2B500735EBC /* PrimaryContentViewController.swift */,
@@ -131,15 +130,8 @@
 				C6131BB31D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift */,
 				C6131BB21D303FE0002F27F3 /* Supporting Files */,
 			);
-			name = Example;
+			name = "Demo App";
 			path = Pulley;
-			sourceTree = "<group>";
-		};
-		C6DF73E41D2DE2D800735EBC /* PulleyLib */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = PulleyLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,9 +166,9 @@
 			productReference = 355DBF131E40EA4300671CDD /* Pulley.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C6DF73CE1D2DE2B500735EBC /* BottomDrawer */ = {
+		C6DF73CE1D2DE2B500735EBC /* PulleyDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "BottomDrawer" */;
+			buildConfigurationList = C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "PulleyDemo" */;
 			buildPhases = (
 				C6DF73CB1D2DE2B500735EBC /* Sources */,
 				C6DF73CC1D2DE2B500735EBC /* Frameworks */,
@@ -188,9 +180,9 @@
 			dependencies = (
 				355DBF191E40EA4300671CDD /* PBXTargetDependency */,
 			);
-			name = BottomDrawer;
+			name = PulleyDemo;
 			productName = Pulley;
-			productReference = C6DF73CF1D2DE2B500735EBC /* Pulley.app */;
+			productReference = C6DF73CF1D2DE2B500735EBC /* PulleyDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -200,7 +192,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = 52inc;
 				TargetAttributes = {
 					355DBF121E40EA4300671CDD = {
@@ -229,7 +221,7 @@
 			projectRoot = "";
 			targets = (
 				355DBF121E40EA4300671CDD /* Pulley */,
-				C6DF73CE1D2DE2B500735EBC /* BottomDrawer */,
+				C6DF73CE1D2DE2B500735EBC /* PulleyDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -443,10 +435,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = P87N88ZC7B;
 				INFOPLIST_FILE = Pulley/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.52inc.Pulley;
-				PRODUCT_NAME = Pulley;
+				PRODUCT_NAME = PulleyDemo;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -458,10 +450,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = P87N88ZC7B;
 				INFOPLIST_FILE = Pulley/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.52inc.Pulley;
-				PRODUCT_NAME = Pulley;
+				PRODUCT_NAME = PulleyDemo;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 			};
@@ -488,7 +480,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "BottomDrawer" */ = {
+		C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "PulleyDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6DF73E21D2DE2B500735EBC /* Debug */,

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eGL-tC-8gT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eGL-tC-8gT">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +12,7 @@
         <!--Pulley View Controller-->
         <scene sceneID="zwc-xo-Uhr">
             <objects>
-                <viewController id="eGL-tC-8gT" customClass="PulleyViewController" customModule="Pulley" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="eGL-tC-8gT" customClass="PulleyViewController" customModule="Pulley" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UVg-Rf-lMW"/>
                         <viewControllerLayoutGuide type="bottom" id="84C-u8-oFR"/>
@@ -59,7 +58,7 @@
         <!--Primary Content View Controller-->
         <scene sceneID="DAt-Bc-Pw2">
             <objects>
-                <viewController storyboardIdentifier="PrimaryContentViewController" id="jlc-SX-8Vl" customClass="PrimaryContentViewController" customModule="Pulley" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrimaryContentViewController" id="jlc-SX-8Vl" customClass="PrimaryContentViewController" customModule="PulleyDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lUT-Vu-Muq"/>
                         <viewControllerLayoutGuide type="bottom" id="KAu-iW-lko"/>
@@ -157,7 +156,7 @@
         <!--Primary Transition Target View Controller-->
         <scene sceneID="rC6-aE-yeD">
             <objects>
-                <viewController storyboardIdentifier="PrimaryTransitionTargetViewController" id="cxY-AH-E4w" customClass="PrimaryTransitionTargetViewController" customModule="Pulley" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrimaryTransitionTargetViewController" id="cxY-AH-E4w" customClass="PrimaryTransitionTargetViewController" customModule="PulleyDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fOY-W3-l4N"/>
                         <viewControllerLayoutGuide type="bottom" id="B8y-3N-fPQ"/>
@@ -193,7 +192,7 @@
         <!--Drawer Content View Controller-->
         <scene sceneID="1cR-cD-Gai">
             <objects>
-                <viewController storyboardIdentifier="DrawerContentViewController" id="ivy-3E-KkU" customClass="DrawerContentViewController" customModule="Pulley" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DrawerContentViewController" id="ivy-3E-KkU" customClass="DrawerContentViewController" customModule="PulleyDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QuC-2H-das"/>
                         <viewControllerLayoutGuide type="bottom" id="q3Q-Ja-Ruy"/>
