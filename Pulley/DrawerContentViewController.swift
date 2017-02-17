@@ -9,7 +9,7 @@
 import UIKit
 import Pulley
 
-class DrawerContentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PulleyDrawerViewControllerDelegate, UISearchBarDelegate {
+class DrawerContentViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
@@ -29,38 +29,9 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    // MARK: Tableview data source & delegate
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 50
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "SampleCell", for: indexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 81.0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        if let drawer = self.parent as? PulleyViewController
-        {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
-            
-            drawer.setDrawerPosition(position: .collapsed, animated: true)
+}
 
-            drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
-        }
-    }
-
-    // MARK: Drawer Content View Controller Delegate
+extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
     
     func collapsedDrawerHeight() -> CGFloat
     {
@@ -75,7 +46,7 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
     func supportedDrawerPositions() -> [PulleyPosition] {
         return PulleyPosition.all // You can specify the drawer positions you support. This is the same as: [.open, .partiallyRevealed, .collapsed, .closed]
     }
-
+    
     func drawerPositionDidChange(drawer: PulleyViewController)
     {
         tableView.isScrollEnabled = drawer.drawerPosition == .open
@@ -85,8 +56,10 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
             searchBar.resignFirstResponder()
         }
     }
+}
+
+extension DrawerContentViewController: UISearchBarDelegate {
     
-    // MARK: Search Bar delegate
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         
         if let drawerVC = self.parent as? PulleyViewController
@@ -95,3 +68,40 @@ class DrawerContentViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
 }
+
+extension DrawerContentViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "SampleCell", for: indexPath)
+    }
+}
+
+extension DrawerContentViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 81.0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if let drawer = self.parent as? PulleyViewController
+        {
+            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
+            
+            drawer.setDrawerPosition(position: .collapsed, animated: true)
+            
+            drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
+        }
+    }
+}
+
+

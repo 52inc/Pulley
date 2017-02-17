@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import Pulley
 
-class PrimaryContentViewController: UIViewController, PulleyPrimaryContentControllerDelegate {
+class PrimaryContentViewController: UIViewController {
     
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var controlsContainer: UIView!
@@ -18,7 +18,7 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
     
     @IBOutlet var temperatureLabelBottomConstraint: NSLayoutConstraint!
     
-    private let temperatureLabelBottomDistance: CGFloat = 8.0
+    fileprivate let temperatureLabelBottomDistance: CGFloat = 8.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,23 +43,6 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
         // Dispose of any resources that can be recreated.
     }
     
-    func makeUIAdjustmentsForFullscreen(progress: CGFloat)
-    {
-        controlsContainer.alpha = 1.0 - progress
-    }
-    
-    func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat)
-    {
-        if distance <= 268.0
-        {
-            temperatureLabelBottomConstraint.constant = distance + temperatureLabelBottomDistance
-        }
-        else
-        {
-            temperatureLabelBottomConstraint.constant = 268.0 + temperatureLabelBottomDistance
-        }
-    }
-    
     @IBAction func runPrimaryContentTransitionWithoutAnimation(sender: AnyObject) {
         
         if let drawer = self.parent as? PulleyViewController
@@ -77,6 +60,26 @@ class PrimaryContentViewController: UIViewController, PulleyPrimaryContentContro
             let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
             
             drawer.setPrimaryContentViewController(controller: primaryContent, animated: true)
+        }
+    }
+}
+
+extension PrimaryContentViewController: PulleyPrimaryContentControllerDelegate {
+    
+    func makeUIAdjustmentsForFullscreen(progress: CGFloat)
+    {
+        controlsContainer.alpha = 1.0 - progress
+    }
+    
+    func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat)
+    {
+        if distance <= 268.0
+        {
+            temperatureLabelBottomConstraint.constant = distance + temperatureLabelBottomDistance
+        }
+        else
+        {
+            temperatureLabelBottomConstraint.constant = 268.0 + temperatureLabelBottomDistance
         }
     }
 }

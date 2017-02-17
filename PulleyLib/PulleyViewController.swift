@@ -89,7 +89,7 @@ public enum PulleyPosition: Int {
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
 private let kPulleyDefaultPartialRevealHeight: CGFloat = 264.0
 
-open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyPassthroughScrollViewDelegate {
+open class PulleyViewController: UIViewController {
     
     // Interface Builder
     
@@ -100,13 +100,15 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
     @IBOutlet public var drawerContentContainerView: UIView!
     
     // Internal
-    private let primaryContentContainer: UIView = UIView()
-    private let drawerContentContainer: UIView = UIView()
-    private let drawerShadowView: UIView = UIView()
-    private let drawerScrollView: PulleyPassthroughScrollView = PulleyPassthroughScrollView()
-    private let backgroundDimmingView: UIView = UIView()
+    fileprivate let primaryContentContainer: UIView = UIView()
+    fileprivate let drawerContentContainer: UIView = UIView()
+    fileprivate let drawerShadowView: UIView = UIView()
+    fileprivate let drawerScrollView: PulleyPassthroughScrollView = PulleyPassthroughScrollView()
+    fileprivate let backgroundDimmingView: UIView = UIView()
     
-    private var dimmingViewTapRecognizer: UITapGestureRecognizer?
+    fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
+    
+    fileprivate var lastDragTargetContentOffset: CGPoint = CGPoint.zero
     
     /// The current content view controller (shown behind the drawer).
     public fileprivate(set) var primaryContentViewController: UIViewController! {
@@ -353,6 +355,8 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
         // Setup
         primaryContentContainer.backgroundColor = UIColor.white
         
+        definesPresentationContext = true
+        
         drawerScrollView.bounces = false
         drawerScrollView.delegate = self
         drawerScrollView.clipsToBounds = false
@@ -362,6 +366,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
         drawerScrollView.canCancelContentTouches = true
         drawerScrollView.backgroundColor = UIColor.clear
         drawerScrollView.decelerationRate = UIScrollViewDecelerationRateFast
+        drawerScrollView.scrollsToTop = false
         drawerScrollView.touchDelegate = self
         
         drawerShadowView.layer.shadowOpacity = shadowOpacity
@@ -642,10 +647,57 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             }
         }
     }
+
+    // MARK: Propogate child view controller style / status bar presentation based on drawer state
     
-    // MARK: UIScrollViewDelegate
+    override open var childViewControllerForStatusBarStyle: UIViewController? {
+        get {
+            
+            if drawerPosition == .open {
+                return drawerContentViewController
+            }
+            
+            return primaryContentViewController
+        }
+    }
     
-    private var lastDragTargetContentOffset: CGPoint = CGPoint.zero
+    override open var childViewControllerForStatusBarHidden: UIViewController? {
+        get {
+            if drawerPosition == .open {
+                return drawerContentViewController
+            }
+            
+            return primaryContentViewController
+        }
+    }
+}
+
+extension PulleyViewController: PulleyPassthroughScrollViewDelegate {
+    
+    func shouldTouchPassthroughScrollView(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> Bool
+    {
+        let contentDrawerLocation = drawerContentContainer.frame.origin.y
+        
+        if point.y < contentDrawerLocation
+        {
+            return true
+        }
+        
+        return false
+    }
+    
+    func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView) -> UIView
+    {
+        if drawerPosition == .open
+        {
+            return backgroundDimmingView
+        }
+        
+        return primaryContentContainer
+    }
+}
+
+extension PulleyViewController: UIScrollViewDelegate {
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
@@ -744,7 +796,7 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             {
                 drawerStops.append(collapsedHeight)
             }
-
+            
             let lowestStop = drawerStops.min() ?? 0
             
             if scrollView.contentOffset.y > partialRevealHeight - lowestStop
@@ -779,53 +831,6 @@ open class PulleyViewController: UIViewController, UIScrollViewDelegate, PulleyP
             delegate?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop)
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop)
             (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop)
-        }
-    }
-    
-    // MARK: Touch Passthrough ScrollView Delegate
-    
-    func shouldTouchPassthroughScrollView(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> Bool
-    {
-        let contentDrawerLocation = drawerContentContainer.frame.origin.y
-        
-        if point.y < contentDrawerLocation
-        {
-            return true
-        }
-        
-        return false
-    }
-    
-    func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView) -> UIView
-    {
-        if drawerPosition == .open
-        {
-            return backgroundDimmingView
-        }
-        
-        return primaryContentContainer
-    }
-    
-    // MARK: Propogate child view controller style / status bar presentation based on drawer state
-    
-    override open var childViewControllerForStatusBarStyle: UIViewController? {
-        get {
-            
-            if drawerPosition == .open {
-                return drawerContentViewController
-            }
-            
-            return primaryContentViewController
-        }
-    }
-    
-    override open var childViewControllerForStatusBarHidden: UIViewController? {
-        get {
-            if drawerPosition == .open {
-                return drawerContentViewController
-            }
-            
-            return primaryContentViewController
         }
     }
 }
