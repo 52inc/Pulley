@@ -10,10 +10,13 @@ Pulley is an easy to use drawer library meant to imitate the drawer in iOS 10's 
 
 ###Installation
 
-#####Installing with Cocoapods
+#####Installation with Cocoapods
 `pod 'Pulley'`
 
-#####Installing manually
+#####Installation with Carthage
+`github "52inc/Pulley"`
+
+#####Manual Installation
 Simply copy the 2 files in the PulleyLib folder into your project.
 
 ###How To use
