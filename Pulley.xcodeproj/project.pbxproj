@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		355DBF171E40EA4300671CDD /* Pulley.h in Headers */ = {isa = PBXBuildFile; fileRef = 355DBF151E40EA4300671CDD /* Pulley.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		355DBF1A1E40EA4300671CDD /* Pulley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 355DBF131E40EA4300671CDD /* Pulley.framework */; };
+		355DBF1B1E40EA4300671CDD /* Pulley.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 355DBF131E40EA4300671CDD /* Pulley.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		355DBF201E40EA5C00671CDD /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */; };
+		355DBF211E40EA5F00671CDD /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6131BB81D305995002F27F3 /* PulleyViewController.swift */; };
 		C6131BB41D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6131BB31D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift */; };
-		C6131BB91D305995002F27F3 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */; };
-		C6131BBA1D305995002F27F3 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6131BB81D305995002F27F3 /* PulleyViewController.swift */; };
 		C6DF73D31D2DE2B500735EBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DF73D21D2DE2B500735EBC /* AppDelegate.swift */; };
 		C6DF73D51D2DE2B500735EBC /* PrimaryContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DF73D41D2DE2B500735EBC /* PrimaryContentViewController.swift */; };
 		C6DF73DA1D2DE2B500735EBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6DF73D91D2DE2B500735EBC /* Assets.xcassets */; };
@@ -18,7 +21,34 @@
 		C6DF73EC1D2E027500735EBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6DF73EB1D2E027500735EBC /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		355DBF181E40EA4300671CDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6DF73C71D2DE2B500735EBC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 355DBF121E40EA4300671CDD;
+			remoteInfo = Pulley;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		355DBF1F1E40EA4300671CDD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				355DBF1B1E40EA4300671CDD /* Pulley.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		355DBF131E40EA4300671CDD /* Pulley.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pulley.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		355DBF151E40EA4300671CDD /* Pulley.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pulley.h; sourceTree = "<group>"; };
+		355DBF161E40EA4300671CDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6131BB31D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryTransitionTargetViewController.swift; sourceTree = "<group>"; };
 		C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PulleyPassthroughScrollView.swift; path = PulleyLib/PulleyPassthroughScrollView.swift; sourceTree = SOURCE_ROOT; };
 		C6131BB81D305995002F27F3 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PulleyViewController.swift; path = PulleyLib/PulleyViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -33,16 +63,35 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C6DF73CC1D2DE2B500735EBC /* Frameworks */ = {
+		355DBF0F1E40EA4300671CDD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C6DF73CC1D2DE2B500735EBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				355DBF1A1E40EA4300671CDD /* Pulley.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		355DBF141E40EA4300671CDD /* Pulley */ = {
+			isa = PBXGroup;
+			children = (
+				355DBF151E40EA4300671CDD /* Pulley.h */,
+				C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */,
+				C6131BB81D305995002F27F3 /* PulleyViewController.swift */,
+				355DBF161E40EA4300671CDD /* Info.plist */,
+			);
+			path = Pulley;
+			sourceTree = "<group>";
+		};
 		C6131BB21D303FE0002F27F3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -56,7 +105,8 @@
 		C6DF73C61D2DE2B500735EBC = {
 			isa = PBXGroup;
 			children = (
-				C6DF73D11D2DE2B500735EBC /* Pulley */,
+				C6DF73D11D2DE2B500735EBC /* Example */,
+				355DBF141E40EA4300671CDD /* Pulley */,
 				C6DF73D01D2DE2B500735EBC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,11 +115,12 @@
 			isa = PBXGroup;
 			children = (
 				C6DF73CF1D2DE2B500735EBC /* Pulley.app */,
+				355DBF131E40EA4300671CDD /* Pulley.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C6DF73D11D2DE2B500735EBC /* Pulley */ = {
+		C6DF73D11D2DE2B500735EBC /* Example */ = {
 			isa = PBXGroup;
 			children = (
 				C6DF73E41D2DE2D800735EBC /* PulleyLib */,
@@ -80,34 +131,64 @@
 				C6131BB31D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift */,
 				C6131BB21D303FE0002F27F3 /* Supporting Files */,
 			);
+			name = Example;
 			path = Pulley;
 			sourceTree = "<group>";
 		};
 		C6DF73E41D2DE2D800735EBC /* PulleyLib */ = {
 			isa = PBXGroup;
 			children = (
-				C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */,
-				C6131BB81D305995002F27F3 /* PulleyViewController.swift */,
 			);
 			name = PulleyLib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		355DBF101E40EA4300671CDD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				355DBF171E40EA4300671CDD /* Pulley.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		C6DF73CE1D2DE2B500735EBC /* Pulley */ = {
+		355DBF121E40EA4300671CDD /* Pulley */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "Pulley" */;
+			buildConfigurationList = 355DBF1C1E40EA4300671CDD /* Build configuration list for PBXNativeTarget "Pulley" */;
 			buildPhases = (
-				C6DF73CB1D2DE2B500735EBC /* Sources */,
-				C6DF73CC1D2DE2B500735EBC /* Frameworks */,
-				C6DF73CD1D2DE2B500735EBC /* Resources */,
+				355DBF0E1E40EA4300671CDD /* Sources */,
+				355DBF0F1E40EA4300671CDD /* Frameworks */,
+				355DBF101E40EA4300671CDD /* Headers */,
+				355DBF111E40EA4300671CDD /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Pulley;
+			productName = Pulley;
+			productReference = 355DBF131E40EA4300671CDD /* Pulley.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C6DF73CE1D2DE2B500735EBC /* BottomDrawer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "BottomDrawer" */;
+			buildPhases = (
+				C6DF73CB1D2DE2B500735EBC /* Sources */,
+				C6DF73CC1D2DE2B500735EBC /* Frameworks */,
+				C6DF73CD1D2DE2B500735EBC /* Resources */,
+				355DBF1F1E40EA4300671CDD /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				355DBF191E40EA4300671CDD /* PBXTargetDependency */,
+			);
+			name = BottomDrawer;
 			productName = Pulley;
 			productReference = C6DF73CF1D2DE2B500735EBC /* Pulley.app */;
 			productType = "com.apple.product-type.application";
@@ -122,6 +203,11 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = 52inc;
 				TargetAttributes = {
+					355DBF121E40EA4300671CDD = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = P87N88ZC7B;
+						ProvisioningStyle = Automatic;
+					};
 					C6DF73CE1D2DE2B500735EBC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = P87N88ZC7B;
@@ -142,12 +228,20 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C6DF73CE1D2DE2B500735EBC /* Pulley */,
+				355DBF121E40EA4300671CDD /* Pulley */,
+				C6DF73CE1D2DE2B500735EBC /* BottomDrawer */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		355DBF111E40EA4300671CDD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6DF73CD1D2DE2B500735EBC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -161,20 +255,35 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		355DBF0E1E40EA4300671CDD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				355DBF201E40EA5C00671CDD /* PulleyPassthroughScrollView.swift in Sources */,
+				355DBF211E40EA5F00671CDD /* PulleyViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6DF73CB1D2DE2B500735EBC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6131BB91D305995002F27F3 /* PulleyPassthroughScrollView.swift in Sources */,
 				C6131BB41D30429E002F27F3 /* PrimaryTransitionTargetViewController.swift in Sources */,
 				C6DF73D51D2DE2B500735EBC /* PrimaryContentViewController.swift in Sources */,
 				C6DF73EA1D2DFE7F00735EBC /* DrawerContentViewController.swift in Sources */,
 				C6DF73D31D2DE2B500735EBC /* AppDelegate.swift in Sources */,
-				C6131BBA1D305995002F27F3 /* PulleyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		355DBF191E40EA4300671CDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 355DBF121E40EA4300671CDD /* Pulley */;
+			targetProxy = 355DBF181E40EA4300671CDD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C6DF73DB1D2DE2B500735EBC /* LaunchScreen.storyboard */ = {
@@ -188,6 +297,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		355DBF1D1E40EA4300671CDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = P87N88ZC7B;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Pulley/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.52inc.Pulley.Pulley;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		355DBF1E1E40EA4300671CDD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = P87N88ZC7B;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Pulley/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.52inc.Pulley.Pulley;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		C6DF73DF1D2DE2B500735EBC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -276,6 +439,7 @@
 		C6DF73E21D2DE2B500735EBC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = P87N88ZC7B;
 				INFOPLIST_FILE = Pulley/Info.plist;
@@ -290,6 +454,7 @@
 		C6DF73E31D2DE2B500735EBC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = P87N88ZC7B;
 				INFOPLIST_FILE = Pulley/Info.plist;
@@ -305,6 +470,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		355DBF1C1E40EA4300671CDD /* Build configuration list for PBXNativeTarget "Pulley" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				355DBF1D1E40EA4300671CDD /* Debug */,
+				355DBF1E1E40EA4300671CDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C6DF73CA1D2DE2B500735EBC /* Build configuration list for PBXProject "Pulley" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -314,7 +488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "Pulley" */ = {
+		C6DF73E11D2DE2B500735EBC /* Build configuration list for PBXNativeTarget "BottomDrawer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6DF73E21D2DE2B500735EBC /* Debug */,
