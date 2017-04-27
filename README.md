@@ -53,7 +53,7 @@ let pulleyController = PulleyViewController(contentViewController: mainContentVC
 
 **Important:** Drawer Content views are made 20pt too long in order to account for the bounce animation. Make sure your drawer content view is aware that the bottom 20pts will be offscreen.
 
-####3 protocols exist for you to use:
+#### 3 protocols exist for you to use:
 
 * `PulleyDelegate`: The protocol the other protocols inherit from. It's exposed as the .delegate property of `PulleyViewController`. NOTE: If the object you're wanting to receive delegate callbacks is either the Primary Content or Drawer Content view controllers...don't use the .delegate property. Continue reading for the other protocols.
 * `PulleyDrawerViewControllerDelegate`: Includes all of the methods from `PulleyDelegate` and adds methods for providing custom heights for the Collapsed and Partially Revealed states. Your Drawer Content view controller should implement this protocol if it wants to receive callbacks for changes in the drawer state or to provide custom heights for the aforementioned drawer states. Implementing this protocol is optional for the Drawer Content view controller, but if you don't then defaults will be used instead.
