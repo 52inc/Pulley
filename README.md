@@ -1,27 +1,27 @@
-#Pulley
+# Pulley
 A library to imitate the drawer in Maps for iOS 10. The master branch follows the latest currently released version of Swift. If you need an older version of Swift, you can specify it's version (e.g. 1.0.x) in your Podfile or use the code on the branch for that version. Older branches are unsupported.
 
-###Introduction
+### Introduction
 Pulley is an easy to use drawer library meant to imitate the drawer in iOS 10's Maps app. It exposes a simple API that allows you to use any UIViewController subclass as the drawer content or the primary content.
 
 **Here's a preview (apologies for the potato gif):**
 
 ![Pulley Preview](http://i.imgur.com/bmEWqy7.gif)
 
-###Installation
+### Installation
 
-#####Installation with Cocoapods
+##### Installation with Cocoapods
 `pod 'Pulley'`
 
-#####Installation with Carthage
+##### Installation with Carthage
 `github "52inc/Pulley"`
 
-#####Manual Installation
+##### Manual Installation
 Simply copy the 2 files in the PulleyLib folder into your project.
 
-###How To use
+### How To use
 
-####Interface Builder
+#### Interface Builder
 
 Pulley supports loading embedded view controllers from Interface Builder. In order to use Pulley with Interface Builder, you'll need to setup your `PulleyViewController` like this:
 
@@ -35,7 +35,7 @@ If you would like to customize the height of the "Collapsed" or "Partially Revea
 ![Interface Builder Screenshot](http://i.imgur.com/htzo50L.png =500x)
 
 
-####Programmatically
+#### Programmatically
 
 Pulley supports loading view controllers programmatically. In order to use Pulley programmatically, please consider the following code snippet:
 
@@ -47,7 +47,7 @@ let drawerContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewCon
 let pulleyController = PulleyViewController(contentViewController: mainContentVC, drawerViewController: drawerContentVC)
 
 `````
-###API
+### API
 
 **Important:** The background of the internal drawer view is clear. If your view controller's view is also clear then you'll see the shadow rendering below where the view is. I'd recommend giving your view a color or using a UIVisualEffectView to make sure you don't see the shadow.
 
@@ -59,7 +59,7 @@ let pulleyController = PulleyViewController(contentViewController: mainContentVC
 * `PulleyDrawerViewControllerDelegate`: Includes all of the methods from `PulleyDelegate` and adds methods for providing custom heights for the Collapsed and Partially Revealed states. Your Drawer Content view controller should implement this protocol if it wants to receive callbacks for changes in the drawer state or to provide custom heights for the aforementioned drawer states. Implementing this protocol is optional for the Drawer Content view controller, but if you don't then defaults will be used instead.
 * `PulleyPrimaryContentControllerDelegate`: This is currently identical to `PulleyDelegate`. However, this protocol may be implemented by your Primary Content view controller if you want to receive callbacks for changes in drawer state. Eventually specialized methods may be added to this protocol.
 
-####Changing view controllers after creation:
+#### Changing view controllers after creation:
 
 You'll likely need to change out the contents of the drawer or the primary view controller after creation. Here's how to do that programmatically.
 
@@ -71,10 +71,10 @@ You'll likely need to change out the contents of the drawer or the primary view 
 if let drawer = self.parentViewController as? PulleyViewController
 {
     let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryContentViewController")
-    
+
     drawer.setPrimaryContentViewController(primaryContent, animated: true)
 }      
-        
+
 `````
 
 **Changing the Drawer Content View Controller:**
@@ -83,13 +83,13 @@ if let drawer = self.parentViewController as? PulleyViewController
 if let drawer = self.parentViewController as? PulleyViewController
 {
     let drawerContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("DrawerContentViewController")
-    
+
     drawer.setDrawerContentViewController(drawerContent, animated: false)
 }      
-        
+
 `````
 
-####Customizing the drawer
+#### Customizing the drawer
 
 1. See the 3 protocols above.
 2. You can adjust the inset from the top of the screen in the "Open" state by setting the -topInset property on the `PulleyViewController`.
