@@ -507,9 +507,9 @@ open class PulleyViewController: UIViewController {
      
      - parameter position: The position to set the drawer to.
      - parameter animated: Whether or not to animate the change. (Default: true)
+     - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setDrawerPosition(position: PulleyPosition, animated: Bool = true)
-    {
+    public func setDrawerPosition(position: PulleyPosition, animated: Bool = true, completion: @escaping (Bool) -> Void = { _ in }) {
         guard supportedDrawerPositions.contains(position) else {
             
             print("PulleyViewController: You can't set the drawer position to something not supported by the current view controller contained in the drawer. If you haven't already, you may need to implement the PulleyDrawerViewControllerDelegate.")
@@ -562,7 +562,9 @@ open class PulleyViewController: UIViewController {
                     drawer.view.layoutIfNeeded()
                 }
                 
-                }, completion: nil)
+                }, completion: { completed in
+                    completion(completed)
+            })
         }
         else
         {
@@ -571,6 +573,8 @@ open class PulleyViewController: UIViewController {
             delegate?.drawerPositionDidChange?(drawer: self)
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: self)
             (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: self)
+            
+            completion(true)
         }
     }
     
@@ -579,8 +583,9 @@ open class PulleyViewController: UIViewController {
      
      - parameter controller: The controller to replace it with
      - parameter animated:   Whether or not to animate the change. Defaults to true.
+     - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setPrimaryContentViewController(controller: UIViewController, animated: Bool = true)
+    public func setPrimaryContentViewController(controller: UIViewController, animated: Bool = true, completion: @escaping (Bool) -> Void = { _ in })
     {
         if animated
         {
@@ -588,11 +593,14 @@ open class PulleyViewController: UIViewController {
                 
                 self?.primaryContentViewController = controller
                 
-                }, completion: nil)
+                }, completion: { completed in
+                    completion(completed)
+            })
         }
         else
         {
             primaryContentViewController = controller
+            completion(true)
         }
     }
     
@@ -601,8 +609,9 @@ open class PulleyViewController: UIViewController {
      
      - parameter controller: The controller to replace it with
      - parameter animated:   Whether or not to animate the change.
+     - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true)
+    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, completion: @escaping (Bool) -> Void = { _ in })
     {
         if animated
         {
@@ -611,12 +620,15 @@ open class PulleyViewController: UIViewController {
                 self?.drawerContentViewController = controller
                 self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
                 
-                }, completion: nil)
+                }, completion: { completed in
+                    completion(completed)
+            })
         }
         else
         {
             drawerContentViewController = controller
             setDrawerPosition(position: drawerPosition, animated: false)
+            completion(true)
         }
     }
     
