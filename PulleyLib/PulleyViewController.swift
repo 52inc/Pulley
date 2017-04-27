@@ -37,6 +37,11 @@ public protocol PulleyPrimaryContentControllerDelegate: PulleyDelegate {
 }
 
 /**
+ *  A completion block used for animation callbacks.
+ */
+public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
+
+/**
  Represents a Pulley drawer position.
  
  - collapsed:         When the drawer is in its smallest form, at the bottom of the screen.
@@ -59,7 +64,7 @@ public enum PulleyPosition: Int {
     ]
     
     public static func positionFor(string: String?) -> PulleyPosition {
-    
+        
         guard let positionString = string?.lowercased() else {
             
             return .collapsed
@@ -67,16 +72,16 @@ public enum PulleyPosition: Int {
         
         switch positionString {
             
-            case "collapsed":
+        case "collapsed":
             return .collapsed
             
-            case "partiallyrevealed":
+        case "partiallyrevealed":
             return .partiallyRevealed
             
-            case "open":
+        case "open":
             return .open
             
-            case "closed":
+        case "closed":
             return .closed
             
         default:
@@ -297,7 +302,7 @@ open class PulleyViewController: UIViewController {
             {
                 let lowestDrawerState: PulleyPosition = supportedDrawerPositions.min { (pos1, pos2) -> Bool in
                     return pos1.rawValue < pos2.rawValue
-                } ?? .collapsed
+                    } ?? .collapsed
                 
                 setDrawerPosition(position: lowestDrawerState, animated: false)
             }
@@ -503,22 +508,13 @@ open class PulleyViewController: UIViewController {
     // MARK: Configuration Updates
     
     /**
-     Set the drawer position, the change will be animated.
-     
-     - parameter position: The position to set the drawer to.
-     */
-    public func setDrawerPosition(position: PulleyPosition) {
-        setDrawerPosition(position: position, animated: true)
-    }
-    
-    /**
      Set the drawer position, with an option to animate.
      
      - parameter position: The position to set the drawer to.
      - parameter animated: Whether or not to animate the change. (Default: true)
      - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called. (Default: nil)
      */
-    public func setDrawerPosition(position: PulleyPosition, animated: Bool, completion: @escaping (Bool) -> Void = { _ in }) {
+    public func setDrawerPosition(position: PulleyPosition, animated: Bool, completion: PulleyAnimationCompletionBlock? = nil) {
         guard supportedDrawerPositions.contains(position) else {
             
             print("PulleyViewController: You can't set the drawer position to something not supported by the current view controller contained in the drawer. If you haven't already, you may need to implement the PulleyDrawerViewControllerDelegate.")
@@ -571,8 +567,9 @@ open class PulleyViewController: UIViewController {
                     drawer.view.layoutIfNeeded()
                 }
                 
-                }, completion: { completed in
-                    completion(completed)
+                }, completion: { (completed) in
+                    
+                    completion?(completed)
             })
         }
         else
@@ -583,8 +580,18 @@ open class PulleyViewController: UIViewController {
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: self)
             (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: self)
             
-            completion(true)
+            completion?(true)
         }
+    }
+    
+    /**
+     Set the drawer position, the change will be animated.
+     
+     - parameter position: The position to set the drawer to.
+     */
+    public func setDrawerPosition(position: PulleyPosition)
+    {
+        setDrawerPosition(position: position, animated: true)
     }
     
     /**
@@ -594,23 +601,35 @@ open class PulleyViewController: UIViewController {
      - parameter animated:   Whether or not to animate the change. Defaults to true.
      - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setPrimaryContentViewController(controller: UIViewController, animated: Bool = true, completion: @escaping (Bool) -> Void = { _ in })
+    public func setPrimaryContentViewController(controller: UIViewController, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
     {
         if animated
         {
-            UIView.transition(with: primaryContentContainer, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { [weak self] () -> Void in
+            UIView.transition(with: primaryContentContainer, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.primaryContentViewController = controller
                 
-                }, completion: { completed in
-                    completion(completed)
+                }, completion: { (completed) in
+                    
+                    completion?(completed)
             })
         }
         else
         {
             primaryContentViewController = controller
-            completion(true)
+            completion?(true)
         }
+    }
+    
+    /**
+     Change the current primary content view controller (The one behind the drawer). This method exists for backwards compatibility.
+     
+     - parameter controller: The controller to replace it with
+     - parameter animated:   Whether or not to animate the change. Defaults to true.
+     */
+    public func setPrimaryContentViewController(controller: UIViewController, animated: Bool = true)
+    {
+        setPrimaryContentViewController(controller: controller, animated: animated, completion: nil)
     }
     
     /**
@@ -620,25 +639,38 @@ open class PulleyViewController: UIViewController {
      - parameter animated:   Whether or not to animate the change.
      - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, completion: @escaping (Bool) -> Void = { _ in })
+    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
     {
         if animated
         {
-            UIView.transition(with: drawerContentContainer, duration: 0.5, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { [weak self] () -> Void in
+            UIView.transition(with: drawerContentContainer, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.drawerContentViewController = controller
                 self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
                 
-                }, completion: { completed in
-                    completion(completed)
+                }, completion: { (completed) in
+                    
+                    completion?(completed)
             })
         }
         else
         {
             drawerContentViewController = controller
             setDrawerPosition(position: drawerPosition, animated: false)
-            completion(true)
+            
+            completion?(true)
         }
+    }
+    
+    /**
+     Change the current drawer content view controller (The one inside the drawer). This method exists for backwards compatibility.
+     
+     - parameter controller: The controller to replace it with
+     - parameter animated:   Whether or not to animate the change.
+     */
+    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true)
+    {
+        setDrawerContentViewController(controller: controller, animated: animated, completion: nil)
     }
     
     /**
@@ -668,7 +700,7 @@ open class PulleyViewController: UIViewController {
             }
         }
     }
-
+    
     // MARK: Propogate child view controller style / status bar presentation based on drawer state
     
     override open var childViewControllerForStatusBarStyle: UIViewController? {
