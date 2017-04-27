@@ -503,13 +503,22 @@ open class PulleyViewController: UIViewController {
     // MARK: Configuration Updates
     
     /**
+     Set the drawer position, the change will be animated.
+     
+     - parameter position: The position to set the drawer to.
+     */
+    public func setDrawerPosition(position: PulleyPosition) {
+        setDrawerPosition(position: position, animated: true)
+    }
+    
+    /**
      Set the drawer position, with an option to animate.
      
      - parameter position: The position to set the drawer to.
      - parameter animated: Whether or not to animate the change. (Default: true)
-     - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
+     - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called. (Default: nil)
      */
-    public func setDrawerPosition(position: PulleyPosition, animated: Bool = true, completion: @escaping (Bool) -> Void = { _ in }) {
+    public func setDrawerPosition(position: PulleyPosition, animated: Bool, completion: @escaping (Bool) -> Void = { _ in }) {
         guard supportedDrawerPositions.contains(position) else {
             
             print("PulleyViewController: You can't set the drawer position to something not supported by the current view controller contained in the drawer. If you haven't already, you may need to implement the PulleyDrawerViewControllerDelegate.")
