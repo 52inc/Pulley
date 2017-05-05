@@ -278,6 +278,13 @@ open class PulleyViewController: UIViewController {
             initialDrawerPosition = PulleyPosition.positionFor(string: initialDrawerPositionFromIB)
         }
     }
+
+    /// Whether the drawer's position can be changed by the user. If set to `false`, the only way to move the drawer is programmatically. Defaults to `true`.
+    public var allowsUserDrawerPositionChange: Bool = true {
+        didSet {
+            enforceCanScrollDrawer()
+        }
+    }
     
     /// The drawer positions supported by the drawer
     fileprivate var supportedDrawerPositions: [PulleyPosition] = PulleyPosition.all {
@@ -307,7 +314,7 @@ open class PulleyViewController: UIViewController {
                 setDrawerPosition(position: lowestDrawerState, animated: false)
             }
             
-            drawerScrollView.isScrollEnabled = supportedDrawerPositions.count > 1
+            enforceCanScrollDrawer()
         }
     }
     
@@ -432,9 +439,9 @@ open class PulleyViewController: UIViewController {
             
             assert(primaryContentViewController != nil && drawerContentViewController != nil, "Container views must contain an embedded view controller.")
         }
-        
+
+        enforceCanScrollDrawer()
         setDrawerPosition(position: initialDrawerPosition, animated: false)
-        
         scrollViewDidScroll(drawerScrollView)
     }
     
@@ -503,6 +510,15 @@ open class PulleyViewController: UIViewController {
     override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: Private State Updates
+
+    private func enforceCanScrollDrawer() {
+        guard isViewLoaded else {
+            return
+        }
+        drawerScrollView.isScrollEnabled = allowsUserDrawerPositionChange && supportedDrawerPositions.count > 1
     }
     
     // MARK: Configuration Updates
