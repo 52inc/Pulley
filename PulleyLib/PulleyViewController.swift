@@ -190,6 +190,15 @@ open class PulleyViewController: UIViewController {
             setNeedsStatusBarAppearanceUpdate()
         }
     }
+
+    // The visible height of the drawer. Useful for adjusting the display of content in the main content view.
+    public var visibleDrawerHeight: CGFloat {
+        if drawerPosition == .closed {
+            return 0.0
+        } else {
+            return drawerScrollView.bounds.height
+        }
+    }
     
     /// The background visual effect layer for the drawer. By default this is the extraLight effect. You can change this if you want, or assign nil to remove it.
     public var drawerBackgroundVisualEffectView: UIVisualEffectView? = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight)) {
