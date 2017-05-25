@@ -32,7 +32,7 @@ Pulley supports loading embedded view controllers from Interface Builder. In ord
 
 If you would like to customize the height of the "Collapsed" or "Partially Revealed" states of the drawer, have your Drawer Content view controller implement `PulleyDrawerViewControllerDelegate`. You can provide the height for your drawer content for both the Collapsed and Partially Revealed states.
 
-![Interface Builder Screenshot](http://i.imgur.com/htzo50L.png =500x)
+![Interface Builder Screenshot](http://i.imgur.com/htzo50L.png=500x)
 
 
 #### Programmatically
