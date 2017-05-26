@@ -437,12 +437,12 @@ open class PulleyViewController: UIViewController {
             {
                 if child.view == primaryContentContainerView.subviews.first
                 {
-                    primaryContentViewController = child
+                    primaryContentViewController = trueChildViewController(for: child)
                 }
-                
+
                 if child.view == drawerContentContainerView.subviews.first
                 {
-                    drawerContentViewController = child
+                    drawerContentViewController = trueChildViewController(for: child)
                 }
             }
             
@@ -453,6 +453,14 @@ open class PulleyViewController: UIViewController {
         setDrawerPosition(position: initialDrawerPosition, animated: false)
         scrollViewDidScroll(drawerScrollView)
     }
+
+    private func trueChildViewController(for viewController: UIViewController) -> UIViewController {
+        guard let embeddedVC = viewController.childViewControllers.first else {
+            return viewController
+        }
+        return embeddedVC
+    }
+
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
