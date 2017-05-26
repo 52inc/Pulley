@@ -24,7 +24,7 @@ A library to provide a drawer controller that can imitate the drawer UI in iOS 1
   s.homepage         = 'https://github.com/52inc/Pulley'
   s.screenshots     = 'https://camo.githubusercontent.com/ffa1a97f8e152bb25f69970a08aa2e827fe54ce0/687474703a2f2f692e696d6775722e636f6d2f35616b456a69542e676966'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Brendan Lee' => 'brendan@52inc.com' }
+  s.author           = { '52inc, Brendan Lee' => 'brendan@52inc.com' }
   s.source           = { :git => 'https://github.com/52inc/Pulley.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/52_inc'
 
