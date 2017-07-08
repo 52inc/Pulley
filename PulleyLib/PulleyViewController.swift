@@ -120,26 +120,26 @@ open class PulleyViewController: UIViewController {
         willSet {
             
             guard let controller = primaryContentViewController else {
-                return;
+                return
             }
-            
-            controller.view.removeFromSuperview()
+
             controller.willMove(toParentViewController: nil)
+            controller.view.removeFromSuperview()
             controller.removeFromParentViewController()
         }
         
         didSet {
             
             guard let controller = primaryContentViewController else {
-                return;
+                return
             }
-            
+
+            addChildViewController(controller)
             controller.view.translatesAutoresizingMaskIntoConstraints = true
-            
-            self.primaryContentContainer.addSubview(controller.view)
-            self.addChildViewController(controller)
+            controller.view.frame = primaryContentContainer.frame
+            primaryContentContainer.addSubview(controller.view)
             controller.didMove(toParentViewController: self)
-            
+
             if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
@@ -151,28 +151,28 @@ open class PulleyViewController: UIViewController {
     /// The current drawer view controller (shown in the drawer).
     public fileprivate(set) var drawerContentViewController: UIViewController! {
         willSet {
-            
+
             guard let controller = drawerContentViewController else {
-                return;
+                return
             }
-            
-            controller.view.removeFromSuperview()
+
             controller.willMove(toParentViewController: nil)
+            controller.view.removeFromSuperview()
             controller.removeFromParentViewController()
         }
-        
+
         didSet {
-            
+
             guard let controller = drawerContentViewController else {
-                return;
+                return
             }
-            
+
+            addChildViewController(controller)
             controller.view.translatesAutoresizingMaskIntoConstraints = true
-            
-            self.drawerContentContainer.addSubview(controller.view)
-            self.addChildViewController(controller)
+            controller.view.frame = drawerContentContainer.frame
+            drawerContentContainer.addSubview(controller.view)
             controller.didMove(toParentViewController: self)
-            
+
             if self.isViewLoaded
             {
                 self.view.setNeedsLayout()
