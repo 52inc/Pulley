@@ -136,7 +136,7 @@ open class PulleyViewController: UIViewController {
 
             addChildViewController(controller)
             controller.view.translatesAutoresizingMaskIntoConstraints = true
-            controller.view.frame = primaryContentContainer.frame
+            controller.view.frame = primaryContentContainer.bounds
             primaryContentContainer.addSubview(controller.view)
             controller.didMove(toParentViewController: self)
 
@@ -169,7 +169,7 @@ open class PulleyViewController: UIViewController {
 
             addChildViewController(controller)
             controller.view.translatesAutoresizingMaskIntoConstraints = true
-            controller.view.frame = drawerContentContainer.frame
+            controller.view.frame = drawerContentContainer.bounds
             drawerContentContainer.addSubview(controller.view)
             controller.didMove(toParentViewController: self)
 
@@ -628,6 +628,10 @@ open class PulleyViewController: UIViewController {
      */
     public func setPrimaryContentViewController(controller: UIViewController, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
     {
+        // Account for transition issue in iOS 11
+        controller.view.frame = primaryContentContainer.bounds
+        controller.view.layoutIfNeeded()
+        
         if animated
         {
             UIView.transition(with: primaryContentContainer, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] () -> Void in
@@ -666,6 +670,10 @@ open class PulleyViewController: UIViewController {
      */
     public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
     {
+        // Account for transition issue in iOS 11
+        controller.view.frame = drawerContentContainer.bounds
+        controller.view.layoutIfNeeded()
+        
         if animated
         {
             UIView.transition(with: drawerContentContainer, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] () -> Void in
@@ -715,7 +723,7 @@ open class PulleyViewController: UIViewController {
     
     // MARK: Actions
     
-    func dimmingViewTapRecognizerAction(gestureRecognizer: UITapGestureRecognizer)
+    @objc func dimmingViewTapRecognizerAction(gestureRecognizer: UITapGestureRecognizer)
     {
         if gestureRecognizer == dimmingViewTapRecognizer
         {
