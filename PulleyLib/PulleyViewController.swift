@@ -25,7 +25,7 @@ public protocol PulleyDrawerViewControllerDelegate: PulleyDelegate {
     
     func collapsedDrawerHeight() -> CGFloat
     func partialRevealDrawerHeight() -> CGFloat
-    func supportedDrawerPositions() -> [PulleyPosition]
+    func supportedPositions() -> [PulleyPosition]
 }
 
 /**
@@ -705,7 +705,7 @@ open class PulleyViewController: UIViewController {
     {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate
         {
-            supportedDrawerPositions = drawerVCCompliant.supportedDrawerPositions()
+            supportedDrawerPositions = drawerVCCompliant.supportedPositions()
         }
         else
         {
