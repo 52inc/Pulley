@@ -15,14 +15,14 @@ class DrawerContentViewController: UIViewController {
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var gripperView: UIView!
     
-    @IBOutlet var seperatorHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var separatorHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         gripperView.layer.cornerRadius = 2.5
-        seperatorHeightConstraint.constant = 1.0 / UIScreen.main.scale
+        separatorHeightConstraint.constant = 1.0 / UIScreen.main.scale
     }
 
     override func didReceiveMemoryWarning() {
