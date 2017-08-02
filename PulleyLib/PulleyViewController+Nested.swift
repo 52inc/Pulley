@@ -24,9 +24,9 @@ extension PulleyViewController: PulleyDrawerViewControllerDelegate {
         }
     }
 
-    public func supportedPositions() -> [PulleyPosition] {
+    public func supportedDrawerPositions() -> [PulleyPosition] {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
-            return drawerVCCompliant.supportedPositions()
+            return drawerVCCompliant.supportedDrawerPositions()
         } else {
             return PulleyPosition.all
         }
