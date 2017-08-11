@@ -296,27 +296,27 @@ open class PulleyViewController: UIViewController {
     }
     
     /// The drawer positions supported by the drawer
-    fileprivate var supportedDrawerPositions: [PulleyPosition] = PulleyPosition.all {
+    fileprivate var supportedPositions: [PulleyPosition] = PulleyPosition.all {
         didSet {
             
             guard self.isViewLoaded else {
                 return
             }
             
-            guard supportedDrawerPositions.count > 0 else {
-                supportedDrawerPositions = PulleyPosition.all
+            guard supportedPositions.count > 0 else {
+                supportedPositions = PulleyPosition.all
                 return
             }
             
             self.view.setNeedsLayout()
             
-            if supportedDrawerPositions.contains(drawerPosition)
+            if supportedPositions.contains(drawerPosition)
             {
                 setDrawerPosition(position: drawerPosition)
             }
             else
             {
-                let lowestDrawerState: PulleyPosition = supportedDrawerPositions.min { (pos1, pos2) -> Bool in
+                let lowestDrawerState: PulleyPosition = supportedPositions.min { (pos1, pos2) -> Bool in
                     return pos1.rawValue < pos2.rawValue
                     } ?? .collapsed
                 
@@ -481,7 +481,7 @@ open class PulleyViewController: UIViewController {
         let lowestStop = [(self.view.bounds.size.height - topInset), collapsedHeight, partialRevealHeight].min() ?? 0
         let bounceOverflowMargin: CGFloat = 20.0
         
-        if supportedDrawerPositions.contains(.open)
+        if supportedPositions.contains(.open)
         {
             // Layout scrollview
             drawerScrollView.frame = CGRect(x: 0, y: topInset, width: self.view.bounds.width, height: self.view.bounds.height - topInset)
@@ -489,7 +489,7 @@ open class PulleyViewController: UIViewController {
         else
         {
             // Layout scrollview
-            let adjustedTopInset: CGFloat = supportedDrawerPositions.contains(.partiallyRevealed) ? partialRevealHeight : collapsedHeight
+            let adjustedTopInset: CGFloat = supportedPositions.contains(.partiallyRevealed) ? partialRevealHeight : collapsedHeight
             drawerScrollView.frame = CGRect(x: 0, y: self.view.bounds.height - adjustedTopInset, width: self.view.bounds.width, height: adjustedTopInset)
         }
         
@@ -527,7 +527,7 @@ open class PulleyViewController: UIViewController {
         guard isViewLoaded else {
             return
         }
-        drawerScrollView.isScrollEnabled = allowsUserDrawerPositionChange && supportedDrawerPositions.count > 1
+        drawerScrollView.isScrollEnabled = allowsUserDrawerPositionChange && supportedPositions.count > 1
     }
     
     // MARK: Configuration Updates
@@ -540,7 +540,7 @@ open class PulleyViewController: UIViewController {
      - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called. (Default: nil)
      */
     public func setDrawerPosition(position: PulleyPosition, animated: Bool, completion: PulleyAnimationCompletionBlock? = nil) {
-        guard supportedDrawerPositions.contains(position) else {
+        guard supportedPositions.contains(position) else {
             
             print("PulleyViewController: You can't set the drawer position to something not supported by the current view controller contained in the drawer. If you haven't already, you may need to implement the PulleyDrawerViewControllerDelegate.")
             return
@@ -705,11 +705,11 @@ open class PulleyViewController: UIViewController {
     {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate
         {
-            supportedDrawerPositions = drawerVCCompliant.supportedDrawerPositions()
+            supportedPositions = drawerVCCompliant.supportedDrawerPositions()
         }
         else
         {
-            supportedDrawerPositions = PulleyPosition.all
+            supportedPositions = PulleyPosition.all
         }
     }
     
@@ -793,17 +793,17 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             var drawerStops: [CGFloat] = [CGFloat]()
             
-            if supportedDrawerPositions.contains(.open)
+            if supportedPositions.contains(.open)
             {
                 drawerStops.append((self.view.bounds.size.height - topInset))
             }
             
-            if supportedDrawerPositions.contains(.partiallyRevealed)
+            if supportedPositions.contains(.partiallyRevealed)
             {
                 drawerStops.append(partialRevealHeight)
             }
             
-            if supportedDrawerPositions.contains(.collapsed)
+            if supportedPositions.contains(.collapsed)
             {
                 drawerStops.append(collapsedHeight)
             }
@@ -822,13 +822,13 @@ extension PulleyViewController: UIScrollViewDelegate {
                 }
             }
             
-            if abs(Float(currentClosestStop - (self.view.bounds.size.height - topInset))) <= Float.ulpOfOne && supportedDrawerPositions.contains(.open)
+            if abs(Float(currentClosestStop - (self.view.bounds.size.height - topInset))) <= Float.ulpOfOne && supportedPositions.contains(.open)
             {
                 setDrawerPosition(position: .open, animated: true)
-            } else if abs(Float(currentClosestStop - collapsedHeight)) <= Float.ulpOfOne && supportedDrawerPositions.contains(.collapsed)
+            } else if abs(Float(currentClosestStop - collapsedHeight)) <= Float.ulpOfOne && supportedPositions.contains(.collapsed)
             {
                 setDrawerPosition(position: .collapsed, animated: true)
-            } else if supportedDrawerPositions.contains(.partiallyRevealed){
+            } else if supportedPositions.contains(.partiallyRevealed){
                 setDrawerPosition(position: .partiallyRevealed, animated: true)
             }
         }
@@ -860,17 +860,17 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             var drawerStops: [CGFloat] = [CGFloat]()
             
-            if supportedDrawerPositions.contains(.open)
+            if supportedPositions.contains(.open)
             {
                 drawerStops.append((self.view.bounds.size.height - topInset))
             }
             
-            if supportedDrawerPositions.contains(.partiallyRevealed)
+            if supportedPositions.contains(.partiallyRevealed)
             {
                 drawerStops.append(partialRevealHeight)
             }
             
-            if supportedDrawerPositions.contains(.collapsed)
+            if supportedPositions.contains(.collapsed)
             {
                 drawerStops.append(collapsedHeight)
             }

@@ -304,7 +304,7 @@
                     <connections>
                         <outlet property="gripperView" destination="2S4-TW-Cpq" id="qvm-vW-kwY"/>
                         <outlet property="searchBar" destination="SdI-67-HKI" id="BAe-g2-quD"/>
-                        <outlet property="seperatorHeightConstraint" destination="4Qx-Tn-PkO" id="o2j-7p-e9G"/>
+                        <outlet property="separatorHeightConstraint" destination="4Qx-Tn-PkO" id="o2j-7p-e9G"/>
                         <outlet property="tableView" destination="njO-tj-uAV" id="ISn-w2-Baa"/>
                     </connections>
                 </viewController>
