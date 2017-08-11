@@ -463,6 +463,28 @@ open class PulleyViewController: UIViewController {
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        // Make sure our view controller views are subviews of the right view (Resolves #21 issue with changing the presentation context)
+        
+        // May be nil during initial layout
+        if let primary = primaryContentViewController
+        {
+            if primary.view.superview != nil && primary.view.superview != primaryContentContainer
+            {
+                primaryContentContainer.addSubview(primary.view)
+                primaryContentContainer.sendSubview(toBack: primary.view)
+            }
+        }
+        
+        // May be nil during initial layout
+        if let drawer = drawerContentViewController
+        {
+            if drawer.view.superview != nil && drawer.view.superview != drawerContentContainer
+            {
+                drawerContentContainer.addSubview(drawer.view)
+                drawerContentContainer.sendSubview(toBack: drawer.view)
+            }
+        }
+        
         // Layout main content
         primaryContentContainer.frame = self.view.bounds
         backgroundDimmingView.frame = self.view.bounds
