@@ -137,10 +137,7 @@ open class PulleyViewController: UIViewController {
             addChildViewController(controller)
             primaryContentContainer.addSubview(controller.view)
             
-            controller.view.translatesAutoresizingMaskIntoConstraints = false
-            primaryContentContainer.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
-                NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": controller.view])
-            }))
+            controller.view.constrainToParent()
             
             controller.didMove(toParentViewController: self)
 
@@ -174,10 +171,7 @@ open class PulleyViewController: UIViewController {
             addChildViewController(controller)
             drawerContentContainer.addSubview(controller.view)
             
-            controller.view.translatesAutoresizingMaskIntoConstraints = false
-            drawerContentContainer.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
-                NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": controller.view])
-            }))
+            controller.view.constrainToParent()
             
             controller.didMove(toParentViewController: self)
 
@@ -431,15 +425,9 @@ open class PulleyViewController: UIViewController {
         self.view.addSubview(backgroundDimmingView)
         self.view.addSubview(drawerScrollView)
         
-        primaryContentContainer.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
-            NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": primaryContentContainer])
-        }))
+        primaryContentContainer.constrainToParent()
         
-        backgroundDimmingView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
-            NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": backgroundDimmingView])
-        }))
+        backgroundDimmingView.constrainToParent()
     }
     
     override open func viewDidLoad() {
@@ -490,6 +478,8 @@ open class PulleyViewController: UIViewController {
             {
                 primaryContentContainer.addSubview(primary.view)
                 primaryContentContainer.sendSubview(toBack: primary.view)
+                
+                primary.view.constrainToParent()
             }
         }
         
@@ -500,6 +490,8 @@ open class PulleyViewController: UIViewController {
             {
                 drawerContentContainer.addSubview(drawer.view)
                 drawerContentContainer.sendSubview(toBack: drawer.view)
+                
+                drawer.view.constrainToParent()
             }
         }
         
