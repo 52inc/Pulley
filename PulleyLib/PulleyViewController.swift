@@ -135,9 +135,13 @@ open class PulleyViewController: UIViewController {
             }
 
             addChildViewController(controller)
-            controller.view.translatesAutoresizingMaskIntoConstraints = true
-            controller.view.frame = primaryContentContainer.frame
             primaryContentContainer.addSubview(controller.view)
+            
+            controller.view.translatesAutoresizingMaskIntoConstraints = false
+            primaryContentContainer.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
+                NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": controller.view])
+            }))
+            
             controller.didMove(toParentViewController: self)
 
             if self.isViewLoaded
@@ -168,9 +172,13 @@ open class PulleyViewController: UIViewController {
             }
 
             addChildViewController(controller)
-            controller.view.translatesAutoresizingMaskIntoConstraints = true
-            controller.view.frame = drawerContentContainer.frame
             drawerContentContainer.addSubview(controller.view)
+            
+            controller.view.translatesAutoresizingMaskIntoConstraints = false
+            drawerContentContainer.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
+                NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": controller.view])
+            }))
+            
             controller.didMove(toParentViewController: self)
 
             if self.isViewLoaded
@@ -422,6 +430,16 @@ open class PulleyViewController: UIViewController {
         self.view.addSubview(primaryContentContainer)
         self.view.addSubview(backgroundDimmingView)
         self.view.addSubview(drawerScrollView)
+        
+        primaryContentContainer.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
+            NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": primaryContentContainer])
+        }))
+        
+        backgroundDimmingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraints(["H:|[view]|", "V:|[view]|"].flatMap({ constraintString in
+            NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: nil, views: ["view": backgroundDimmingView])
+        }))
     }
     
     override open func viewDidLoad() {
@@ -485,11 +503,6 @@ open class PulleyViewController: UIViewController {
             }
         }
         
-        // Layout main content
-        primaryContentContainer.frame = self.view.bounds
-        backgroundDimmingView.frame = self.view.bounds
-        
-        
         // Layout container
         var collapsedHeight:CGFloat = kPulleyDefaultCollapsedHeight
         var partialRevealHeight:CGFloat = kPulleyDefaultPartialRevealHeight
@@ -530,10 +543,6 @@ open class PulleyViewController: UIViewController {
         cardMaskLayer.backgroundColor = UIColor.clear.cgColor
         drawerContentContainer.layer.mask = cardMaskLayer
         drawerShadowView.layer.shadowPath = borderPath
-        
-        // Make VC views match frames
-        primaryContentViewController?.view.frame = primaryContentContainer.bounds
-        drawerContentViewController?.view.frame = CGRect(x: drawerContentContainer.bounds.minX, y: drawerContentContainer.bounds.minY, width: drawerContentContainer.bounds.width, height: drawerContentContainer.bounds.height)
         
         setDrawerPosition(position: drawerPosition, animated: false)
     }
