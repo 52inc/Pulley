@@ -3,7 +3,6 @@
 //  Pulley
 //
 //  Created by Mathew Polzin on 8/22/17.
-//  Copyright © 2017 52inc. All rights reserved.
 //
 
 import UIKit
