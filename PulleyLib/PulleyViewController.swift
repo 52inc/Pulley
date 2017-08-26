@@ -135,9 +135,10 @@ open class PulleyViewController: UIViewController {
             }
 
             addChildViewController(controller)
-            controller.view.translatesAutoresizingMaskIntoConstraints = true
-            controller.view.frame = primaryContentContainer.frame
             primaryContentContainer.addSubview(controller.view)
+            
+            controller.view.constrainToParent()
+            
             controller.didMove(toParentViewController: self)
 
             if self.isViewLoaded
@@ -168,9 +169,10 @@ open class PulleyViewController: UIViewController {
             }
 
             addChildViewController(controller)
-            controller.view.translatesAutoresizingMaskIntoConstraints = true
-            controller.view.frame = drawerContentContainer.frame
             drawerContentContainer.addSubview(controller.view)
+            
+            controller.view.constrainToParent()
+            
             controller.didMove(toParentViewController: self)
 
             if self.isViewLoaded
@@ -422,6 +424,10 @@ open class PulleyViewController: UIViewController {
         self.view.addSubview(primaryContentContainer)
         self.view.addSubview(backgroundDimmingView)
         self.view.addSubview(drawerScrollView)
+        
+        primaryContentContainer.constrainToParent()
+        
+        backgroundDimmingView.constrainToParent()
     }
     
     override open func viewDidLoad() {
@@ -472,6 +478,8 @@ open class PulleyViewController: UIViewController {
             {
                 primaryContentContainer.addSubview(primary.view)
                 primaryContentContainer.sendSubview(toBack: primary.view)
+                
+                primary.view.constrainToParent()
             }
         }
         
@@ -482,13 +490,10 @@ open class PulleyViewController: UIViewController {
             {
                 drawerContentContainer.addSubview(drawer.view)
                 drawerContentContainer.sendSubview(toBack: drawer.view)
+                
+                drawer.view.constrainToParent()
             }
         }
-        
-        // Layout main content
-        primaryContentContainer.frame = self.view.bounds
-        backgroundDimmingView.frame = self.view.bounds
-        
         
         // Layout container
         var collapsedHeight:CGFloat = kPulleyDefaultCollapsedHeight
@@ -530,10 +535,6 @@ open class PulleyViewController: UIViewController {
         cardMaskLayer.backgroundColor = UIColor.clear.cgColor
         drawerContentContainer.layer.mask = cardMaskLayer
         drawerShadowView.layer.shadowPath = borderPath
-        
-        // Make VC views match frames
-        primaryContentViewController?.view.frame = primaryContentContainer.bounds
-        drawerContentViewController?.view.frame = CGRect(x: drawerContentContainer.bounds.minX, y: drawerContentContainer.bounds.minY, width: drawerContentContainer.bounds.width, height: drawerContentContainer.bounds.height)
         
         setDrawerPosition(position: drawerPosition, animated: false)
     }
