@@ -114,6 +114,17 @@ open class PulleyViewController: UIViewController {
     fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
     
     fileprivate var lastDragTargetContentOffset: CGPoint = CGPoint.zero
+
+    // Public
+    public var delaysContentTouches: Bool {
+        get {
+            return drawerScrollView.delaysContentTouches
+        }
+
+        set {
+            drawerScrollView.delaysContentTouches = newValue
+        }
+    }
     
     /// The current content view controller (shown behind the drawer).
     public fileprivate(set) var primaryContentViewController: UIViewController! {
