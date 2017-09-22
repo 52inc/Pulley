@@ -115,6 +115,8 @@ open class PulleyViewController: UIViewController {
     
     fileprivate var lastDragTargetContentOffset: CGPoint = CGPoint.zero
     
+    public var canCancelContentTouches: Bool = false
+    
     /// The current content view controller (shown behind the drawer).
     public fileprivate(set) var primaryContentViewController: UIViewController! {
         willSet {
@@ -386,7 +388,7 @@ open class PulleyViewController: UIViewController {
         drawerScrollView.showsVerticalScrollIndicator = false
         drawerScrollView.showsHorizontalScrollIndicator = false
         drawerScrollView.delaysContentTouches = true
-        drawerScrollView.canCancelContentTouches = true
+        drawerScrollView.canCancelContentTouches = canCancelContentTouches
         drawerScrollView.backgroundColor = UIColor.clear
         drawerScrollView.decelerationRate = UIScrollViewDecelerationRateFast
         drawerScrollView.scrollsToTop = false
