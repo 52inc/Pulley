@@ -115,7 +115,7 @@ open class PulleyViewController: UIViewController {
     
     fileprivate var lastDragTargetContentOffset: CGPoint = CGPoint.zero
     
-    public var canCancelContentTouches: Bool = false
+    public var canCancelContentTouches: Bool = true
     
     /// The current content view controller (shown behind the drawer).
     public fileprivate(set) var primaryContentViewController: UIViewController! {
