@@ -114,9 +114,19 @@ open class PulleyViewController: UIViewController {
     fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
     
     fileprivate var lastDragTargetContentOffset: CGPoint = CGPoint.zero
+
+    // Public
+    public var delaysContentTouches: Bool = true {
+        didSet {
+            self.loadViewIfNeeded()
+            drawerScrollView.delaysContentTouches = delaysContentTouches
+        }
+    }
     
     public var canCancelContentTouches: Bool = true  {
         didSet {
+          
+            self.loadViewIfNeeded()
             drawerScrollView.canCancelContentTouches = canCancelContentTouches
         }
     }
@@ -392,7 +402,10 @@ open class PulleyViewController: UIViewController {
         drawerScrollView.clipsToBounds = false
         drawerScrollView.showsVerticalScrollIndicator = false
         drawerScrollView.showsHorizontalScrollIndicator = false
-        drawerScrollView.delaysContentTouches = true 
+
+        drawerScrollView.delaysContentTouches = delaysContentTouches
+        drawerScrollView.canCancelContentTouches = canCancelContentTouches
+
         drawerScrollView.backgroundColor = UIColor.clear
         drawerScrollView.decelerationRate = UIScrollViewDecelerationRateFast
         drawerScrollView.scrollsToTop = false
