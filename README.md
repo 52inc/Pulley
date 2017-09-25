@@ -64,7 +64,7 @@ The basic concepts of using Pulley post-iOS 11 are:
 3. If you have UI bottom safe area customizations that you want to perform, I recommend using the delegate method `drawerPositionDidChange(drawer:bottomSafeArea:)` to modify your UI based on the value of bottomSafeArea. Any time the size of the Pulley view controller changes, this method will be called with a new bottom safe area height. The sample project uses this to modify the drawer 'header' height, as well as to adjust the contentInset for the UITableView. It's not automatically taken care of for you, but it should be a fairly simple thing to add.
 4. I do _not_ recommend constraining views to the safe are of the drawer content view controller. It won't actually work for the safe areas.
 5. If you want the map (or other UI) in the primary view controller to render under the status bar (or in the ears of the iPhone X), make sure you constrain it directly to the superview's 'top'. You may need to double click on the constraint, and then make sure it _isn't_ constrained 'relative to margin'.
-6. For backwards compatibility, iOS 9/10 use topLayoutGuide as the bottom safe area. Your implementation shouldn't worry about iOS versions, as that's taken care of for you by Pulley.
+6. For backwards compatibility, iOS 9/10 use topLayoutGuide as the top safe area. Your implementation shouldn't need to worry about iOS versions, as that's taken care of for you by Pulley.
 
 If you have any problems / questions while updating Pulley to iOS 11 SDK, please feel free to create an issue if the above information didn't solve your problem.
 
