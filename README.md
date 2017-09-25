@@ -1,6 +1,8 @@
 # Pulley
 A library to imitate the drawer in Maps for iOS 10/11. The master branch follows the latest currently released version of Swift. If you need an older version of Swift, you can specify it's version (e.g. 1.0.x) in your Podfile or use the code on the branch for that version. Older branches are unsupported.
 
+**ATTENTION:** Pulley 2.0 introduced some small breaking changes for people upgrading from 1.x. Please scroll down to the iOS 11 / Safe Areas section of the README for more information. Apologies for the inconvenience.
+
 ### Introduction
 Pulley is an easy to use drawer library meant to imitate the drawer in iOS 10/11's Maps app. It exposes a simple API that allows you to use any UIViewController subclass as the drawer content or the primary content.
 
@@ -60,11 +62,12 @@ Pulley has support for safe areas and the iPhone X. The sample project includes 
 The basic concepts of using Pulley post-iOS 11 are:
 
 1. The -topInset property is _from_ the top safe area, not the top of the screen.
-2. The drawer itself doesn't do anything special for the bottom safe area because everyone's UI will want to treat it a little differently. HOWEVER: The delegate methods have been updated to deliver you the current bottom safe area anytime that a value for a drawer position is requested from you. You can use this variable to compute the value you want to return for the drawer position. Checkout the sample project for a simple example on an easy approach to this.
-3. If you have UI bottom safe area customizations that you want to perform, I recommend using the delegate method `drawerPositionDidChange(drawer:bottomSafeArea:)` to modify your UI based on the value of bottomSafeArea. Any time the size of the Pulley view controller changes, this method will be called with a new bottom safe area height. The sample project uses this to modify the drawer 'header' height, as well as to adjust the contentInset for the UITableView. It's not automatically taken care of for you, but it should be a fairly simple thing to add.
-4. I do _not_ recommend constraining views to the safe are of the drawer content view controller. It won't actually work for the safe areas.
-5. If you want the map (or other UI) in the primary view controller to render under the status bar (or in the ears of the iPhone X), make sure you constrain it directly to the superview's 'top'. You may need to double click on the constraint, and then make sure it _isn't_ constrained 'relative to margin'.
-6. For backwards compatibility, iOS 9/10 use topLayoutGuide as the top safe area. Your implementation shouldn't need to worry about iOS versions, as that's taken care of for you by Pulley.
+2. Most delegate methods have a new parameter that tells you the current bottom safe area.
+3. The drawer itself doesn't do anything special for the bottom safe area because everyone's UI will want to treat it a little differently. HOWEVER: The delegate methods have been updated to deliver you the current bottom safe area anytime that a value for a drawer position is requested from you. You can use this variable to compute the value you want to return for the drawer position. Checkout the sample project for a simple example on an easy approach to this.
+4. If you have UI bottom safe area customizations that you want to perform, I recommend using the delegate method `drawerPositionDidChange(drawer:bottomSafeArea:)` to modify your UI based on the value of bottomSafeArea. Any time the size of the Pulley view controller changes, this method will be called with a new bottom safe area height. The sample project uses this to modify the drawer 'header' height, as well as to adjust the contentInset for the UITableView. It's not automatically taken care of for you, but it should be a fairly simple thing to add.
+5. I do _not_ recommend constraining views to the safe are of the drawer content view controller. It won't actually work for the safe areas.
+6. If you want the map (or other UI) in the primary view controller to render under the status bar (or in the ears of the iPhone X), make sure you constrain it directly to the superview's 'top'. You may need to double click on the constraint, and then make sure it _isn't_ constrained 'relative to margin'.
+7. For backwards compatibility, iOS 9/10 use topLayoutGuide as the top safe area. Your implementation shouldn't need to worry about iOS versions, as that's taken care of for you by Pulley.
 
 If you have any problems / questions while updating Pulley to iOS 11 SDK, please feel free to create an issue if the above information didn't solve your problem.
 
