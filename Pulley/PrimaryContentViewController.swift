@@ -16,6 +16,10 @@ class PrimaryContentViewController: UIViewController {
     @IBOutlet var controlsContainer: UIView!
     @IBOutlet var temperatureLabel: UILabel!
     
+    /**
+     * IMPORTANT! If you have constraints that you use to 'follow' the drawer (like the temperature label in the demo)...
+     * Make sure you constraint them to the bottom of the superview and NOT the superview's bottom margin. Double click the constraint, and you can change it in the dropdown in the right-side panel. If you don't, you'll have varying spacings to the drawer depending on the device.
+     */
     @IBOutlet var temperatureLabelBottomConstraint: NSLayoutConstraint!
     
     fileprivate let temperatureLabelBottomDistance: CGFloat = 8.0
@@ -61,14 +65,14 @@ class PrimaryContentViewController: UIViewController {
 
 extension PrimaryContentViewController: PulleyPrimaryContentControllerDelegate {
     
-    func makeUIAdjustmentsForFullscreen(progress: CGFloat)
+    func makeUIAdjustmentsForFullscreen(progress: CGFloat, bottomSafeArea: CGFloat)
     {
         controlsContainer.alpha = 1.0 - progress
     }
     
-    func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat)
+    func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat, bottomSafeArea: CGFloat)
     {
-        if distance <= 268.0
+        if distance <= 268.0 + bottomSafeArea
         {
             temperatureLabelBottomConstraint.constant = distance + temperatureLabelBottomDistance
         }
