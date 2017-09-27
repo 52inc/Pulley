@@ -140,6 +140,7 @@
                     </view>
                     <connections>
                         <outlet property="controlsContainer" destination="S4A-9H-sT4" id="1ru-U0-gtK"/>
+                        <outlet property="mapView" destination="BcX-Cl-AEz" id="VAS-yX-cR0"/>
                         <outlet property="temperatureLabel" destination="CdD-I4-t3B" id="wiH-6U-GXK"/>
                         <outlet property="temperatureLabelBottomConstraint" destination="73I-zu-uZx" id="aUz-kZ-zGM"/>
                     </connections>
