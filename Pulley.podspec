@@ -30,7 +30,7 @@ A library to provide a drawer controller that can imitate the drawer UI in iOS 1
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'PulleyLib/*.*'
+  s.source_files = 'PulleyLib/*.{h,swift}'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
