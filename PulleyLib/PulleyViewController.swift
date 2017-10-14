@@ -550,11 +550,15 @@ open class PulleyViewController: UIViewController {
         
         let safeAreaTopInset: CGFloat
         let safeAreaBottomInset: CGFloat
+        var safeAreaLeftInset: CGFloat = 0
+        var safeAreaRightInset: CGFloat = 0
         
         if #available(iOS 11.0, *)
         {
             safeAreaTopInset = self.view.safeAreaInsets.top
             safeAreaBottomInset = self.view.safeAreaInsets.bottom
+            safeAreaLeftInset = view.safeAreaInsets.left
+            safeAreaRightInset = view.safeAreaInsets.right
         }
         else
         {
@@ -578,13 +582,13 @@ open class PulleyViewController: UIViewController {
         if supportedPositions.contains(.open)
         {
             // Layout scrollview
-            drawerScrollView.frame = CGRect(x: 0, y: topInset + safeAreaTopInset, width: self.view.bounds.width, height: self.view.bounds.height - topInset - safeAreaTopInset)
+            drawerScrollView.frame = CGRect(x: safeAreaLeftInset, y: topInset + safeAreaTopInset, width: self.view.bounds.width - safeAreaLeftInset - safeAreaRightInset, height: self.view.bounds.height - topInset - safeAreaTopInset)
         }
         else
         {
             // Layout scrollview
             let adjustedTopInset: CGFloat = supportedPositions.contains(.partiallyRevealed) ? partialRevealHeight : collapsedHeight
-            drawerScrollView.frame = CGRect(x: 0, y: self.view.bounds.height - adjustedTopInset, width: self.view.bounds.width, height: adjustedTopInset)
+            drawerScrollView.frame = CGRect(x: safeAreaLeftInset, y: self.view.bounds.height - adjustedTopInset, width: self.view.bounds.width - safeAreaLeftInset - safeAreaRightInset, height: adjustedTopInset)
         }
         
         drawerContentContainer.frame = CGRect(x: 0, y: drawerScrollView.bounds.height - lowestStop, width: drawerScrollView.bounds.width, height: drawerScrollView.bounds.height + bounceOverflowMargin)
