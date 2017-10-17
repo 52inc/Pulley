@@ -348,6 +348,18 @@ open class PulleyViewController: UIViewController {
         }
     }
     
+    // withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: .curveEaseInOut,
+
+    @IBInspectable public var animationDuration: TimeInterval = 0.3
+    
+    @IBInspectable public var animationDelay: TimeInterval = 0.0
+    
+    @IBInspectable public var animationSpringDamping: CGFloat = 0.75
+    
+    @IBInspectable public var animationSpringInitialVelocity: CGFloat = 0.0
+    
+    public var animationOptions: UIViewAnimationOptions = [.curveEaseInOut]
+    
     /// The drawer positions supported by the drawer
     fileprivate var supportedPositions: [PulleyPosition] = PulleyPosition.all {
         didSet {
@@ -689,7 +701,7 @@ open class PulleyViewController: UIViewController {
         
         if animated
         {
-            UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: .curveEaseInOut, animations: { [weak self] () -> Void in
+            UIView.animate(withDuration: animationDuration, delay: animationDelay, usingSpringWithDamping: animationSpringDamping, initialSpringVelocity: animationSpringInitialVelocity, options: animationOptions, animations: { [weak self] () -> Void in
                 
                 self?.drawerScrollView.setContentOffset(CGPoint(x: 0, y: stopToMoveTo - lowestStop), animated: false)
                 
