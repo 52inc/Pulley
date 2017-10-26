@@ -627,6 +627,8 @@ open class PulleyViewController: UIViewController {
         drawerContentContainer.layer.mask = cardMaskLayer
         drawerShadowView.layer.shadowPath = borderPath
         
+        maskBackgroundDimmingView()
+        
         setDrawerPosition(position: drawerPosition, animated: false)
     }
     
@@ -658,6 +660,44 @@ open class PulleyViewController: UIViewController {
         }
         
         return safeAreaBottomInset
+    }
+    
+    /**
+     Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
+     */
+    private func maskBackgroundDimmingView() {
+        let cutoutHeight = 2 * drawerCornerRadius
+        let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight
+        let drawerRect = CGRect(x: 0,
+                                y: maskHeight,
+                                width: backgroundDimmingView.bounds.size.width,
+                                height: cutoutHeight)
+        let path = UIBezierPath(roundedRect: drawerRect,
+                                byRoundingCorners: [.topLeft, .topRight],
+                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
+        let maskLayer = CAShapeLayer()
+        
+        // Invert mask to cut away the bottom part of the dimming view
+        path.append(UIBezierPath(rect: backgroundDimmingView.bounds))
+        maskLayer.fillRule = kCAFillRuleEvenOdd
+        
+        maskLayer.path = path.cgPath
+        backgroundDimmingView.layer.mask = maskLayer
+    }
+    
+    /**
+     Get a frame for moving backgroundDimmingView according to drawer position.
+     
+     - parameter drawerPosition: drawer position in points
+     
+     - returns: a frame for moving backgroundDimmingView according to drawer position
+     */
+    private func backgroundDimmingViewFrameForDrawerPosition(_ drawerPosition: CGFloat) -> CGRect {
+        let cutoutHeight = (2 * drawerCornerRadius)
+        var backgroundDimmingViewFrame = backgroundDimmingView.frame
+        backgroundDimmingViewFrame.origin.y = 0 - drawerPosition + cutoutHeight
+
+        return backgroundDimmingViewFrame
     }
 
     // MARK: Configuration Updates
@@ -713,6 +753,9 @@ open class PulleyViewController: UIViewController {
                 
                 self?.drawerScrollView.setContentOffset(CGPoint(x: 0, y: stopToMoveTo - lowestStop), animated: false)
                 
+                // Move backgroundDimmingView to avoid drawer background beeing darkened
+                self?.backgroundDimmingView.frame = self?.backgroundDimmingViewFrameForDrawerPosition(stopToMoveTo) ?? CGRect.zero
+                
                 if let drawer = self
                 {
                     drawer.delegate?.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: self?.getBottomSafeArea() ?? 0.0)
@@ -730,6 +773,9 @@ open class PulleyViewController: UIViewController {
         else
         {
             drawerScrollView.setContentOffset(CGPoint(x: 0, y: stopToMoveTo - lowestStop), animated: false)
+            
+            // Move backgroundDimmingView to avoid drawer background beeing darkened
+            backgroundDimmingView.frame = backgroundDimmingViewFrameForDrawerPosition(stopToMoveTo)
             
             delegate?.drawerPositionDidChange?(drawer: self, bottomSafeArea: getBottomSafeArea())
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: self, bottomSafeArea: getBottomSafeArea())
@@ -1063,6 +1109,9 @@ extension PulleyViewController: UIScrollViewDelegate {
             delegate?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop, bottomSafeArea: getBottomSafeArea())
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop, bottomSafeArea: getBottomSafeArea())
             (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: scrollView.contentOffset.y + lowestStop, bottomSafeArea: getBottomSafeArea())
+            
+            // Move backgroundDimmingView to avoid drawer background beeing darkened
+            backgroundDimmingView.frame = backgroundDimmingViewFrameForDrawerPosition(scrollView.contentOffset.y + lowestStop)
         }
     }
 }
