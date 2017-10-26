@@ -663,9 +663,10 @@ open class PulleyViewController: UIViewController {
         let drawerRect = CGRect(x: 0,
                                 y: maskHeight,
                                 width: backgroundDimmingView.bounds.size.width,
-                                height: 2 * cutoutHeight) // Add height to hide bottom rounded corners
+                                height: cutoutHeight)
         let path = UIBezierPath(roundedRect: drawerRect,
-                                cornerRadius: drawerCornerRadius)
+                                byRoundingCorners: [.topLeft, .topRight],
+                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
         let maskLayer = CAShapeLayer()
         
         // Invert mask to cut away the bottom part of the dimming view
