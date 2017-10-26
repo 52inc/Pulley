@@ -577,6 +577,14 @@ open class PulleyViewController: UIViewController {
             safeAreaTopInset = self.topLayoutGuide.length
             safeAreaBottomInset = self.bottomLayoutGuide.length
         }
+        // Bottom inset for safe area / bottomLayoutGuid
+        if #available(iOS 11, *) {
+            self.drawerScrollView.contentInsetAdjustmentBehavior = .always
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+            self.drawerScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: self.bottomLayoutGuide.length, right: 0)
+            self.drawerScrollView.scrollIndicatorInsets =  UIEdgeInsets(top: 0, left: 0, bottom: self.bottomLayoutGuide.length, right: 0) // (usefull if visible..)
+        }
         
         // Layout container
         var collapsedHeight:CGFloat = kPulleyDefaultCollapsedHeight
@@ -646,7 +654,7 @@ open class PulleyViewController: UIViewController {
         }
         else
         {
-            safeAreaBottomInset = 0.0
+            safeAreaBottomInset = self.bottomLayoutGuide.length
         }
         
         return safeAreaBottomInset
@@ -1058,3 +1066,4 @@ extension PulleyViewController: UIScrollViewDelegate {
         }
     }
 }
+
