@@ -132,6 +132,7 @@ open class PulleyViewController: UIViewController {
     fileprivate let drawerShadowView: UIView = UIView()
     fileprivate let drawerScrollView: PulleyPassthroughScrollView = PulleyPassthroughScrollView()
     fileprivate let backgroundDimmingView: UIView = UIView()
+    fileprivate let backgroundDimmingViewBottomExtension: CGFloat = 3000
     
     fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
     
@@ -491,8 +492,10 @@ open class PulleyViewController: UIViewController {
         self.view.addSubview(drawerScrollView)
         
         primaryContentContainer.constrainToParent()
-        
-        backgroundDimmingView.constrainToParent()
+
+        // Now we can have left and right safe areas, the background dimming view needs to fill left and right of the drawer
+        // as well as above it. Extending it a huge amount down is a simple enough workaround for now.
+        backgroundDimmingView.constrainToParent(insets: UIEdgeInsetsMake(0.0, 0.0, -backgroundDimmingViewBottomExtension, 0.0))
     }
     
     override open func viewDidLoad() {
@@ -562,15 +565,13 @@ open class PulleyViewController: UIViewController {
         
         let safeAreaTopInset: CGFloat
         let safeAreaBottomInset: CGFloat
-        var safeAreaLeftInset: CGFloat = 0
-        var safeAreaRightInset: CGFloat = 0
+        let safeAreaLeftInset = getLeftSafeArea()
+        let safeAreaRightInset = getRightSafeArea()
         
         if #available(iOS 11.0, *)
         {
             safeAreaTopInset = self.view.safeAreaInsets.top
             safeAreaBottomInset = self.view.safeAreaInsets.bottom
-            safeAreaLeftInset = view.safeAreaInsets.left
-            safeAreaRightInset = view.safeAreaInsets.right
         }
         else
         {
@@ -661,17 +662,39 @@ open class PulleyViewController: UIViewController {
         
         return safeAreaBottomInset
     }
+
+    private func getLeftSafeArea() -> CGFloat {
+
+        var safeAreaLeftInset: CGFloat = 0
+
+        if #available(iOS 11.0, *)
+        {
+            safeAreaLeftInset = view.safeAreaInsets.left
+        }
+
+        return safeAreaLeftInset
+    }
+
+    private func getRightSafeArea() -> CGFloat {
+
+        var safeAreaRightInset: CGFloat = 0
+
+        if #available(iOS 11.0, *)
+        {
+            safeAreaRightInset = view.safeAreaInsets.right
+        }
+
+        return safeAreaRightInset
+    }
     
     /**
      Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
      */
     private func maskBackgroundDimmingView() {
         let cutoutHeight = 2 * drawerCornerRadius
-        let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight
-        let drawerRect = CGRect(x: 0,
-                                y: maskHeight,
-                                width: backgroundDimmingView.bounds.size.width,
-                                height: cutoutHeight)
+        let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - backgroundDimmingViewBottomExtension
+        let maskWidth = backgroundDimmingView.bounds.width - getLeftSafeArea() - getRightSafeArea()
+        let drawerRect = CGRect(x: getLeftSafeArea(), y: maskHeight, width: maskWidth, height: drawerContentContainer.bounds.height)
         let path = UIBezierPath(roundedRect: drawerRect,
                                 byRoundingCorners: [.topLeft, .topRight],
                                 cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
