@@ -1100,13 +1100,17 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             let lowestStop = drawerStops.min() ?? 0
             
-            if scrollView.contentOffset.y > partialRevealHeight - lowestStop
+            if (scrollView.contentOffset.y - getBottomSafeArea()) > partialRevealHeight - lowestStop
             {
                 // Calculate percentage between partial and full reveal
                 let fullRevealHeight = (self.drawerScrollView.bounds.height)
-                
-                let progress = (scrollView.contentOffset.y - (partialRevealHeight - lowestStop)) / (fullRevealHeight - (partialRevealHeight))
-                
+                let progress: CGFloat
+                if fullRevealHeight == partialRevealHeight {
+                    progress = 1.0
+                } else {
+                    progress = (scrollView.contentOffset.y - (partialRevealHeight - lowestStop)) / (fullRevealHeight - (partialRevealHeight))
+                }
+
                 delegate?.makeUIAdjustmentsForFullscreen?(progress: progress, bottomSafeArea: getBottomSafeArea())
                 (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress: progress, bottomSafeArea: getBottomSafeArea())
                 (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.makeUIAdjustmentsForFullscreen?(progress: progress, bottomSafeArea: getBottomSafeArea())
