@@ -11,7 +11,7 @@ import UIKit
 protocol PulleyPassthroughScrollViewDelegate: class {
     
     func shouldTouchPassthroughScrollView(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> Bool
-    func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView) -> UIView
+    func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> UIView
 }
 
 class PulleyPassthroughScrollView: UIScrollView {
@@ -24,7 +24,7 @@ class PulleyPassthroughScrollView: UIScrollView {
         {
             if touchDel.shouldTouchPassthroughScrollView(scrollView: self, point: point)
             {
-                return touchDel.viewToReceiveTouch(scrollView: self).hitTest(touchDel.viewToReceiveTouch(scrollView: self).convert(point, from: self), with: event)
+                return touchDel.viewToReceiveTouch(scrollView: self, point: point).hitTest(touchDel.viewToReceiveTouch(scrollView: self, point: point).convert(point, from: self), with: event)
             }
         }
         

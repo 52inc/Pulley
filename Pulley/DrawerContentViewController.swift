@@ -14,6 +14,10 @@ class DrawerContentViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var gripperView: UIView!
+    @IBOutlet var topSeparatorView: UIView!
+    @IBOutlet var bottomSeperatorView: UIView!
+    
+    @IBOutlet var gripperTopConstraint: NSLayoutConstraint!
     
     // We adjust our 'header' based on the bottom safe area using this constraint
     @IBOutlet var headerSectionHeightConstraint: NSLayoutConstraint!
@@ -76,12 +80,30 @@ extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
         
         // Handle tableview scrolling / searchbar editing
         
-        tableView.isScrollEnabled = drawer.drawerPosition == .open
+        tableView.isScrollEnabled = drawer.drawerPosition == .open || drawer.currentDisplayMode == .leftSide
         
         if drawer.drawerPosition != .open
         {
             searchBar.resignFirstResponder()
         }
+        
+        if drawer.currentDisplayMode == .leftSide
+        {
+            topSeparatorView.isHidden = drawer.drawerPosition == .collapsed
+            bottomSeperatorView.isHidden = drawer.drawerPosition == .collapsed
+        }
+        else
+        {
+            topSeparatorView.isHidden = false
+            bottomSeperatorView.isHidden = true
+        }
+    }
+    
+    /// This function is called when the current drawer display mode changes. Make UI customizations here.
+    func drawerDisplayModeDidChange(drawer: PulleyViewController) {
+        
+        print("Drawer: \(drawer.currentDisplayMode)")
+        gripperTopConstraint.isActive = drawer.currentDisplayMode == .bottomDrawer
     }
 }
 
