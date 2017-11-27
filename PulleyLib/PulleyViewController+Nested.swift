@@ -8,7 +8,7 @@
 import UIKit
 
 extension PulleyViewController: PulleyDrawerViewControllerDelegate {
-    public func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
+    open func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             return drawerVCCompliant.collapsedDrawerHeight(bottomSafeArea: bottomSafeArea)
         } else {
@@ -16,7 +16,7 @@ extension PulleyViewController: PulleyDrawerViewControllerDelegate {
         }
     }
 
-    public func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
+    open func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             return drawerVCCompliant.partialRevealDrawerHeight(bottomSafeArea: bottomSafeArea)
         } else {
@@ -24,7 +24,7 @@ extension PulleyViewController: PulleyDrawerViewControllerDelegate {
         }
     }
 
-    public func supportedDrawerPositions() -> [PulleyPosition] {
+    open func supportedDrawerPositions() -> [PulleyPosition] {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             return drawerVCCompliant.supportedDrawerPositions()
         } else {
@@ -32,19 +32,19 @@ extension PulleyViewController: PulleyDrawerViewControllerDelegate {
         }
     }
 
-    public func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
+    open func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             drawerVCCompliant.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: bottomSafeArea)
         }
     }
 
-    public func makeUIAdjustmentsForFullscreen(progress: CGFloat, bottomSafeArea: CGFloat) {
+    open func makeUIAdjustmentsForFullscreen(progress: CGFloat, bottomSafeArea: CGFloat) {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             drawerVCCompliant.makeUIAdjustmentsForFullscreen?(progress: progress, bottomSafeArea: bottomSafeArea)
         }
     }
 
-    public func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat, bottomSafeArea: CGFloat) {
+    open func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat, bottomSafeArea: CGFloat) {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             drawerVCCompliant.drawerChangedDistanceFromBottom?(drawer: drawer, distance: distance, bottomSafeArea: bottomSafeArea)
         }
