@@ -42,14 +42,14 @@ If you would like to customize the height of the "Collapsed" or "Partially Revea
 
 Pulley supports loading view controllers programmatically. In order to use Pulley programmatically, please consider the following code snippet:
 
-`````
+```swift
 let mainContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryContentViewController")
 
 let drawerContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("DrawerContentViewController")
 
 let pulleyController = PulleyViewController(contentViewController: mainContentVC, drawerViewController: drawerContentVC)
+```
 
-`````
 ### API
 
 **Important:** The background of the internal drawer view is clear. If your view controller's view is also clear then you'll see the shadow rendering below where the view is. I'd recommend giving your view a color or using a UIVisualEffectView to make sure you don't see the shadow. You can set the shadow opacity to 0.0 if you want the shadow to be hidden.
@@ -87,27 +87,25 @@ You'll likely need to change out the contents of the drawer or the primary view 
 
 **Changing the Primary Content View Controller:**
 
-`````
+```swift
 if let drawer = self.parentViewController as? PulleyViewController
 {
     let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PrimaryContentViewController")
 
     drawer.setPrimaryContentViewController(primaryContent, animated: true)
 }      
-
-`````
+```
 
 **Changing the Drawer Content View Controller:**
 
-`````
+```swift
 if let drawer = self.parentViewController as? PulleyViewController
 {
     let drawerContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("DrawerContentViewController")
 
     drawer.setDrawerContentViewController(drawerContent, animated: false)
 }      
-
-`````
+```
 
 #### Customizing the drawer
 
