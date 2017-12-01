@@ -214,7 +214,7 @@
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="SdI-67-HKI" firstAttribute="leading" secondItem="OMs-NQ-cJu" secondAttribute="leading" id="Fhh-1u-e0u"/>
-                                            <constraint firstAttribute="height" constant="68" id="Tnq-90-xqY"/>
+                                            <constraint firstAttribute="height" priority="750" constant="68" id="Tnq-90-xqY"/>
                                             <constraint firstAttribute="trailing" secondItem="SdI-67-HKI" secondAttribute="trailing" id="VRv-gw-R2E"/>
                                             <constraint firstAttribute="bottom" secondItem="e7G-Ip-9tD" secondAttribute="bottom" id="kBC-FQ-RGX"/>
                                             <constraint firstItem="SdI-67-HKI" firstAttribute="top" secondItem="OMs-NQ-cJu" secondAttribute="top" constant="6" id="mYT-oC-k7a"/>
