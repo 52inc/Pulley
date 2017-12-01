@@ -20,7 +20,6 @@
 		C6DF73DD1D2DE2B500735EBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6DF73DB1D2DE2B500735EBC /* LaunchScreen.storyboard */; };
 		C6DF73EA1D2DFE7F00735EBC /* DrawerContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DF73E91D2DFE7F00735EBC /* DrawerContentViewController.swift */; };
 		C6DF73EC1D2E027500735EBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6DF73EB1D2E027500735EBC /* Main.storyboard */; };
-		F7D270C11F3218E30035D833 /* PulleyViewController+Nested.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73B18BC1F31307200E29B1D /* PulleyViewController+Nested.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +62,6 @@
 		C6DF73DE1D2DE2B500735EBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6DF73E91D2DFE7F00735EBC /* DrawerContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerContentViewController.swift; sourceTree = "<group>"; };
 		C6DF73EB1D2E027500735EBC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		F73B18BC1F31307200E29B1D /* PulleyViewController+Nested.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PulleyViewController+Nested.swift"; path = "PulleyLib/PulleyViewController+Nested.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +88,6 @@
 			children = (
 				355DBF151E40EA4300671CDD /* Pulley.h */,
 				C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */,
-				F73B18BC1F31307200E29B1D /* PulleyViewController+Nested.swift */,
 				C6131BB81D305995002F27F3 /* PulleyViewController.swift */,
 				C6C51DDC1F5108980079B57F /* UIView+constrainToParent.swift */,
 				355DBF161E40EA4300671CDD /* Info.plist */,
@@ -258,7 +255,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7D270C11F3218E30035D833 /* PulleyViewController+Nested.swift in Sources */,
 				355DBF201E40EA5C00671CDD /* PulleyPassthroughScrollView.swift in Sources */,
 				355DBF211E40EA5F00671CDD /* PulleyViewController.swift in Sources */,
 				C6C51DDD1F5108980079B57F /* UIView+constrainToParent.swift in Sources */,

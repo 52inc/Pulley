@@ -132,7 +132,7 @@ public enum PulleyDisplayMode {
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
 private let kPulleyDefaultPartialRevealHeight: CGFloat = 264.0
 
-open class PulleyViewController: UIViewController {
+open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDelegate {
     
     // Interface Builder
     
@@ -372,8 +372,8 @@ open class PulleyViewController: UIViewController {
     /// The starting position for the drawer when it first loads
     public var initialDrawerPosition: PulleyPosition = .collapsed
     
-    /// The display mode for Pulley. Default is 'automatic', which switches along the same rules as iOS's Maps app. The current display mode is available by using the 'currentDisplayMode' property.
-    public var displayMode: PulleyDisplayMode = .automatic {
+    /// The display mode for Pulley. Default is 'bottomDrawer', which preserves the previous behavior of Pulley. If you want it to adapt automatically, choose 'automatic'. The current display mode is available by using the 'currentDisplayMode' property.
+    public var displayMode: PulleyDisplayMode = .bottomDrawer {
         didSet {
             if self.isViewLoaded
             {
@@ -775,6 +775,7 @@ open class PulleyViewController: UIViewController {
         guard isViewLoaded else {
             return
         }
+        
         drawerScrollView.isScrollEnabled = allowsUserDrawerPositionChange && supportedPositions.count > 1
     }
     
@@ -996,7 +997,7 @@ open class PulleyViewController: UIViewController {
     }
     
     /**
-     Set the drawer position, by default the change will be animated.
+     Set the drawer position, by default the change will be animated. Deprecated. Recommend switching to the other setDrawerPosition method.
      
      - parameter position: The position to set the drawer to.
      - parameter isAnimated: Whether or not to animate the change. Default: true
@@ -1154,6 +1155,50 @@ open class PulleyViewController: UIViewController {
             }
             
             self?.setDrawerPosition(position: currentPosition, animated: false)
+        }
+    }
+    
+    // MARK: PulleyDrawerViewControllerDelegate implementation for nested Pulley view controllers in drawers. Implemented here, rather than an extension because overriding extensions in subclasses isn't good practice. Some developers want to subclass Pulley and customize these behaviors, so we'll move them here.
+    
+    open func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
+        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
+            return drawerVCCompliant.collapsedDrawerHeight(bottomSafeArea: bottomSafeArea)
+        } else {
+            return 68.0 + bottomSafeArea
+        }
+    }
+    
+    open func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
+        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
+            return drawerVCCompliant.partialRevealDrawerHeight(bottomSafeArea: bottomSafeArea)
+        } else {
+            return 264.0 + bottomSafeArea
+        }
+    }
+    
+    open func supportedDrawerPositions() -> [PulleyPosition] {
+        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
+            return drawerVCCompliant.supportedDrawerPositions()
+        } else {
+            return PulleyPosition.all
+        }
+    }
+    
+    open func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
+        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
+            drawerVCCompliant.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: bottomSafeArea)
+        }
+    }
+    
+    open func makeUIAdjustmentsForFullscreen(progress: CGFloat, bottomSafeArea: CGFloat) {
+        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
+            drawerVCCompliant.makeUIAdjustmentsForFullscreen?(progress: progress, bottomSafeArea: bottomSafeArea)
+        }
+    }
+    
+    open func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat, bottomSafeArea: CGFloat) {
+        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
+            drawerVCCompliant.drawerChangedDistanceFromBottom?(drawer: drawer, distance: distance, bottomSafeArea: bottomSafeArea)
         }
     }
 }
