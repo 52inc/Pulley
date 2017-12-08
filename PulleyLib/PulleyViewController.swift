@@ -421,7 +421,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     public var animationOptions: UIViewAnimationOptions = [.curveEaseInOut]
     
     /// The drawer snap mode
-    public var snapMode: PulleySnapMode = .nearestPosition
+    public var snapMode: PulleySnapMode = .nearestPositionUnlessExceeded(threshold: 20.0)
     
     /// The drawer positions supported by the drawer
     fileprivate var supportedPositions: [PulleyPosition] = PulleyPosition.all {
@@ -1330,90 +1330,39 @@ extension PulleyViewController: UIScrollViewDelegate {
                 
                 let distance = currentDrawerPositionStop - distanceFromBottomOfView
                 
+                var positionToSnapTo: PulleyPosition = drawerPosition
+
                 if abs(distance) > threshold
                 {
                     if distance < 0
                     {
-                        switch drawerPosition {
-                            
-                        case .open:
-                            // They swiped up, but we're already open.
-                            setDrawerPosition(position: drawerPosition, animated: true)
-                            
-                        case .collapsed:
-                            
-                            // It's collapsed now, but they swiped up
-                            if supportedPositions.contains(.partiallyRevealed)
+                        let orderedSupportedDrawerPositions = supportedPositions.sorted(by: { $0.rawValue < $1.rawValue })
+
+                        for position in orderedSupportedDrawerPositions
+                        {
+                            if position.rawValue > drawerPosition.rawValue
                             {
-                                setDrawerPosition(position: .partiallyRevealed, animated: true)
+                                positionToSnapTo = position
+                                break
                             }
-                            else if supportedPositions.contains(.open)
-                            {
-                                setDrawerPosition(position: .open, animated: true)
-                            }
-                            else
-                            {
-                                setDrawerPosition(position: drawerPosition, animated: true)
-                            }
-                            
-                        case .partiallyRevealed:
-                            
-                            if supportedPositions.contains(.open)
-                            {
-                                setDrawerPosition(position: .open, animated: true)
-                            }
-                            else
-                            {
-                                setDrawerPosition(position: drawerPosition, animated: true)
-                            }
-                            
-                        case .closed:
-                            break // We don't handle swipe events for 'closed'
                         }
                     }
                     else
                     {
-                        switch drawerPosition {
-                            
-                        case .open:
-                            
-                            if supportedPositions.contains(.partiallyRevealed)
+                        let orderedSupportedDrawerPositions = supportedPositions.sorted(by: { $0.rawValue > $1.rawValue })
+                        
+                        for position in orderedSupportedDrawerPositions
+                        {
+                            if position.rawValue < drawerPosition.rawValue
                             {
-                                setDrawerPosition(position: .partiallyRevealed, animated: true)
+                                positionToSnapTo = position
+                                break
                             }
-                            else if supportedPositions.contains(.collapsed)
-                            {
-                                setDrawerPosition(position: .collapsed, animated: true)
-                            }
-                            else
-                            {
-                                setDrawerPosition(position: drawerPosition, animated: true)
-                            }
-                            
-                        case .collapsed:
-                            // It's collapsed now, but they swiped down
-                            break
-                            
-                        case .partiallyRevealed:
-                            
-                            if supportedPositions.contains(.collapsed)
-                            {
-                                setDrawerPosition(position: .collapsed, animated: true)
-                            }
-                            else
-                            {
-                                setDrawerPosition(position: drawerPosition, animated: true)
-                            }
-                            
-                        case .closed:
-                            break // We don't handle swipe events for 'closed'
                         }
                     }
                 }
-                else
-                {
-                    setDrawerPosition(position: drawerPosition, animated: true)
-                }
+                
+                setDrawerPosition(position: positionToSnapTo, animated: true)
             }
         }
     }
