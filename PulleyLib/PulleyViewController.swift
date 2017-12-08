@@ -1010,11 +1010,12 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     }
     
     /**
-     Set the drawer position, by default the change will be animated. Deprecated. Recommend switching to the other setDrawerPosition method.
+     Set the drawer position, by default the change will be animated. Deprecated. Recommend switching to the other setDrawerPosition method, this one will be removed in a future release.
      
      - parameter position: The position to set the drawer to.
      - parameter isAnimated: Whether or not to animate the change. Default: true
      */
+    @available(*, deprecated)
     public func setDrawerPosition(position: PulleyPosition, isAnimated: Bool = true)
     {
         setDrawerPosition(position: position, animated: isAnimated)
