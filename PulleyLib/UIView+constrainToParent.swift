@@ -9,18 +9,18 @@ import UIKit
 
 extension UIView {
     
-    internal func constrainToParent() {
-        constrainToParent(insets: UIEdgeInsets.zero)
+    func constrainToParent() {
+        constrainToParent(insets: .zero)
     }
-
-    internal func constrainToParent(insets: UIEdgeInsets) {
+    
+    func constrainToParent(insets: UIEdgeInsets) {
         guard let parent = superview else { return }
-
+        
         translatesAutoresizingMaskIntoConstraints = false
         let metrics: [String : Any] = ["left" : insets.left, "right" : insets.right, "top" : insets.top, "bottom" : insets.bottom]
-
-        parent.addConstraints(["H:|-(left)-[view]-(right)-|", "V:|-(top)-[view]-(bottom)-|"].flatMap({ constraintString in
-            NSLayoutConstraint.constraints(withVisualFormat: constraintString, options: [], metrics: metrics, views: ["view": self])
-        }))
+        
+        parent.addConstraints(["H:|-(left)-[view]-(right)-|", "V:|-(top)-[view]-(bottom)-|"].flatMap {
+            NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: metrics, views: ["view": self])
+        })
     }
 }
