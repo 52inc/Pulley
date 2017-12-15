@@ -1300,32 +1300,38 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             let distanceFromBottomOfView = lowestStop + lastDragTargetContentOffset.y
             
-            switch snapMode {
+            var currentClosestStop = lowestStop
+            
+            for currentStop in drawerStops
+            {
+                if abs(currentStop - distanceFromBottomOfView) < abs(currentClosestStop - distanceFromBottomOfView)
+                {
+                    currentClosestStop = currentStop
+                }
+            }
+            
+            var closestValidDrawerPosition: PulleyPosition = drawerPosition
+            
+            if abs(Float(currentClosestStop - (self.drawerScrollView.bounds.height))) <= Float.ulpOfOne && supportedPositions.contains(.open)
+            {
+                closestValidDrawerPosition = .open
+            }
+            else if abs(Float(currentClosestStop - collapsedHeight)) <= Float.ulpOfOne && supportedPositions.contains(.collapsed)
+            {
+                closestValidDrawerPosition = .collapsed
+            }
+            else if supportedPositions.contains(.partiallyRevealed)
+            {
+                closestValidDrawerPosition = .partiallyRevealed
+            }
+            
+            let snapModeToUse: PulleySnapMode = closestValidDrawerPosition == drawerPosition ? snapMode : .nearestPosition
+            
+            switch snapModeToUse {
                 
             case .nearestPosition:
                 
-                var currentClosestStop = lowestStop
-                
-                for currentStop in drawerStops
-                {
-                    if abs(currentStop - distanceFromBottomOfView) < abs(currentClosestStop - distanceFromBottomOfView)
-                    {
-                        currentClosestStop = currentStop
-                    }
-                }
-                
-                if abs(Float(currentClosestStop - (self.drawerScrollView.bounds.height))) <= Float.ulpOfOne && supportedPositions.contains(.open)
-                {
-                    setDrawerPosition(position: .open, animated: true)
-                }
-                else if abs(Float(currentClosestStop - collapsedHeight)) <= Float.ulpOfOne && supportedPositions.contains(.collapsed)
-                {
-                    setDrawerPosition(position: .collapsed, animated: true)
-                }
-                else if supportedPositions.contains(.partiallyRevealed)
-                {
-                    setDrawerPosition(position: .partiallyRevealed, animated: true)
-                }
+                setDrawerPosition(position: closestValidDrawerPosition, animated: true)
                 
             case .nearestPositionUnlessExceeded(let threshold):
                 
