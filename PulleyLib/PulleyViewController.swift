@@ -444,7 +444,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             }
             else
             {
-                let lowestDrawerState: PulleyPosition = supportedPositions.min { (pos1, pos2) -> Bool in
+                let lowestDrawerState: PulleyPosition = supportedPositions.filter({ $0 != .closed }).min { (pos1, pos2) -> Bool in
                     return pos1.rawValue < pos2.rawValue
                     } ?? .collapsed
                 
@@ -1343,7 +1343,7 @@ extension PulleyViewController: UIScrollViewDelegate {
                 {
                     if distance < 0
                     {
-                        let orderedSupportedDrawerPositions = supportedPositions.sorted(by: { $0.rawValue < $1.rawValue })
+                        let orderedSupportedDrawerPositions = supportedPositions.sorted(by: { $0.rawValue < $1.rawValue }).filter({ $0 != .closed })
 
                         for position in orderedSupportedDrawerPositions
                         {
@@ -1356,7 +1356,7 @@ extension PulleyViewController: UIScrollViewDelegate {
                     }
                     else
                     {
-                        let orderedSupportedDrawerPositions = supportedPositions.sorted(by: { $0.rawValue > $1.rawValue })
+                        let orderedSupportedDrawerPositions = supportedPositions.sorted(by: { $0.rawValue > $1.rawValue }).filter({ $0 != .closed })
                         
                         for position in orderedSupportedDrawerPositions
                         {
@@ -1409,11 +1409,9 @@ extension PulleyViewController: UIScrollViewDelegate {
             {
                 drawerStops.append(partialRevealHeight)
             }
-            
-            if supportedPositions.contains(.collapsed)
-            {
-                drawerStops.append(collapsedHeight)
-            }
+
+            // Collapsed is required for correct measurements here, as it's factored into the height of the drawer itself.
+            drawerStops.append(collapsedHeight)
             
             let lowestStop = drawerStops.min() ?? 0
             
