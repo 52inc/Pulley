@@ -423,6 +423,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The drawer snap mode
     public var snapMode: PulleySnapMode = .nearestPositionUnlessExceeded(threshold: 20.0)
     
+    // The feedback generator to use for drawwer positon changes. Note: This is 'Any' to preserve iOS 9 compatibilty. Assign a UIFeedbackGenerator to this property. Anything else will be ignored.
+    public var feedbackGenerator: Any?
+    
     /// The drawer positions supported by the drawer
     fileprivate var supportedPositions: [PulleyPosition] = PulleyPosition.all {
         didSet {
@@ -854,6 +857,28 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         backgroundDimmingView.layer.mask = maskLayer
     }
     
+    open func prepareFeedbackGenerator() {
+        
+        if #available(iOS 10.0, *) {
+            if let generator = feedbackGenerator as? UIFeedbackGenerator
+            {
+                generator.prepare()
+            }
+        }
+    }
+    
+    open func triggerFeedbackGenerator() {
+        
+        if #available(iOS 10.0, *) {
+            
+            prepareFeedbackGenerator()
+            
+            (feedbackGenerator as? UIImpactFeedbackGenerator)?.impactOccurred()
+            (feedbackGenerator as? UISelectionFeedbackGenerator)?.selectionChanged()
+            (feedbackGenerator as? UINotificationFeedbackGenerator)?.notificationOccurred(.success)
+        }
+    }
+    
     /**
      Get a frame for moving backgroundDimmingView according to drawer position.
      
@@ -967,6 +992,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         let drawerStops = [(self.drawerScrollView.bounds.height), collapsedHeight, partialRevealHeight]
         let lowestStop = drawerStops.min() ?? 0
         
+        triggerFeedbackGenerator()
+        
         if animated
         {
             isAnimatingDrawerPosition = true
@@ -1004,7 +1031,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             delegate?.drawerPositionDidChange?(drawer: self, bottomSafeArea: getBottomSafeArea())
             (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: self, bottomSafeArea: getBottomSafeArea())
             (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: self, bottomSafeArea: getBottomSafeArea())
-            
+
             completion?(true)
         }
     }
@@ -1248,6 +1275,11 @@ extension PulleyViewController: PulleyPassthroughScrollViewDelegate {
 }
 
 extension PulleyViewController: UIScrollViewDelegate {
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+        
+    }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
