@@ -299,7 +299,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     }
     
     /// When in 'leftSide' displayMode, this is used to calculate the top inset from the edge of the screen.
-    @IBInspectable public var panelInsetTop: CGFloat = 10.0 {
+    @IBInspectable public var panelInsetTop: CGFloat = 30.0 {
         didSet {
             if self.isViewLoaded
             {
@@ -935,7 +935,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         let lowestStop = [(self.view.bounds.size.height - topInset - safeAreaTopInset), collapsedHeight, partialRevealHeight].min() ?? 0
         
-        drawerContentContainer.frame = CGRect(x: 0.0, y: drawerScrollView.bounds.height - lowestStop - panelInsetTop, width: drawerScrollView.bounds.width, height: drawerScrollView.contentOffset.y + lowestStop + bounceOverflowMargin - panelInsetTop)
+        drawerContentContainer.frame = CGRect(x: 0.0, y: drawerScrollView.bounds.height - lowestStop , width: drawerScrollView.bounds.width, height: drawerScrollView.contentOffset.y + lowestStop + bounceOverflowMargin)
         drawerBackgroundVisualEffectView?.frame = drawerContentContainer.frame
         drawerShadowView.frame = drawerContentContainer.frame
         
