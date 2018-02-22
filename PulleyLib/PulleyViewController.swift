@@ -889,6 +889,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
     }
     
+    /// Bounce the drawer to get user attention. Note: Only works in .bottomDrawer display mode and when the drawer is in .collapsed or .partiallyRevealed position.
+    ///
+    /// - Parameters:
+    ///   - bounceHeight: The height to bounce
+    ///   - speedMultiplier: The multiplier to apply to the default speed of the animation. Note, default speed is 0.75.
     public func bounceDrawer(bounceHeight: CGFloat = 50.0, speedMultiplier: Double = 0.75) {
         
         guard drawerPosition == .collapsed || drawerPosition == .partiallyRevealed else {
