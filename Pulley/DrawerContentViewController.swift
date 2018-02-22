@@ -50,6 +50,19 @@ class DrawerContentViewController: UIViewController {
             (self.parent as? PulleyViewController)?.feedbackGenerator = feedbackGenerator
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // The bounce here is optional, but it's done automatically after appearance as a demonstration.
+        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(bounceDrawer), userInfo: nil, repeats: false)
+    }
+    
+    @objc fileprivate func bounceDrawer() {
+        
+        // We can 'bounce' the drawer to show users that the drawer needs their attention. There are optional parameters you can pass this method to control the bounce height and speed.
+        (self.parent as? PulleyViewController)?.bounceDrawer()
+    }
 }
 
 extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
@@ -154,9 +167,9 @@ extension DrawerContentViewController: UITableViewDelegate {
         if let drawer = self.parent as? PulleyViewController
         {
             let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
-            
+
             drawer.setDrawerPosition(position: .collapsed, animated: true)
-            
+
             drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
         }
     }

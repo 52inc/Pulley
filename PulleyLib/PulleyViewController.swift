@@ -889,6 +889,43 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
     }
     
+    public func bounceDrawer(bounceHeight: CGFloat = 50.0, speedMultiplier: Double = 0.75) {
+        
+        guard drawerPosition == .collapsed || drawerPosition == .partiallyRevealed else {
+            print("Pulley: Error: You can only bounce the drawer when it's in the collapsed or partially revealed position.")
+            return
+        }
+        
+        guard currentDisplayMode == .bottomDrawer else {
+            print("Pulley: Error: You can only bounce the drawer when it's in the .bottomDrawer display mode.")
+            return
+        }
+        
+        let drawerStartingBounds = drawerScrollView.bounds
+        
+        // Adapted from https://www.cocoanetics.com/2012/06/lets-bounce/
+        let factors: [CGFloat] = [0, 32, 60, 83, 100, 114, 124, 128, 128, 124, 114, 100, 83, 60, 32,
+            0, 24, 42, 54, 62, 64, 62, 54, 42, 24, 0, 18, 28, 32, 28, 18, 0]
+        
+        var values = [CGFloat]()
+        
+        for factor in factors
+        {
+            let positionOffset = (factor / 128.0) * bounceHeight
+            values.append(drawerStartingBounds.origin.y + positionOffset)
+        }
+        
+        let animation = CAKeyframeAnimation(keyPath: "bounds.origin.y")
+        animation.repeatCount = 1
+        animation.duration = (32.0/30.0) * speedMultiplier
+        animation.fillMode = kCAFillModeForwards
+        animation.values = values
+        animation.isRemovedOnCompletion = true
+        animation.autoreverses = false
+        
+        drawerScrollView.layer.add(animation, forKey: "bounceAnimation")
+    }
+    
     /**
      Get a frame for moving backgroundDimmingView according to drawer position.
      
