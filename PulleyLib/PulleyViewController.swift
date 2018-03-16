@@ -1046,7 +1046,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         triggerFeedbackGenerator()
         
-        if animated
+        if animated && self.view.window != nil
         {
             isAnimatingDrawerPosition = true
             UIView.animate(withDuration: animationDuration, delay: animationDelay, usingSpringWithDamping: animationSpringDamping, initialSpringVelocity: animationSpringInitialVelocity, options: animationOptions, animations: { [weak self] () -> Void in
