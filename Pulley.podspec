@@ -29,6 +29,7 @@ A library to provide a drawer controller that can imitate the drawer UI in iOS 1
   s.social_media_url = 'https://twitter.com/52_inc'
 
   s.ios.deployment_target = '9.0'
+  s.swift_version = '4.0'
 
   s.source_files = 'PulleyLib/*.{h,swift}'
 
