@@ -334,6 +334,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         didSet {
             if self.isViewLoaded
             {
+                drawerShadowView.layer.shadowOpacity = shadowOpacity
                 self.view.setNeedsLayout()
             }
         }
@@ -344,6 +345,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         didSet {
             if self.isViewLoaded
             {
+                drawerShadowView.layer.shadowRadius = shadowRadius
                 self.view.setNeedsLayout()
             }
         }
@@ -370,6 +372,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
     }
     
+    /// The drawer scrollview's delaysContentTouches setting
     @IBInspectable public var delaysContentTouches: Bool = true {
         didSet {
             if self.isViewLoaded
@@ -379,6 +382,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
     }
     
+    /// The drawer scrollview's canCancelContentTouches setting
     @IBInspectable public var canCancelContentTouches: Bool = true {
         didSet {
             if self.isViewLoaded
