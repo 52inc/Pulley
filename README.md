@@ -1,7 +1,11 @@
 # Pulley
 A library to imitate the drawer in Maps for iOS 10/11. The master branch follows the latest currently released version of Swift. If you need an older version of Swift, you can specify it's version (e.g. 1.0.x) in your Podfile or use the code on the branch for that version. Older branches are unsupported.
 
-**ATTENTION:** Pulley 2.2 introduced some small breaking changes for people upgrading from 1.x, or in some cases 2.1.x. Please scroll down to the iOS 11 / Safe Areas section of the README for more information. Apologies for the inconvenience.
+### Update / Migration Info
+
+**ATTENTION:** Pulley 2.4.0 changed PulleyPosition from an enum to a class. This won't affect most uses, but may affect your switch statements. Continue to use the static PulleyPosition values as usual and add a default case. This was done to allow marking some `PulleyDrawerViewControllerDelegate` methods as optional so they don't need to be implemented if you aren't using certain positions (or wish to use the default values). If you have questions, please open an issue.
+
+_Technical reason: Optional protocol methods require the @objc attribute. Arrays of Swift enums can't be exposed to Objective-C, and supportedDrawerPositions previously returned an array of PulleyPosition enums. This change allows for marking the protocol @objc so methods can be marked optional._
 
 ### Introduction
 Pulley is an easy to use drawer library meant to imitate the drawer in iOS 10/11's Maps app. It exposes a simple API that allows you to use any UIViewController subclass as the drawer content or the primary content.
@@ -57,6 +61,8 @@ let pulleyController = PulleyViewController(contentViewController: mainContentVC
 **Important:** The background of the internal drawer view is clear. If your view controller's view is also clear then you'll see the shadow rendering below where the view is. I'd recommend giving your view a color or using a UIVisualEffectView to make sure you don't see the shadow. You can set the shadow opacity to 0.0 if you want the shadow to be hidden.
 
 **Important:** Drawer Content views are made **20pt too long** in order to account for the bounce animation. Make sure your drawer content view is aware that the bottom 20pts will be offscreen.
+
+**Important:** PulleyViewController is not accessible as a parent or as `self.pulleyViewController` until _during or after_ -viewWillAppear: if you're loading Pulley from Storyboards.
 
 #### iOS 11, Safe Areas, and the iPhone X
 Pulley has support for safe areas and the iPhone X. The sample project includes full support for this, and does a couple of UI tricks to make things look better. These are documented throughout the sample project.
