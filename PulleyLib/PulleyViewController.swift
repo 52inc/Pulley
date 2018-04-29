@@ -274,6 +274,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
                 drawerScrollView.insertSubview(drawerBackgroundVisualEffectView, aboveSubview: drawerShadowView)
                 drawerBackgroundVisualEffectView.clipsToBounds = true
                 drawerBackgroundVisualEffectView.layer.cornerRadius = drawerCornerRadius
+                self.view.setNeedsLayout()
             }
         }
     }

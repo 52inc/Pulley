@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Pulley
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
