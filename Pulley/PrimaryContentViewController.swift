@@ -36,34 +36,23 @@ class PrimaryContentViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Customize Pulley in viewWillAppear, as the view controller's viewDidLoad will run *before* Pulley's and some changes may be overwritten.
-        if let drawer = self.parent as? PulleyViewController
-        {
-            // Uncomment if you want to change the visual effect style to dark. Note: The rest of the sample app's UI isn't made for dark theme. This just shows you how to do it.
-            // drawer.drawerBackgroundVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-            
-            // We want the 'side panel' layout in landscape iPhone / iPad, so we set this to 'automatic'. The default is 'bottomDrawer' for compatibility with older Pulley versions.
-            drawer.displayMode = .automatic
-        }
+        // Uncomment if you want to change the visual effect style to dark. Note: The rest of the sample app's UI isn't made for dark theme. This just shows you how to do it.
+        // drawer.drawerBackgroundVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+
+        // We want the 'side panel' layout in landscape iPhone / iPad, so we set this to 'automatic'. The default is 'bottomDrawer' for compatibility with older Pulley versions.
+        self.pulleyViewController?.displayMode = .automatic
     }
     
     @IBAction func runPrimaryContentTransitionWithoutAnimation(sender: AnyObject) {
-        
-        if let drawer = self.parent as? PulleyViewController
-        {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
-            
-            drawer.setPrimaryContentViewController(controller: primaryContent, animated: false)
-        }
+        let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
+
+        self.pulleyViewController?.setPrimaryContentViewController(controller: primaryContent, animated: false)
     }
     
     @IBAction func runPrimaryContentTransition(sender: AnyObject) {
-        
-        if let drawer = self.parent as? PulleyViewController
-        {
-            let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
-            
-            drawer.setPrimaryContentViewController(controller: primaryContent, animated: true)
-        }
+        let primaryContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryTransitionTargetViewController")
+
+        self.pulleyViewController?.setPrimaryContentViewController(controller: primaryContent, animated: true)
     }
 }
 
@@ -71,7 +60,7 @@ extension PrimaryContentViewController: PulleyPrimaryContentControllerDelegate {
     
     func makeUIAdjustmentsForFullscreen(progress: CGFloat, bottomSafeArea: CGFloat)
     {
-        guard let drawer = self.parent as? PulleyViewController, drawer.currentDisplayMode == .bottomDrawer else {
+        guard let drawer = self.pulleyViewController, drawer.currentDisplayMode == .bottomDrawer else {
             controlsContainer.alpha = 1.0
             return
         }
