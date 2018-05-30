@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1826D17F2094B531006530EA /* UIViewController+PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1826D17E2094B531006530EA /* UIViewController+PulleyViewController.swift */; };
 		355DBF171E40EA4300671CDD /* Pulley.h in Headers */ = {isa = PBXBuildFile; fileRef = 355DBF151E40EA4300671CDD /* Pulley.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		355DBF1A1E40EA4300671CDD /* Pulley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 355DBF131E40EA4300671CDD /* Pulley.framework */; };
 		355DBF1B1E40EA4300671CDD /* Pulley.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 355DBF131E40EA4300671CDD /* Pulley.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -21,6 +20,7 @@
 		C6DF73DD1D2DE2B500735EBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6DF73DB1D2DE2B500735EBC /* LaunchScreen.storyboard */; };
 		C6DF73EA1D2DFE7F00735EBC /* DrawerContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DF73E91D2DFE7F00735EBC /* DrawerContentViewController.swift */; };
 		C6DF73EC1D2E027500735EBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6DF73EB1D2E027500735EBC /* Main.storyboard */; };
+		E15E853120BE56B900800173 /* UIViewController+PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15E853020BE56B900800173 /* UIViewController+PulleyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +48,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1826D17E2094B531006530EA /* UIViewController+PulleyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PulleyViewController.swift"; sourceTree = "<group>"; };
 		355DBF131E40EA4300671CDD /* Pulley.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pulley.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		355DBF151E40EA4300671CDD /* Pulley.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pulley.h; sourceTree = "<group>"; };
 		355DBF161E40EA4300671CDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		C6DF73DE1D2DE2B500735EBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6DF73E91D2DFE7F00735EBC /* DrawerContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerContentViewController.swift; sourceTree = "<group>"; };
 		C6DF73EB1D2E027500735EBC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E15E853020BE56B900800173 /* UIViewController+PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+PulleyViewController.swift"; path = "PulleyLib/UIViewController+PulleyViewController.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,11 +89,11 @@
 			isa = PBXGroup;
 			children = (
 				355DBF151E40EA4300671CDD /* Pulley.h */,
+				E15E853020BE56B900800173 /* UIViewController+PulleyViewController.swift */,
 				C6131BB71D305995002F27F3 /* PulleyPassthroughScrollView.swift */,
 				C6131BB81D305995002F27F3 /* PulleyViewController.swift */,
 				C6C51DDC1F5108980079B57F /* UIView+constrainToParent.swift */,
 				355DBF161E40EA4300671CDD /* Info.plist */,
-				1826D17E2094B531006530EA /* UIViewController+PulleyViewController.swift */,
 			);
 			path = Pulley;
 			sourceTree = "<group>";
@@ -258,7 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1826D17F2094B531006530EA /* UIViewController+PulleyViewController.swift in Sources */,
+				E15E853120BE56B900800173 /* UIViewController+PulleyViewController.swift in Sources */,
 				355DBF201E40EA5C00671CDD /* PulleyPassthroughScrollView.swift in Sources */,
 				355DBF211E40EA5F00671CDD /* PulleyViewController.swift in Sources */,
 				C6C51DDD1F5108980079B57F /* UIView+constrainToParent.swift in Sources */,
