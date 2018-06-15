@@ -80,8 +80,8 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
     
     public static let collapsed = PulleyPosition(rawValue: 0)
     public static let partiallyRevealed = PulleyPosition(rawValue: 1)
-    public static let open = PulleyPosition(rawValue: 1)
-    public static let closed = PulleyPosition(rawValue: 2)
+    public static let open = PulleyPosition(rawValue: 2)
+    public static let closed = PulleyPosition(rawValue: 3)
     
     public static let all: [PulleyPosition] = [
         .collapsed,
