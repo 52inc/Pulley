@@ -53,7 +53,6 @@ import UIKit
      *  Return the support drawer positions for your drawer.
      */
     @objc optional func supportedDrawerPositions() -> [PulleyPosition]
-
 }
 
 /**
@@ -847,7 +846,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         drawerContentContainer.transform = drawerScrollView.transform
         drawerShadowView.transform = drawerScrollView.transform
-
+        
         maskDrawerVisualEffectView()
         maskBackgroundDimmingView()
         setDrawerPosition(position: drawerPosition, animated: false)
@@ -900,7 +899,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         return drawerStops
     }
-
+    
     private func maskDrawerVisualEffectView() {
         if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView,
             let path = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
@@ -915,6 +914,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
      */
     private func maskBackgroundDimmingView() {
+        
         let cutoutHeight = 2 * drawerCornerRadius
         let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
 
@@ -934,15 +934,15 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
 
         let maskLayer = CAShapeLayer()
-
+        
         // Invert mask to cut away the bottom part of the dimming view
         path.append(UIBezierPath(rect: backgroundDimmingView.bounds))
         maskLayer.fillRule = kCAFillRuleEvenOdd
-
+        
         maskLayer.path = path.cgPath
         backgroundDimmingView.layer.mask = maskLayer
     }
-
+    
     open func prepareFeedbackGenerator() {
         
         if #available(iOS 10.0, *) {
@@ -1334,7 +1334,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             return PulleyPosition.all
         }
     }
-
+    
     open func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             drawerVCCompliant.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: bottomSafeArea)
