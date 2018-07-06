@@ -54,7 +54,6 @@ import UIKit
      */
     @objc optional func supportedDrawerPositions() -> [PulleyPosition]
 
-    @objc optional func backgroundDimmingViewMask() -> UIBezierPath?
 }
 
 /**
@@ -782,16 +781,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             drawerScrollView.contentSize = CGSize(width: drawerScrollView.bounds.width, height: (drawerScrollView.bounds.height - lowestStop) + drawerScrollView.bounds.height - safeAreaBottomInset + (bounceOverflowMargin - 5.0))
             
             // Update rounding mask and shadows
-            let borderPath: CGPath
-            if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate,
-                let path = drawerVCCompliant.backgroundDimmingViewMask() {
-                borderPath = path.cgPath
-            } else {
-                borderPath = UIBezierPath(roundedRect: drawerContentContainer.bounds,
-                                          byRoundingCorners: [.topLeft, .topRight],
-                                          cornerRadii: CGSize(width: drawerCornerRadius,
-                                                              height: drawerCornerRadius)).cgPath
-            }
+            let borderPath = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path ??
+                UIBezierPath(roundedRect: drawerContentContainer.bounds,
+                             byRoundingCorners: [.topLeft, .topRight],
+                             cornerRadii: CGSize(width: drawerCornerRadius,
+                                                 height: drawerCornerRadius)).cgPath
 
             let cardMaskLayer = CAShapeLayer()
             cardMaskLayer.path = borderPath
@@ -908,14 +902,12 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     }
 
     private func maskDrawerVisualEffectView() {
-        if let visualEffectView = drawerBackgroundVisualEffectView,
-            let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate,
-            let path = drawerVCCompliant.backgroundDimmingViewMask()
-        {
+        if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView,
+            let path = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
             let maskLayer = CAShapeLayer()
-            maskLayer.path = path.cgPath
+            maskLayer.path = path
 
-            visualEffectView.layer.mask = maskLayer
+            drawerBackgroundVisualEffectView.layer.mask = maskLayer
         }
     }
 
@@ -923,23 +915,32 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
      */
     private func maskBackgroundDimmingView() {
-        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate,
-            let path = drawerVCCompliant.backgroundDimmingViewMask()
-        {
-            let maskLayer = CAShapeLayer()
+        let cutoutHeight = 2 * drawerCornerRadius
+        let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
 
-            // Shift path to match current position of panel
-            let cutoutHeight = 2 * drawerCornerRadius
-            let yShift = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
-            path.apply(CGAffineTransform(translationX: 0.0, y: yShift))
-
-            // Invert mask to cut away the bottom part of the dimming view
-            path.append(UIBezierPath(rect: backgroundDimmingView.bounds))
-            maskLayer.fillRule = kCAFillRuleEvenOdd
-
-            maskLayer.path = path.cgPath
-            backgroundDimmingView.layer.mask = maskLayer
+        let path: UIBezierPath
+        if let customPath = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
+            path = UIBezierPath(cgPath: customPath)
+            path.apply(CGAffineTransform(translationX: 0.0, y: maskHeight))
+        } else {
+            let maskWidth = backgroundDimmingView.bounds.width - pulleySafeAreaInsets.left - pulleySafeAreaInsets.right
+            let drawerRect = CGRect(x: pulleySafeAreaInsets.left,
+                                    y: maskHeight,
+                                    width: maskWidth,
+                                    height: drawerContentContainer.bounds.height)
+            path = UIBezierPath(roundedRect: drawerRect,
+                                byRoundingCorners: [.topLeft, .topRight],
+                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
         }
+
+        let maskLayer = CAShapeLayer()
+
+        // Invert mask to cut away the bottom part of the dimming view
+        path.append(UIBezierPath(rect: backgroundDimmingView.bounds))
+        maskLayer.fillRule = kCAFillRuleEvenOdd
+
+        maskLayer.path = path.cgPath
+        backgroundDimmingView.layer.mask = maskLayer
     }
 
     open func prepareFeedbackGenerator() {
@@ -1332,18 +1333,6 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         } else {
             return PulleyPosition.all
         }
-    }
-
-    open func backgroundDimmingViewMask() -> UIBezierPath? {
-        let cutoutHeight = 2 * drawerCornerRadius
-        let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
-        let maskWidth = backgroundDimmingView.bounds.width - getLeftSafeArea() - getRightSafeArea()
-        let drawerRect = CGRect(x: getLeftSafeArea(), y: maskHeight, width: maskWidth, height: drawerContentContainer.bounds.height)
-        let path = UIBezierPath(roundedRect: drawerRect,
-                                byRoundingCorners: [.topLeft, .topRight],
-                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
-
-        return path
     }
 
     open func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
