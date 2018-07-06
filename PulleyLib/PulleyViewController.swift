@@ -1269,12 +1269,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        coordinator.notifyWhenInteractionEnds { [weak self] (_) in
-            
-            guard let currentPosition = self?.drawerPosition else {
-                return
-            }
-            
+        coordinator.notifyWhenInteractionChanges { [weak self] context in
+            guard let currentPosition = self?.drawerPosition else { return }
             self?.setDrawerPosition(position: currentPosition, animated: false)
         }
     }
