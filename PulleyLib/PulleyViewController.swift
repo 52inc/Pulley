@@ -1269,14 +1269,18 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        coordinator.notifyWhenInteractionEnds { [weak self] (_) in
-            
-            guard let currentPosition = self?.drawerPosition else {
-                return
+        if #available(iOS 10.0, *) {
+            coordinator.notifyWhenInteractionChanges { [weak self] context in
+                guard let currentPosition = self?.drawerPosition else { return }
+                self?.setDrawerPosition(position: currentPosition, animated: false)
             }
-            
-            self?.setDrawerPosition(position: currentPosition, animated: false)
+        } else {
+            coordinator.notifyWhenInteractionEnds { [weak self] context in
+                guard let currentPosition = self?.drawerPosition else { return }
+                self?.setDrawerPosition(position: currentPosition, animated: false)
+            }
         }
+        
     }
     
     // MARK: PulleyDrawerViewControllerDelegate implementation for nested Pulley view controllers in drawers. Implemented here, rather than an extension because overriding extensions in subclasses isn't good practice. Some developers want to subclass Pulley and customize these behaviors, so we'll move them here.
