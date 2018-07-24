@@ -560,6 +560,20 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     fileprivate var isAnimatingDrawerPosition: Bool = false
     
+    /// The height of the open position for the drawer
+    private var heightOfOpenDrawer: CGFloat {
+        
+        var safeAreaTopInset: CGFloat = 20.0
+        
+        if #available(iOS 11.0, *)
+        {
+            safeAreaTopInset = view.safeAreaInsets.top
+        }
+        
+        return (self.view.bounds.height - topInset - safeAreaTopInset)
+    }
+        
+    
     /**
      Initialize the drawer controller programmtically.
      
@@ -769,7 +783,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             if supportedPositions.contains(.open)
             {
                 // Layout scrollview
-                drawerScrollView.frame = CGRect(x: adjustedLeftSafeArea, y: topInset + safeAreaTopInset, width: self.view.bounds.width - adjustedLeftSafeArea - adjustedRightSafeArea, height: self.view.bounds.height - topInset - safeAreaTopInset)
+                drawerScrollView.frame = CGRect(x: adjustedLeftSafeArea, y: topInset + safeAreaTopInset, width: self.view.bounds.width - adjustedLeftSafeArea - adjustedRightSafeArea, height: heightOfOpenDrawer)
             }
             else
             {
@@ -836,7 +850,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             if supportedPositions.contains(.open)
             {
                 // Layout scrollview
-                drawerScrollView.frame = CGRect(x: safeAreaLeftInset + panelInsetLeft, y: panelInsetTop + safeAreaTopInset, width: panelWidth, height: self.view.bounds.height - topInset - safeAreaTopInset - panelInsetTop)
+                drawerScrollView.frame = CGRect(x: safeAreaLeftInset + panelInsetLeft, y: panelInsetTop + safeAreaTopInset, width: panelWidth, height: heightOfOpenDrawer - panelInsetTop)
             }
             else
             {
@@ -1090,7 +1104,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             stopToMoveTo = partialRevealHeight
             
         case .open:
-            stopToMoveTo = (self.drawerScrollView.bounds.height)
+            stopToMoveTo = heightOfOpenDrawer
             
         case .closed:
             stopToMoveTo = 0
@@ -1411,7 +1425,7 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             if supportedPositions.contains(.open)
             {
-                drawerStops.append((self.drawerScrollView.bounds.height))
+                drawerStops.append(heightOfOpenDrawer)
                 
                 if drawerPosition == .open
                 {
@@ -1455,7 +1469,7 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             var closestValidDrawerPosition: PulleyPosition = drawerPosition
             
-            if abs(Float(currentClosestStop - (self.drawerScrollView.bounds.height))) <= Float.ulpOfOne && supportedPositions.contains(.open)
+            if abs(Float(currentClosestStop - heightOfOpenDrawer)) <= Float.ulpOfOne && supportedPositions.contains(.open)
             {
                 closestValidDrawerPosition = .open
             }
@@ -1539,7 +1553,7 @@ extension PulleyViewController: UIScrollViewDelegate {
             if (scrollView.contentOffset.y - pulleySafeAreaInsets.bottom) > partialRevealHeight - lowestStop && supportedPositions.contains(.open)
             {
                 // Calculate percentage between partial and full reveal
-                let fullRevealHeight = (self.drawerScrollView.bounds.height)
+                let fullRevealHeight = heightOfOpenDrawer
                 let progress: CGFloat
                 if fullRevealHeight == partialRevealHeight {
                     progress = 1.0
