@@ -36,7 +36,7 @@ A library to provide a drawer controller that can imitate the drawer UI in iOS 1
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
 
-  s.xcconfig = {
+  s.pod_target_xcconfig = {
     'SWIFT_VERSION' => '4.0'
   }
 
