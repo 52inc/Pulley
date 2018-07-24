@@ -494,6 +494,21 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         return (distance: 0.0, bottomSafeArea: 0.0)
     }
     
+    
+    /// Get all gesture recognizers in the drawer scrollview
+    public var drawerGestureRecognizers: [UIGestureRecognizer] {
+        get {
+            return drawerScrollView.gestureRecognizers ?? [UIGestureRecognizer]()
+        }
+    }
+    
+    /// Get the drawer scrollview's pan gesture recognizer
+    public var drawerPanGestureRecognizer: UIPanGestureRecognizer {
+        get {
+            return drawerScrollView.panGestureRecognizer
+        }
+    }
+    
     /// The drawer positions supported by the drawer
     fileprivate var supportedPositions: [PulleyPosition] = PulleyPosition.all {
         didSet {
@@ -936,6 +951,20 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             (feedbackGenerator as? UISelectionFeedbackGenerator)?.selectionChanged()
             (feedbackGenerator as? UINotificationFeedbackGenerator)?.notificationOccurred(.success)
         }
+    }
+    
+    /// Add a gesture recognizer to the drawer scrollview
+    ///
+    /// - Parameter gestureRecognizer: The gesture recognizer to add
+    public func addDrawerGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
+        drawerScrollView.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    /// Remove a gesture recognizer from the drawer scrollview
+    ///
+    /// - Parameter gestureRecognizer: The gesture recognizer to remove
+    public func removeDrawerGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
+        drawerScrollView.removeGestureRecognizer(gestureRecognizer)
     }
     
     /// Bounce the drawer to get user attention. Note: Only works in .bottomDrawer display mode and when the drawer is in .collapsed or .partiallyRevealed position.
