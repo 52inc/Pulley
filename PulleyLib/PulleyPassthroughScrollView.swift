@@ -8,6 +8,8 @@
 
 import UIKit
 
+// swiftlint:disable trailing_whitespace
+
 protocol PulleyPassthroughScrollViewDelegate: class {
     
     func shouldTouchPassthroughScrollView(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> Bool

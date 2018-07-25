@@ -8,6 +8,8 @@
 
 import UIKit
 
+// swiftlint:disable trailing_whitespace opening_brace cyclomatic_complexity colon vertical_whitespace comma for_where valid_ibinspectable function_body_length unused_closure_parameter
+
 /**
  *  The base delegate protocol for Pulley delegates.
  */
@@ -267,9 +269,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     /// Get the current bottom safe area for Pulley. This is a convenience accessor. Most delegate methods where you'd need it will deliver it as a parameter.
     public var bottomSafeSpace: CGFloat {
-        get {
-            return pulleySafeAreaInsets.bottom
-        }
+        return pulleySafeAreaInsets.bottom
     }
     
     /// The content view controller and drawer controller can receive delegate events already. This lets another object observe the changes, if needed.
@@ -520,16 +520,12 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     /// Get all gesture recognizers in the drawer scrollview
     public var drawerGestureRecognizers: [UIGestureRecognizer] {
-        get {
-            return drawerScrollView.gestureRecognizers ?? [UIGestureRecognizer]()
-        }
+        return drawerScrollView.gestureRecognizers ?? [UIGestureRecognizer]()
     }
     
     /// Get the drawer scrollview's pan gesture recognizer
     public var drawerPanGestureRecognizer: UIPanGestureRecognizer {
-        get {
-            return drawerScrollView.panGestureRecognizer
-        }
+        return drawerScrollView.panGestureRecognizer
     }
     
     /// The drawer positions supported by the drawer
@@ -1286,24 +1282,19 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     // MARK: Propogate child view controller style / status bar presentation based on drawer state
     
     override open var childViewControllerForStatusBarStyle: UIViewController? {
-        get {
-            
-            if drawerPosition == .open {
-                return drawerContentViewController
-            }
-            
-            return primaryContentViewController
+        if drawerPosition == .open {
+            return drawerContentViewController
         }
+
+        return primaryContentViewController
     }
     
     override open var childViewControllerForStatusBarHidden: UIViewController? {
-        get {
-            if drawerPosition == .open {
-                return drawerContentViewController
-            }
-            
-            return primaryContentViewController
+        if drawerPosition == .open {
+            return drawerContentViewController
         }
+
+        return primaryContentViewController
     }
     
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -1591,4 +1582,3 @@ extension PulleyViewController: UIScrollViewDelegate {
         }
     }
 }
-
