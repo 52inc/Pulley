@@ -7,6 +7,8 @@
 
 import UIKit
 
+// swiftlint:disable trailing_whitespace colon
+
 extension UIView {
     
     func constrainToParent() {
