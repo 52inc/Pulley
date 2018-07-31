@@ -570,7 +570,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             safeAreaTopInset = view.safeAreaInsets.top
         }
         
-        return (self.view.bounds.height - topInset - safeAreaTopInset)
+        return (self.view.bounds.height - topInset - panelInsetTop - safeAreaTopInset)
     }
         
     
@@ -1594,4 +1594,3 @@ extension PulleyViewController: UIScrollViewDelegate {
         }
     }
 }
-
