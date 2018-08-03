@@ -877,6 +877,12 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         drawerContentContainer.transform = drawerScrollView.transform
         drawerShadowView.transform = drawerScrollView.transform
         
+        let lowestStop = getStopList().min() ?? 0
+        
+        delegate?.drawerChangedDistanceFromBottom?(drawer: self, distance: drawerScrollView.contentOffset.y + lowestStop, bottomSafeArea: pulleySafeAreaInsets.bottom)
+        (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: drawerScrollView.contentOffset.y + lowestStop, bottomSafeArea: pulleySafeAreaInsets.bottom)
+        (primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerChangedDistanceFromBottom?(drawer: self, distance: drawerScrollView.contentOffset.y + lowestStop, bottomSafeArea: pulleySafeAreaInsets.bottom)
+        
         maskBackgroundDimmingView()
         setDrawerPosition(position: drawerPosition, animated: false)
     }
@@ -1600,4 +1606,3 @@ extension PulleyViewController: UIScrollViewDelegate {
         }
     }
 }
-
