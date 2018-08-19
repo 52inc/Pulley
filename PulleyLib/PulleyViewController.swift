@@ -876,6 +876,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         drawerContentContainer.transform = drawerScrollView.transform
         drawerShadowView.transform = drawerScrollView.transform
+        drawerBackgroundVisualEffectView?.transform = drawerScrollView.transform
         
         let lowestStop = getStopList().min() ?? 0
         
