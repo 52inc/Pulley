@@ -277,7 +277,6 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             
             if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView, self.isViewLoaded
             {
-                maskDrawerVisualEffectView()
                 drawerScrollView.insertSubview(drawerBackgroundVisualEffectView, aboveSubview: drawerShadowView)
                 drawerBackgroundVisualEffectView.clipsToBounds = true
                 drawerBackgroundVisualEffectView.layer.cornerRadius = drawerCornerRadius
@@ -1105,6 +1104,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         cardMaskLayer.fillColor = UIColor.white.cgColor
         cardMaskLayer.backgroundColor = UIColor.clear.cgColor
         drawerContentContainer.layer.mask = cardMaskLayer
+
+        maskDrawerVisualEffectView()
         
         if !isAnimatingDrawerPosition || borderPath.boundingBox.height < drawerShadowView.layer.shadowPath?.boundingBox.height ?? 0.0
         {
