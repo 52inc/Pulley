@@ -815,11 +815,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             drawerScrollView.contentSize = CGSize(width: drawerScrollView.bounds.width, height: (drawerScrollView.bounds.height - lowestStop) + drawerScrollView.bounds.height - safeAreaBottomInset + (bounceOverflowMargin - 5.0))
             
             // Update rounding mask and shadows
-            let borderPath = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path ??
-                UIBezierPath(roundedRect: drawerContentContainer.bounds,
-                             byRoundingCorners: [.topLeft, .topRight],
-                             cornerRadii: CGSize(width: drawerCornerRadius,
-                                                 height: drawerCornerRadius)).cgPath
+            let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight, .bottomLeft, .bottomRight]).cgPath
 
             let cardMaskLayer = CAShapeLayer()
             cardMaskLayer.path = borderPath
@@ -940,12 +936,38 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         return drawerStops
     }
+
+    /**
+     Returns a masking path appropriate for the drawer content. Either
+     an existing user-supplied mask from the `drawerContentViewController's`
+     view will be returned, or the default Pulley mask with the requested
+     rounded corners will be used.
+
+     - parameter corners: The corners to round if there is no custom mask
+     already applied to the `drawerContentViewController` view. If the
+     `drawerContentViewController` has a custom mask (supplied by the
+     user of this library), then the corners parameter will be ignored.
+     */
+    private func drawerMaskingPath(byRoundingCorners corners: UIRectCorner) -> UIBezierPath {
+        drawerContentViewController.view.layoutIfNeeded()
+
+        let path: UIBezierPath
+        if let customPath = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
+            path = UIBezierPath(cgPath: customPath)
+        } else {
+            path = UIBezierPath(roundedRect: drawerContentContainer.bounds,
+                                byRoundingCorners: corners,
+                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
+        }
+
+        return path
+    }
     
     private func maskDrawerVisualEffectView() {
-        if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView,
-            let path = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
+        if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView {
+            let path = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight])
             let maskLayer = CAShapeLayer()
-            maskLayer.path = path
+            maskLayer.path = path.cgPath
 
             drawerBackgroundVisualEffectView.layer.mask = maskLayer
         }
@@ -955,32 +977,17 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
      */
     private func maskBackgroundDimmingView() {
-        
         let cutoutHeight = 2 * drawerCornerRadius
         let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
-
-        let path: UIBezierPath
-        if let customPath = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
-            path = UIBezierPath(cgPath: customPath)
-            path.apply(CGAffineTransform(translationX: 0.0, y: maskHeight))
-        } else {
-            let maskWidth = backgroundDimmingView.bounds.width - pulleySafeAreaInsets.left - pulleySafeAreaInsets.right
-            let drawerRect = CGRect(x: pulleySafeAreaInsets.left,
-                                    y: maskHeight,
-                                    width: maskWidth,
-                                    height: drawerContentContainer.bounds.height)
-            path = UIBezierPath(roundedRect: drawerRect,
-                                byRoundingCorners: [.topLeft, .topRight],
-                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
-        }
-
+        let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight])
+        borderPath.apply(CGAffineTransform(translationX: 0.0, y: maskHeight))
         let maskLayer = CAShapeLayer()
-        
+
         // Invert mask to cut away the bottom part of the dimming view
-        path.append(UIBezierPath(rect: backgroundDimmingView.bounds))
+        borderPath.append(UIBezierPath(rect: backgroundDimmingView.bounds))
         maskLayer.fillRule = kCAFillRuleEvenOdd
         
-        maskLayer.path = path.cgPath
+        maskLayer.path = borderPath.cgPath
         backgroundDimmingView.layer.mask = maskLayer
     }
     
@@ -1090,8 +1097,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         drawerShadowView.frame = drawerContentContainer.frame
         
         // Update rounding mask and shadows
-        let borderPath = UIBezierPath(roundedRect: drawerContentContainer.bounds, byRoundingCorners: [.topLeft, .topRight, .bottomLeft, .bottomRight], cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius)).cgPath
-        
+        let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight, .bottomLeft, .bottomRight]).cgPath
+
         let cardMaskLayer = CAShapeLayer()
         cardMaskLayer.path = borderPath
         cardMaskLayer.frame = drawerContentContainer.bounds
