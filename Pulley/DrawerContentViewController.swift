@@ -11,6 +11,9 @@ import Pulley
 
 class DrawerContentViewController: UIViewController {
 
+    // Pulley can apply a custom mask to the panel drawer. This variable toggles an example.
+    private var shouldDisplayCustomMaskExample = false
+
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var gripperView: UIView!
@@ -48,6 +51,16 @@ class DrawerContentViewController: UIViewController {
         {
             let feedbackGenerator = UISelectionFeedbackGenerator()
             self.pulleyViewController?.feedbackGenerator = feedbackGenerator
+        }
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if shouldDisplayCustomMaskExample {
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = CustomMaskExample().customMask(for: view.bounds).cgPath
+            view.layer.mask = maskLayer
         }
     }
     
