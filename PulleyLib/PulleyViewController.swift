@@ -135,6 +135,16 @@ public enum PulleyDisplayMode {
     case automatic
 }
 
+
+/// Represents the positioning of the drawer when the `displayMode` is set to either `PulleyDisplayMode.leftSide` or `PulleyDisplayMode.automatic`.
+///
+/// - top: The drawer will placed in the upper left corner
+/// - top: The drawer will placed in the lower left corner
+public enum PulleyCornerPlacement {
+    case top
+    case bottom
+}
+
 /// Represents the 'snap' mode for Pulley. The default is 'nearest position'. You can use 'nearestPositionUnlessExceeded' to make the drawer feel lighter or heavier.
 ///
 /// - nearestPosition: Snap to the nearest position when scroll stops
@@ -404,6 +414,16 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     /// The display mode for Pulley. Default is 'bottomDrawer', which preserves the previous behavior of Pulley. If you want it to adapt automatically, choose 'automatic'. The current display mode is available by using the 'currentDisplayMode' property.
     public var displayMode: PulleyDisplayMode = .bottomDrawer {
+        didSet {
+            if self.isViewLoaded
+            {
+                self.view.setNeedsLayout()
+            }
+        }
+    }
+    
+    /// The Y positioning for Pulley. This property is only oberserved when `displayMode` is set to `.automatic` or `leftSide`. Default value is `.top`.
+    public var cornerPlacement: PulleyCornerPlacement = .top {
         didSet {
             if self.isViewLoaded
             {
@@ -869,7 +889,12 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             
             drawerScrollView.contentSize = CGSize(width: drawerScrollView.bounds.width, height: self.view.bounds.height + (self.view.bounds.height - lowestStop))
             
-            drawerScrollView.transform = CGAffineTransform(scaleX: 1.0, y: -1.0)
+            switch cornerPlacement {
+            case .top:
+                drawerScrollView.transform = CGAffineTransform(scaleX: 1.0, y: -1.0)
+            case .bottom:
+                drawerScrollView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
             
             backgroundDimmingView.isHidden = true
         }
