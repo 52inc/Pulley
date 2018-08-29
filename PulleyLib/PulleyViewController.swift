@@ -147,6 +147,7 @@ public enum PulleyPanelCornerPlacement {
     case topRight
     case bottomLeft
     case bottomRight
+}
 
 /// Represents the 'snap' mode for Pulley. The default is 'nearest position'. You can use 'nearestPositionUnlessExceeded' to make the drawer feel lighter or heavier.
 ///
@@ -426,17 +427,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             }
         }
     }
-    
-    /// The Y positioning for Pulley. This property is only oberserved when `displayMode` is set to `.automatic` or `leftSide`. Default value is `.top`.
-    public var cornerPlacement: PulleyCornerPlacement = .top {
-        didSet {
-            if self.isViewLoaded
-            {
-                self.view.setNeedsLayout()
-            }
-        }
-    }
-    
+
     /// This is here exclusively to support IBInspectable in Interface Builder because Interface Builder can't deal with enums. If you're doing this in code use the -initialDrawerPosition property instead. Available strings are: open, closed, partiallyRevealed, collapsed
     @IBInspectable public var initialDrawerPositionFromIB: String? {
         didSet {

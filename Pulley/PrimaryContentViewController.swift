@@ -60,7 +60,7 @@ extension PrimaryContentViewController: PulleyPrimaryContentControllerDelegate {
     
     func makeUIAdjustmentsForFullscreen(progress: CGFloat, bottomSafeArea: CGFloat)
     {
-        guard let drawer = self.pulleyViewController, drawer.currentDisplayMode == .bottomDrawer else {
+        guard let drawer = self.pulleyViewController, drawer.currentDisplayMode == .drawer else {
             controlsContainer.alpha = 1.0
             return
         }
@@ -70,7 +70,7 @@ extension PrimaryContentViewController: PulleyPrimaryContentControllerDelegate {
     
     func drawerChangedDistanceFromBottom(drawer: PulleyViewController, distance: CGFloat, bottomSafeArea: CGFloat)
     {
-        guard drawer.currentDisplayMode == .bottomDrawer else {
+        guard drawer.currentDisplayMode == .drawer else {
             
             temperatureLabelBottomConstraint.constant = temperatureLabelBottomDistance
             return
