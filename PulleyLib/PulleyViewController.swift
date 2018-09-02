@@ -1031,23 +1031,6 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
      */
     private func maskBackgroundDimmingView() {
-//<<<<<<< HEAD
-//        
-//        var drawerInset = kPulleyDefaultDrawerInset
-//        
-//        if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate,
-//            let customInset = drawerVCCompliant.drawerEdgeInset?() {
-//            drawerInset = customInset
-//        }
-//        
-//        let cutoutHeight = 2 * drawerCornerRadius
-//        let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
-//        let maskWidth = backgroundDimmingView.bounds.width - pulleySafeAreaInsets.left - pulleySafeAreaInsets.right
-//        let drawerRect = CGRect(x: pulleySafeAreaInsets.left + drawerInset.left, y: maskHeight, width: maskWidth - drawerInset.left - drawerInset.right, height: drawerContentContainer.bounds.height)
-//        let path = UIBezierPath(roundedRect: drawerRect,
-//                                byRoundingCorners: [.topLeft, .topRight],
-//                                cornerRadii: CGSize(width: drawerCornerRadius, height: drawerCornerRadius))
-//=======
         var drawerInset = kPulleyDefaultDrawerInset
         
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate,
@@ -1058,7 +1041,6 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
         let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight])
         borderPath.apply(CGAffineTransform(translationX: drawerInset.left, y: maskHeight))
-//>>>>>>> master
         let maskLayer = CAShapeLayer()
 
         // Invert mask to cut away the bottom part of the dimming view
