@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
-    {
+  
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         // Override point for customization after application launch.
         
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -25,14 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // To create in code (uncomment this block)
         /*
-        let mainContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryContentViewController")
-        let drawerContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DrawerContentViewController")
-        let pulleyDrawerVC = PulleyViewController(contentViewController: mainContentVC, drawerViewController: drawerContentVC)
-        
-        // Uncomment this next line to give the drawer a starting position, in this case: closed.
-        // pulleyDrawerVC.initialDrawerPosition = .closed
-        
-        window?.rootViewController = pulleyDrawerVC
+         let mainContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PrimaryContentViewController")
+         let drawerContentVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DrawerContentViewController")
+         let pulleyDrawerVC = PulleyViewController(contentViewController: mainContentVC, drawerViewController: drawerContentVC)
+         
+         // Uncomment this next line to give the drawer a starting position, in this case: closed.
+         // pulleyDrawerVC.initialDrawerPosition = .closed
+         
+         window?.rootViewController = pulleyDrawerVC
          */
         
         window?.makeKeyAndVisible()
