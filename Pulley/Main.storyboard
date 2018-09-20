@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eGL-tC-8gT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eGL-tC-8gT">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -66,18 +66,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="334"/>
                             </mapView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1V-M1-B9h">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Cyw-pD-dsX">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="Ngx-Aj-MG5"/>
-                                </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S4A-9H-sT4">
-                                <rect key="frame" x="323" y="28" width="44" height="74"/>
+                                <rect key="frame" x="323" y="8" width="44" height="74"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98f-el-Efz">
                                         <rect key="frame" x="11" y="10" width="22" height="22"/>
@@ -128,6 +125,7 @@
                             <constraint firstAttribute="bottom" secondItem="CdD-I4-t3B" secondAttribute="bottom" constant="8" id="73I-zu-uZx"/>
                             <constraint firstItem="3nf-7A-qvc" firstAttribute="trailing" secondItem="S4A-9H-sT4" secondAttribute="trailing" constant="8" id="7IE-0v-gtr"/>
                             <constraint firstItem="D1V-M1-B9h" firstAttribute="leading" secondItem="3nf-7A-qvc" secondAttribute="leading" id="8gK-mG-aI1"/>
+                            <constraint firstItem="3nf-7A-qvc" firstAttribute="top" secondItem="D1V-M1-B9h" secondAttribute="bottom" id="DEV-PB-1hd"/>
                             <constraint firstAttribute="top" secondItem="D1V-M1-B9h" secondAttribute="top" id="MaD-tO-6jk"/>
                             <constraint firstItem="3nf-7A-qvc" firstAttribute="trailing" secondItem="D1V-M1-B9h" secondAttribute="trailing" id="SHa-ls-4Fe"/>
                             <constraint firstItem="BcX-Cl-AEz" firstAttribute="top" secondItem="wsZ-C5-y4c" secondAttribute="top" id="Zrd-LT-tK6"/>

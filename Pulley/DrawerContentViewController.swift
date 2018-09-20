@@ -11,6 +11,9 @@ import Pulley
 
 class DrawerContentViewController: UIViewController {
 
+    // Pulley can apply a custom mask to the panel drawer. This variable toggles an example.
+    private var shouldDisplayCustomMaskExample = false
+
     @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var gripperView: UIView!
@@ -50,6 +53,16 @@ class DrawerContentViewController: UIViewController {
             self.pulleyViewController?.feedbackGenerator = feedbackGenerator
         }
     }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if shouldDisplayCustomMaskExample {
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = CustomMaskExample().customMask(for: view.bounds).cgPath
+            view.layer.mask = maskLayer
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -70,13 +83,13 @@ extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
     func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat
     {
         // For devices with a bottom safe area, we want to make our drawer taller. Your implementation may not want to do that. In that case, disregard the bottomSafeArea value.
-        return 68.0 + bottomSafeArea
+        return 68.0 + (pulleyViewController?.currentDisplayMode == .drawer ? bottomSafeArea : 0.0)
     }
     
     func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat
     {
         // For devices with a bottom safe area, we want to make our drawer taller. Your implementation may not want to do that. In that case, disregard the bottomSafeArea value.
-        return 264.0 + bottomSafeArea
+        return 264.0 + (pulleyViewController?.currentDisplayMode == .drawer ? bottomSafeArea : 0.0)
     }
     
     func supportedDrawerPositions() -> [PulleyPosition] {
@@ -106,14 +119,14 @@ extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
         
         // Handle tableview scrolling / searchbar editing
         
-        tableView.isScrollEnabled = drawer.drawerPosition == .open || drawer.currentDisplayMode == .leftSide
+        tableView.isScrollEnabled = drawer.drawerPosition == .open || drawer.currentDisplayMode == .panel
         
         if drawer.drawerPosition != .open
         {
             searchBar.resignFirstResponder()
         }
         
-        if drawer.currentDisplayMode == .leftSide
+        if drawer.currentDisplayMode == .panel
         {
             topSeparatorView.isHidden = drawer.drawerPosition == .collapsed
             bottomSeperatorView.isHidden = drawer.drawerPosition == .collapsed
@@ -129,7 +142,7 @@ extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
     func drawerDisplayModeDidChange(drawer: PulleyViewController) {
         
         print("Drawer: \(drawer.currentDisplayMode)")
-        gripperTopConstraint.isActive = drawer.currentDisplayMode == .bottomDrawer
+        gripperTopConstraint.isActive = drawer.currentDisplayMode == .drawer
     }
 }
 
