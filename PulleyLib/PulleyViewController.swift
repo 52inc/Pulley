@@ -579,15 +579,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The height of the open position for the drawer
     private var heightOfOpenDrawer: CGFloat {
         
-        var safeAreaTopInset: CGFloat = 20.0
-        var safeAreaBottomInset: CGFloat = 0.0
-        
-        if #available(iOS 11.0, *)
-        {
-            safeAreaTopInset = view.safeAreaInsets.top
-            safeAreaBottomInset = view.safeAreaInsets.bottom
-        }
-        
+        var safeAreaTopInset = pulleySafeAreaInsets.top
+        var safeAreaBottomInset = pulleySafeAreaInsets.bottom
+
         var height = self.view.bounds.height - safeAreaTopInset
         
         if currentDisplayMode == .panel {
@@ -771,21 +765,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             }
         }
 
-        let safeAreaTopInset: CGFloat
-        let safeAreaBottomInset: CGFloat
+        let safeAreaTopInset = pulleySafeAreaInsets.top
+        let safeAreaBottomInset = pulleySafeAreaInsets.bottom
         let safeAreaLeftInset = pulleySafeAreaInsets.left
         let safeAreaRightInset = pulleySafeAreaInsets.right
-        
-        if #available(iOS 11.0, *)
-        {
-            safeAreaTopInset = self.view.safeAreaInsets.top
-            safeAreaBottomInset = self.view.safeAreaInsets.bottom
-        }
-        else
-        {
-            safeAreaTopInset = self.topLayoutGuide.length
-            safeAreaBottomInset = self.bottomLayoutGuide.length
-        }
+
         
         let displayModeForCurrentLayout: PulleyDisplayMode = displayMode != .automatic ? displayMode : ((self.view.bounds.width >= 600.0 || self.traitCollection.horizontalSizeClass == .regular) ? .panel : .drawer)
         
@@ -954,14 +938,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         if supportedPositions.contains(.open)
         {
-            var safeAreaTopInset: CGFloat = 20.0
-            
-            if #available(iOS 11.0, *)
-            {
-                safeAreaTopInset = view.safeAreaInsets.top
-            }
-            
-            drawerStops.append((self.view.bounds.size.height - drawerTopInset - safeAreaTopInset))
+            drawerStops.append((self.view.bounds.size.height - drawerTopInset - pulleySafeAreaInsets.top))
         }
         
         return drawerStops
