@@ -579,8 +579,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The height of the open position for the drawer
     private var heightOfOpenDrawer: CGFloat {
         
-        var safeAreaTopInset = pulleySafeAreaInsets.top
-        var safeAreaBottomInset = pulleySafeAreaInsets.bottom
+        let safeAreaTopInset = pulleySafeAreaInsets.top
+        let safeAreaBottomInset = pulleySafeAreaInsets.bottom
 
         var height = self.view.bounds.height - safeAreaTopInset
         
