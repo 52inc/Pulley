@@ -364,6 +364,16 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
     }
     
+    /// The offset of the drawer shadow.
+    @IBInspectable public var shadowOffset = CGSize(width: 0.0, height: -3.0) {
+        didSet {
+          if self.isViewLoaded {
+            drawerShadowView.layer.shadowOffset = shadowOffset
+            self.view.setNeedsLayout()
+          }
+      }
+    }
+
     /// The opaque color of the background dimming view.
     @IBInspectable public var backgroundDimmingColor: UIColor = UIColor.black {
         didSet {
@@ -662,6 +672,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         drawerShadowView.layer.shadowOpacity = shadowOpacity
         drawerShadowView.layer.shadowRadius = shadowRadius
+        drawerShadowView.layer.shadowOffset = shadowOffset
         drawerShadowView.backgroundColor = UIColor.clear
         
         drawerContentContainer.backgroundColor = UIColor.clear
