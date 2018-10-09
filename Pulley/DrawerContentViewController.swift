@@ -144,6 +144,11 @@ extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
         print("Drawer: \(drawer.currentDisplayMode)")
         gripperTopConstraint.isActive = drawer.currentDisplayMode == .drawer
     }
+    
+    // Pulley asking for Padding around the Drawer
+    func drawerEdgeInset() -> UIEdgeInsets {
+        return UIEdgeInsetsMake(0, 8, 0, 8)
+    }
 }
 
 extension DrawerContentViewController: UISearchBarDelegate {
