@@ -835,6 +835,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             drawerScrollView.contentSize = CGSize(width: drawerScrollView.bounds.width, height: (drawerScrollView.bounds.height - lowestStop) + drawerScrollView.bounds.height - safeAreaBottomInset + (bounceOverflowMargin - 5.0))
             
             // Update rounding mask and shadows
+            /*
             let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight, .bottomLeft, .bottomRight]).cgPath
             
             let cardMaskLayer = CAShapeLayer()
@@ -844,7 +845,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             cardMaskLayer.backgroundColor = UIColor.clear.cgColor
             drawerContentContainer.layer.mask = cardMaskLayer
             drawerShadowView.layer.shadowPath = borderPath
-            
+            */
             backgroundDimmingView.frame = CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: self.view.bounds.height + drawerScrollView.contentSize.height)
             
             drawerScrollView.transform = CGAffineTransform.identity
