@@ -179,6 +179,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     fileprivate let backgroundDimmingView: UIView = UIView()
     
     fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
+    private var drawerTapRecognizer: UITapGestureRecognizer?
     
     fileprivate var lastDragTargetContentOffset: CGPoint = CGPoint.zero
 
@@ -265,7 +266,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     /// The content view controller and drawer controller can receive delegate events already. This lets another object observe the changes, if needed.
     public weak var delegate: PulleyDelegate?
-    
+
     /// The current position of the drawer.
     public fileprivate(set) var drawerPosition: PulleyPosition = .collapsed {
         didSet {
@@ -482,7 +483,10 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     // The feedback generator to use for drawer positon changes. Note: This is 'Any' to preserve iOS 9 compatibilty. Assign a UIFeedbackGenerator to this property. Anything else will be ignored.
     public var feedbackGenerator: Any?
-    
+
+    /// Set this to true to allow toggling the drawer by tapping on it.
+    public var allowToggleOnTap = false
+
     /// Access to the safe areas that Pulley is using for layout (provides compatibility for iOS < 11)
     public var pulleySafeAreaInsets: UIEdgeInsets {
         
@@ -685,7 +689,10 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         dimmingViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(PulleyViewController.dimmingViewTapRecognizerAction(gestureRecognizer:)))
         backgroundDimmingView.addGestureRecognizer(dimmingViewTapRecognizer!)
-        
+
+        drawerTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(drawerTapRecognizerAction(gestureRecognizer:)))
+        drawerScrollView.addGestureRecognizer(drawerTapRecognizer!)
+
         drawerScrollView.addSubview(drawerShadowView)
         
         if let drawerBackgroundVisualEffectView = drawerBackgroundVisualEffectView
@@ -1351,7 +1358,17 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             }
         }
     }
-    
+
+    @objc func drawerTapRecognizerAction(gestureRecognizer: UITapGestureRecognizer) {
+        if gestureRecognizer == drawerTapRecognizer && allowToggleOnTap {
+            // Toggle the drawer
+            let newPosition: PulleyPosition = (self.drawerPosition == .collapsed) ? .open : .collapsed
+            if supportedPositions.contains(newPosition) {
+                setDrawerPosition(position: newPosition, animated: true)
+            }
+        }
+    }
+
     // MARK: Propogate child view controller style / status bar presentation based on drawer state
     
     override open var childForStatusBarStyle: UIViewController? {
@@ -1420,7 +1437,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             return PulleyPosition.all
         }
     }
-    
+
     open func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate {
             drawerVCCompliant.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: bottomSafeArea)
