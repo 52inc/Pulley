@@ -603,7 +603,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         return height
     }
-        
+
+    open var primaryContentShouldBeTransparent: Bool = false
     
     /**
      Initialize the drawer controller programmtically.
@@ -696,9 +697,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         drawerScrollView.addSubview(drawerContentContainer)
         
-        primaryContentContainer.backgroundColor = UIColor.white
+        primaryContentContainer.backgroundColor = primaryContentShouldBeTransparent ? UIColor.clear : UIColor.white
         
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = primaryContentShouldBeTransparent ? UIColor.clear : UIColor.white
         
         self.view.addSubview(primaryContentContainer)
         self.view.addSubview(backgroundDimmingView)
