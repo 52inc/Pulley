@@ -520,8 +520,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         return (distance: 0.0, bottomSafeArea: 0.0)
     }
     
-    // The position the pulley should animate to when the mask is tapped. Default is collapsed.
-    public var positionWhenMaskTapped:PulleyPosition = .collapsed
+    // The position the pulley should animate to when the background is tapped. Default is collapsed.
+    public var positionWhenDimmingBackgroundIsTapped:PulleyPosition = .collapsed
     
     /// Get all gesture recognizers in the drawer scrollview
     public var drawerGestureRecognizers: [UIGestureRecognizer] {
@@ -1349,7 +1349,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         {
             if gestureRecognizer.state == .ended
             {
-                self.setDrawerPosition(position: positionWhenMaskTapped, animated: true)
+                self.setDrawerPosition(position: positionWhenDimmingBackgroundIsTapped, animated: true)
             }
         }
     }
