@@ -1000,7 +1000,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight])
         
         // This applys the boarder path transform to the minimum x of the content container for iPhone X size devices
-        if let frame = drawerContentContainer.superview?.convert(drawerContentContainer.frame, to: nil) {
+        if let frame = drawerContentContainer.superview?.convert(drawerContentContainer.frame, to: self.view) {
             borderPath.apply(CGAffineTransform(translationX: frame.minX, y: maskHeight))
         } else  {
             borderPath.apply(CGAffineTransform(translationX: 0.0, y: maskHeight))
