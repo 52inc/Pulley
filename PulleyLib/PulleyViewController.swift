@@ -1022,12 +1022,13 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     open func triggerFeedbackGenerator() {
         
         if #available(iOS 10.0, *) {
-            
-            prepareFeedbackGenerator()
-            
-            (feedbackGenerator as? UIImpactFeedbackGenerator)?.impactOccurred()
-            (feedbackGenerator as? UISelectionFeedbackGenerator)?.selectionChanged()
-            (feedbackGenerator as? UINotificationFeedbackGenerator)?.notificationOccurred(.success)
+            DispatchQueue.main.async {
+                prepareFeedbackGenerator()
+                
+                (feedbackGenerator as? UIImpactFeedbackGenerator)?.impactOccurred()
+                (feedbackGenerator as? UISelectionFeedbackGenerator)?.selectionChanged()
+                (feedbackGenerator as? UINotificationFeedbackGenerator)?.notificationOccurred(.success)
+            }
         }
     }
     
