@@ -94,7 +94,7 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
     
     public init(rawValue: Int) {
         if rawValue < 0 || rawValue > 3 {
-            print("PulleyViewController: \(rawValue) is not supported. You have to use one of the predefined values in PulleyPosition. Defaulting to `collapsed`.")
+            print("PulleyViewController: A raw value of \(rawValue) is not supported. You have to use one of the predefined values in PulleyPosition. Defaulting to `collapsed`.")
             self.rawValue = 0
         } else {
             self.rawValue = rawValue
