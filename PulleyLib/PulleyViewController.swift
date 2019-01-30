@@ -90,10 +90,15 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
         .closed
     ]
     
-    let rawValue: Int
+    public let rawValue: Int
     
-    init(rawValue: Int) {
-        self.rawValue = rawValue
+    public init(rawValue: Int) {
+        if rawValue < 0 || rawValue > 3 {
+            print("PulleyViewController: \(rawValue) is not supported. You have to use one of the predefined values in PulleyPosition. Defaulting to `collapsed`.")
+            self.rawValue = 0
+        } else {
+            self.rawValue = rawValue
+        }
     }
     
     /// Return one of the defined positions for the given string.
@@ -127,29 +132,12 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
         }
     }
 
-    /// Returns a string representation of the given position. Useful if you want to store the position.
-    ///
-    /// - Parameter position: One of the four `PulleyPosition` instances.
-    /// - Returns: A string representation of `PulleyPosition`. Can be used via `positionFor(:string)` to obtain the actual position.
-    public static func stringFor(position: PulleyPosition) -> String {
-
-        switch position {
-
-        case .collapsed:
-            return "collapsed"
-
-        case .partiallyRevealed:
-            return "partiallyrevealed"
-
-        case .open:
-            return "open"
-
-        case .closed:
-            return "closed"
-
-        default:
-            fatalError("Custom instances are not supported.")
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let position = object as? PulleyPosition else {
+            return false
         }
+
+        return self.rawValue == position.rawValue
     }
 }
 
