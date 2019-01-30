@@ -96,6 +96,10 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
         self.rawValue = rawValue
     }
     
+    /// Return one of the defined positions for the given string.
+    ///
+    /// - Parameter string: The string, preferably obtained by `stringFor(position:)`
+    /// - Returns: The `PulleyPosition` or `.collapsed` if the string didn't match.
     public static func positionFor(string: String?) -> PulleyPosition {
         
         guard let positionString = string?.lowercased() else {
@@ -120,6 +124,31 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
         default:
             print("PulleyViewController: Position for string '\(positionString)' not found. Available values are: collapsed, partiallyRevealed, open, and closed. Defaulting to collapsed.")
             return .collapsed
+        }
+    }
+
+    /// Returns a string representation of the given position. Useful if you want to store the position.
+    ///
+    /// - Parameter position: One of the four `PulleyPosition` instances.
+    /// - Returns: A string representation of `PulleyPosition`. Can be used via `positionFor(:string)` to obtain the actual position.
+    public static func stringFor(position: PulleyPosition) -> String {
+
+        switch position {
+
+        case .collapsed:
+            return "collapsed"
+
+        case .partiallyRevealed:
+            return "partiallyrevealed"
+
+        case .open:
+            return "open"
+
+        case .closed:
+            return "closed"
+
+        default:
+            fatalError("Custom instances are not supported.")
         }
     }
 }
