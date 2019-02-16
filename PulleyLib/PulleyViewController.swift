@@ -90,12 +90,21 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
         .closed
     ]
     
-    let rawValue: Int
+    public let rawValue: Int
     
-    init(rawValue: Int) {
-        self.rawValue = rawValue
+    public init(rawValue: Int) {
+        if rawValue < 0 || rawValue > 3 {
+            print("PulleyViewController: A raw value of \(rawValue) is not supported. You have to use one of the predefined values in PulleyPosition. Defaulting to `collapsed`.")
+            self.rawValue = 0
+        } else {
+            self.rawValue = rawValue
+        }
     }
     
+    /// Return one of the defined positions for the given string.
+    ///
+    /// - Parameter string: The string, preferably obtained by `stringFor(position:)`
+    /// - Returns: The `PulleyPosition` or `.collapsed` if the string didn't match.
     public static func positionFor(string: String?) -> PulleyPosition {
         
         guard let positionString = string?.lowercased() else {
@@ -121,6 +130,14 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
             print("PulleyViewController: Position for string '\(positionString)' not found. Available values are: collapsed, partiallyRevealed, open, and closed. Defaulting to collapsed.")
             return .collapsed
         }
+    }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let position = object as? PulleyPosition else {
+            return false
+        }
+
+        return self.rawValue == position.rawValue
     }
 }
 
