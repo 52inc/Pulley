@@ -1015,7 +1015,13 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         let cutoutHeight = 2 * drawerCornerRadius
         let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
         let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight])
-        borderPath.apply(CGAffineTransform(translationX: 0.0, y: maskHeight))
+        
+        // This applys the boarder path transform to the minimum x of the content container for iPhone X size devices
+        if let frame = drawerContentContainer.superview?.convert(drawerContentContainer.frame, to: self.view) {
+            borderPath.apply(CGAffineTransform(translationX: frame.minX, y: maskHeight))
+        } else  {
+            borderPath.apply(CGAffineTransform(translationX: 0.0, y: maskHeight))
+        }
         let maskLayer = CAShapeLayer()
 
         // Invert mask to cut away the bottom part of the dimming view
