@@ -799,7 +799,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         let safeAreaRightInset = pulleySafeAreaInsets.right
 
         
-        let displayModeForCurrentLayout: PulleyDisplayMode = displayMode != .automatic ? displayMode : ((self.view.bounds.width >= 600.0 || self.traitCollection.horizontalSizeClass == .regular) ? .panel : .drawer)
+        let displayModeForCurrentLayout: PulleyDisplayMode = displayMode != .automatic ? displayMode : ((self.traitCollection.verticalSizeClass == .compact || self.view.bounds.width >= 600.0 || self.traitCollection.horizontalSizeClass == .regular) ? .panel : .drawer)
         
         currentDisplayMode = displayModeForCurrentLayout
         
