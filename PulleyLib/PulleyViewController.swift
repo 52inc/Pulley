@@ -1631,7 +1631,7 @@ extension PulleyViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        // Prepares haptic feedback before some time before the drawer position is set and triggerFeedbackGenerator is called.
+        // Prepares haptic feedback some time before the drawer position is set and triggerFeedbackGenerator is called.
         prepareFeedbackGenerator()
     }
     
