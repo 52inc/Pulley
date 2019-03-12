@@ -1045,8 +1045,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     open func triggerFeedbackGenerator() {
         
         if #available(iOS 10.0, *) {
-            
-            prepareFeedbackGenerator()
+            // prepareFeedbackGenerator() Moved to scrollViewWillBeginDecelerating to improve time between haptic engine triggering feedback and the call to prepare.
             
             (feedbackGenerator as? UIImpactFeedbackGenerator)?.impactOccurred()
             (feedbackGenerator as? UISelectionFeedbackGenerator)?.selectionChanged()
@@ -1629,6 +1628,11 @@ extension PulleyViewController: UIScrollViewDelegate {
             // Halt intertia
             targetContentOffset.pointee = scrollView.contentOffset
         }
+    }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        // Prepares haptic feedback before some time before the drawer position is set and triggerFeedbackGenerator is called.
+        prepareFeedbackGenerator()
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
