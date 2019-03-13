@@ -175,6 +175,8 @@ public enum PulleySnapMode {
     case nearestPositionUnlessExceeded(threshold: CGFloat)
 }
 
+private let kPulleyDefaultClosedHeight: CGFloat = 0.0
+private let kPulleyDefaultClosedThresholdHeight: CGFloat = 20.0
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
 private let kPulleyDefaultPartialRevealHeight: CGFloat = 264.0
 
@@ -945,6 +947,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
         var drawerStops = [CGFloat]()
         
+        var closedHeight:CGFloat = kPulleyDefaultClosedHeight
         var collapsedHeight:CGFloat = kPulleyDefaultCollapsedHeight
         var partialRevealHeight:CGFloat = kPulleyDefaultPartialRevealHeight
         
@@ -952,6 +955,12 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         {
             collapsedHeight = drawerVCCompliant.collapsedDrawerHeight?(bottomSafeArea: pulleySafeAreaInsets.bottom) ?? kPulleyDefaultCollapsedHeight
             partialRevealHeight = drawerVCCompliant.partialRevealDrawerHeight?(bottomSafeArea: pulleySafeAreaInsets.bottom) ?? kPulleyDefaultPartialRevealHeight
+        }
+        
+        
+        if supportedPositions.contains(.closed) && currentDisplayMode == .drawer
+        {
+            drawerStops.append(closedHeight)
         }
         
         if supportedPositions.contains(.collapsed)
@@ -1501,6 +1510,7 @@ extension PulleyViewController: UIScrollViewDelegate {
         {
             // Find the closest anchor point and snap there.
             var collapsedHeight:CGFloat = kPulleyDefaultCollapsedHeight
+            var closedThresholdHeight:CGFloat = kPulleyDefaultClosedThresholdHeight
             var partialRevealHeight:CGFloat = kPulleyDefaultPartialRevealHeight
             
             if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate
@@ -1542,6 +1552,16 @@ extension PulleyViewController: UIScrollViewDelegate {
                 }
             }
             
+            if supportedPositions.contains(.closed) && currentDisplayMode == .drawer
+            {
+                drawerStops.append(closedThresholdHeight)
+                
+                if drawerPosition == .closed
+                {
+                    currentDrawerPositionStop = drawerStops.last!
+                }
+            }
+            
             let lowestStop = drawerStops.min() ?? 0
             
             let distanceFromBottomOfView = lowestStop + lastDragTargetContentOffset.y
@@ -1565,6 +1585,10 @@ extension PulleyViewController: UIScrollViewDelegate {
             else if abs(Float(currentClosestStop - collapsedHeight)) <= Float.ulpOfOne && supportedPositions.contains(.collapsed)
             {
                 closestValidDrawerPosition = .collapsed
+            }
+            else if abs(Float(currentClosestStop - closedThresholdHeight)) <= Float.ulpOfOne && supportedPositions.contains(.closed)
+            {
+                closestValidDrawerPosition = .closed
             }
             else if supportedPositions.contains(.partiallyRevealed)
             {
