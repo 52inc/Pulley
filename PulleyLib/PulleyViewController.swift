@@ -76,7 +76,7 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
  - open:              When the drawer is fully open.
  - closed:            When the drawer is off-screen at the bottom of the view. Note: Users cannot close or reopen the drawer on their own. You must set this programatically
  */
-@objc public class PulleyPosition: NSObject {
+@objc @objcMembers public class PulleyPosition: NSObject {
     
     public static let collapsed = PulleyPosition(rawValue: 0)
     public static let partiallyRevealed = PulleyPosition(rawValue: 1)
@@ -209,7 +209,7 @@ public enum PulleySnapMode {
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
 private let kPulleyDefaultPartialRevealHeight: CGFloat = 264.0
 
-open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDelegate {
+@objcMembers open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDelegate {
     
     // Interface Builder
     
