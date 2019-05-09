@@ -5,6 +5,7 @@
 //  Created by Guilherme Souza on 4/28/18.
 //  Copyright © 2018 52inc. All rights reserved.
 //
+import UIKit
 
 public extension UIViewController {
 
