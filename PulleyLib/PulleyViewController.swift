@@ -298,9 +298,18 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             return drawerScrollView.bounds.height
         }
     }
-    
+
+    // Returns default blur style depends on iOS version.
+    private static var defaultBlurEffect: UIBlurEffect.Style {
+        if #available(iOS 13, *) {
+            return .systemUltraThinMaterial
+        } else {
+            return .extraLight
+        }
+    }
+
     /// The background visual effect layer for the drawer. By default this is the extraLight effect. You can change this if you want, or assign nil to remove it.
-    public var drawerBackgroundVisualEffectView: UIVisualEffectView? = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight)) {
+    public var drawerBackgroundVisualEffectView: UIVisualEffectView? = UIVisualEffectView(effect: UIBlurEffect(style: defaultBlurEffect)) {
         willSet {
             drawerBackgroundVisualEffectView?.removeFromSuperview()
         }
