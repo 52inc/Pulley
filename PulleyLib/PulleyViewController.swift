@@ -1309,7 +1309,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      - parameter animated:   Whether or not to animate the change.
      - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
+    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, toPosition: PulleyPosition? = nil, completion: PulleyAnimationCompletionBlock?)
     {
         // Account for transition issue in iOS 11
         controller.view.frame = drawerContentContainer.bounds
@@ -1320,17 +1320,25 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             UIView.transition(with: drawerContentContainer, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.drawerContentViewController = controller
-                self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
                 
-                }, completion: { (completed) in
-                    
-                    completion?(completed)
+                if let toPosition = toPosition {
+                    self?.setDrawerPosition(position: toPosition, animated: false)
+                } else {
+                    self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
+                }
+            }, completion: { (completed) in
+                completion?(completed)
             })
         }
         else
         {
             drawerContentViewController = controller
-            setDrawerPosition(position: drawerPosition, animated: false)
+            
+            if let toPosition = toPosition {
+                setDrawerPosition(position: toPosition, animated: false)
+            } else {
+                setDrawerPosition(position: drawerPosition, animated: false)
+            }
             
             completion?(true)
         }
