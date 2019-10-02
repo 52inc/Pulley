@@ -25,7 +25,7 @@
 import PackageDescription
 
 let package = Package(name: "Pulley",
-                      platforms: [.iOS(.v9),
+                      platforms: [.iOS(.v9)],
                       products: [.library(name: "Pulley",
                                           targets: ["Pulley"])],
                       targets: [.target(name: "Pulley",
