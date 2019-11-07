@@ -50,6 +50,11 @@ import UIKit
     @objc optional func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat
     
     /**
+     *  Provide the drawer dimmerCutout offset for Pulley.
+    */
+    @objc optional func drawerDimmerCutoutOffset() -> CGFloat
+
+    /**
      *  Return the support drawer positions for your drawer.
      */
     @objc optional func supportedDrawerPositions() -> [PulleyPosition]
@@ -177,6 +182,7 @@ public enum PulleySnapMode {
 
 private let kPulleyDefaultCollapsedHeight: CGFloat = 68.0
 private let kPulleyDefaultPartialRevealHeight: CGFloat = 264.0
+private let kPulleyDefaultDimmerCutoutOffset: CGFloat = 0.0
 
 open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDelegate {
     
@@ -1012,7 +1018,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      Mask backgroundDimmingView layer to avoid drawer background beeing darkened.
      */
     private func maskBackgroundDimmingView() {
-        let cutoutHeight = 2 * drawerCornerRadius
+        let userAdjustedCutout = (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerDimmerCutoutOffset?()
+                                 ?? kPulleyDefaultDimmerCutoutOffset
+        let cutoutHeight = (2 * drawerCornerRadius) + userAdjustedCutout
         let maskHeight = backgroundDimmingView.bounds.size.height - cutoutHeight - drawerScrollView.contentSize.height
         let borderPath = drawerMaskingPath(byRoundingCorners: [.topLeft, .topRight])
         
