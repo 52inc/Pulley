@@ -946,6 +946,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         guard isViewLoaded else {
             return
         }
+        
         let contentOffset = drawerScrollView.contentOffset
         drawerScrollView.isScrollEnabled = allowsUserDrawerPositionChange && supportedPositions.count > 1
         drawerScrollView.setContentOffset(contentOffset, animated: false)
