@@ -15,12 +15,17 @@ extension UIView {
     
     func constrainToParent(insets: UIEdgeInsets) {
         guard let parent = superview else { return }
-        
         translatesAutoresizingMaskIntoConstraints = false
-        let metrics: [String : Any] = ["left" : insets.left, "right" : insets.right, "top" : insets.top, "bottom" : insets.bottom]
-        
-        parent.addConstraints(["H:|-(left)-[view]-(right)-|", "V:|-(top)-[view]-(bottom)-|"].flatMap {
-            NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: metrics, views: ["view": self])
-        })
+
+		topAnchor.constraint(equalTo: parent.topAnchor, constant: insets.top).isActive = true
+		leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: insets.left).isActive = true
+
+		let bc = bottomAnchor.constraint(equalTo: parent.bottomAnchor, constant: -insets.bottom)
+		bc.priority = .init(999)
+		bc.isActive = true
+
+		let tc = trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -insets.right)
+		tc.priority = .init(999)
+		tc.isActive = true
     }
 }
