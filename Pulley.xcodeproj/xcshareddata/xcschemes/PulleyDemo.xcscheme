@@ -59,6 +59,12 @@
             ReferencedContainer = "container:Pulley.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-UIViewLayoutFeedbackLoopDebuggingThreshold 100"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
