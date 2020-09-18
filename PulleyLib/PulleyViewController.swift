@@ -598,13 +598,14 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The currently rendered display mode for Pulley. This will match displayMode unless you have it set to 'automatic'. This will provide the 'actual' display mode (never automatic).
     public fileprivate(set) var currentDisplayMode: PulleyDisplayMode = .automatic {
         didSet {
-            if self.isViewLoaded
-            {
-                self.view.setNeedsLayout()
-            }
             
             if oldValue != currentDisplayMode
             {
+                if self.isViewLoaded
+                {
+                    self.view.setNeedsLayout()
+                }
+                
                 delegate?.drawerDisplayModeDidChange?(drawer: self)
                 (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerDisplayModeDidChange?(drawer: self)
                 (primaryContentContainer as? PulleyPrimaryContentControllerDelegate)?.drawerDisplayModeDidChange?(drawer: self)
@@ -995,7 +996,10 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      user of this library), then the corners parameter will be ignored.
      */
     private func drawerMaskingPath(byRoundingCorners corners: UIRectCorner) -> UIBezierPath {
-        drawerContentViewController.view.layoutIfNeeded()
+        // Only layout the drawer content view if the position is not closed. If the position is closed this view is not visable and does not need to be layout for the masking path. This is the root of iOS 14 auto layout feedback loop.
+        if drawerPosition != .closed {
+            drawerContentViewController.view.layoutIfNeeded()
+        }
 
         let path: UIBezierPath
         if let customPath = (drawerContentViewController.view.layer.mask as? CAShapeLayer)?.path {
