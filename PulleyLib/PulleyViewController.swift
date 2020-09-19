@@ -996,9 +996,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      user of this library), then the corners parameter will be ignored.
      */
     private func drawerMaskingPath(byRoundingCorners corners: UIRectCorner) -> UIBezierPath {
-        // Only layout the drawer content view if the position is not closed. If the position is closed this view is not visable and does not need to be layout for the masking path. This is the root of iOS 14 auto layout feedback loop.
-        if drawerPosition != .closed {
-            drawerContentViewController.view.layoutIfNeeded()
+        // In lue of drawerContentViewController.view.layoutIfNeeded() whenever this function is called, if the viewController is loaded setNeedsLayout
+        if drawerContentViewController.isViewLoaded {
+            drawerContentViewController.view.setNeedsLayout()
         }
 
         let path: UIBezierPath
