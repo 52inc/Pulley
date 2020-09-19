@@ -996,7 +996,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      user of this library), then the corners parameter will be ignored.
      */
     private func drawerMaskingPath(byRoundingCorners corners: UIRectCorner) -> UIBezierPath {
-        // In lue of drawerContentViewController.view.layoutIfNeeded() when ever this function is called, if the viewController is loaded setNeedsLayout
+        // In lue of drawerContentViewController.view.layoutIfNeeded() whenever this function is called, if the viewController is loaded setNeedsLayout
         if drawerContentViewController.isViewLoaded {
             drawerContentViewController.view.setNeedsLayout()
         }
