@@ -371,10 +371,13 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The opacity of the drawer shadow.
     @IBInspectable public var shadowOpacity: Float = 0.1 {
         didSet {
-            if self.isViewLoaded
+            if oldValue != shadowOpacity
             {
-                drawerShadowView.layer.shadowOpacity = shadowOpacity
-                self.view.setNeedsLayout()
+                if self.isViewLoaded
+                {
+                    drawerShadowView.layer.shadowOpacity = shadowOpacity
+                    self.view.setNeedsLayout()
+                }
             }
         }
     }
@@ -382,10 +385,13 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The radius of the drawer shadow.
     @IBInspectable public var shadowRadius: CGFloat = 3.0 {
         didSet {
-            if self.isViewLoaded
+            if oldValue != shadowRadius
             {
-                drawerShadowView.layer.shadowRadius = shadowRadius
-                self.view.setNeedsLayout()
+                if self.isViewLoaded
+                {
+                    drawerShadowView.layer.shadowRadius = shadowRadius
+                    self.view.setNeedsLayout()
+                }
             }
         }
     }
@@ -393,11 +399,15 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The offset of the drawer shadow.
     @IBInspectable public var shadowOffset = CGSize(width: 0.0, height: -3.0) {
         didSet {
-          if self.isViewLoaded {
-            drawerShadowView.layer.shadowOffset = shadowOffset
-            self.view.setNeedsLayout()
-          }
-      }
+            if oldValue != shadowOffset
+            {
+                if self.isViewLoaded
+                {
+                  drawerShadowView.layer.shadowOffset = shadowOffset
+                  self.view.setNeedsLayout()
+                }
+            }
+        }
     }
 
     /// The opaque color of the background dimming view.
