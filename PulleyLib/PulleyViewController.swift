@@ -328,7 +328,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The inset from the top safe area when the drawer is fully open. This property is only for the 'drawer' displayMode. Use panelInsets to control the top/bottom/left/right insets for the panel.
     @IBInspectable public var drawerTopInset: CGFloat = 20.0 {
         didSet {
-            if self.isViewLoaded
+            if oldValue != drawerTopInset, self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -338,7 +338,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// This replaces the previous panelInsetLeft and panelInsetTop properties. Depending on what corner placement is being used, different values from this struct will apply. For example, 'topLeft' corner placement will utilize the .top, .left, and .bottom inset properties and it will ignore the .right property (use panelWidth property to specify width)
     @IBInspectable public var panelInsets: UIEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0) {
         didSet {
-            if self.isViewLoaded
+            if oldValue != panelInsets, self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -348,7 +348,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The width of the panel in panel displayMode
     @IBInspectable public var panelWidth: CGFloat = 325.0 {
         didSet {
-            if self.isViewLoaded
+            if oldValue != panelWidth, self.isViewLoaded
             {
                 self.view.setNeedsLayout()
             }
@@ -362,7 +362,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         didSet {
             if self.isViewLoaded
             {
-                self.view.setNeedsLayout()
+                if oldValue != drawerCornerRadius {
+                    self.view.setNeedsLayout()
+                }
                 drawerBackgroundVisualEffectView?.layer.cornerRadius = drawerCornerRadius
             }
         }
@@ -371,11 +373,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The opacity of the drawer shadow.
     @IBInspectable public var shadowOpacity: Float = 0.1 {
         didSet {
-            if oldValue != shadowOpacity
+            if self.isViewLoaded
             {
-                if self.isViewLoaded
+                drawerShadowView.layer.shadowOpacity = shadowOpacity
+                if oldValue != shadowOpacity
                 {
-                    drawerShadowView.layer.shadowOpacity = shadowOpacity
                     self.view.setNeedsLayout()
                 }
             }
@@ -385,26 +387,27 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     /// The radius of the drawer shadow.
     @IBInspectable public var shadowRadius: CGFloat = 3.0 {
         didSet {
-            if oldValue != shadowRadius
+            if self.isViewLoaded
             {
-                if self.isViewLoaded
+                drawerShadowView.layer.shadowRadius = shadowRadius
+                if oldValue != shadowRadius
                 {
-                    drawerShadowView.layer.shadowRadius = shadowRadius
                     self.view.setNeedsLayout()
                 }
             }
+
         }
     }
     
     /// The offset of the drawer shadow.
     @IBInspectable public var shadowOffset = CGSize(width: 0.0, height: -3.0) {
         didSet {
-            if oldValue != shadowOffset
+            if self.isViewLoaded
             {
-                if self.isViewLoaded
+                drawerShadowView.layer.shadowOffset = shadowOffset
+                if oldValue != shadowOffset
                 {
-                  drawerShadowView.layer.shadowOffset = shadowOffset
-                  self.view.setNeedsLayout()
+                    self.view.setNeedsLayout()
                 }
             }
         }
