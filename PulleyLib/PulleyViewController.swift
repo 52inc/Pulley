@@ -595,7 +595,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             
             if supportedPositions.contains(drawerPosition)
             {
-                setDrawerPosition(position: drawerPosition, animated: false)
+                setDrawerPosition(position: drawerPosition, animated: true)
             }
             else
             {
@@ -1336,10 +1336,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      Change the current drawer content view controller (The one inside the drawer)
      
      - parameter controller: The controller to replace it with
+     - parameter position: The initial position of the contoller
      - parameter animated:   Whether or not to animate the change.
      - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
      */
-    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, toPosition: PulleyPosition? = nil, completion: PulleyAnimationCompletionBlock?)
+    public func setDrawerContentViewController(controller: UIViewController, position: PulleyPosition? = nil, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
     {
         // Account for transition issue in iOS 11
         controller.view.frame = drawerContentContainer.bounds
@@ -1350,12 +1351,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             UIView.transition(with: drawerContentContainer, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] () -> Void in
                 
                 self?.drawerContentViewController = controller
-                
-                if let toPosition = toPosition {
-                    self?.setDrawerPosition(position: toPosition, animated: false)
-                } else {
-                    self?.setDrawerPosition(position: self?.drawerPosition ?? .collapsed, animated: false)
-                }
+                self?.setDrawerPosition(position: position ?? (self?.drawerPosition ?? .collapsed), animated: false)
             }, completion: { (completed) in
                 completion?(completed)
             })
@@ -1364,14 +1360,23 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         {
             drawerContentViewController = controller
             
-            if let toPosition = toPosition {
-                setDrawerPosition(position: toPosition, animated: false)
-            } else {
-                setDrawerPosition(position: drawerPosition, animated: false)
-            }
-            
+            setDrawerPosition(position: position ?? drawerPosition, animated: false)
             completion?(true)
         }
+    }
+    
+    /**
+     Change the current drawer content view controller (The one inside the drawer). This method exists for backwards compatibility.
+     
+     - parameter controller: The controller to replace it with
+     - parameter animated:   Whether or not to animate the change.
+     - parameter completion: A block object to be executed when the animation sequence ends. The Bool indicates whether or not the animations actually finished before the completion handler was called.
+     */
+    
+    public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)
+    {
+        setDrawerContentViewController(controller: controller, position: nil, animated: animated,  completion: completion)
+    
     }
     
     /**
@@ -1382,7 +1387,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
      */
     public func setDrawerContentViewController(controller: UIViewController, animated: Bool = true)
     {
-        setDrawerContentViewController(controller: controller, animated: animated, completion: nil)
+        setDrawerContentViewController(controller: controller, position: nil, animated: animated, completion: nil)
     }
     
     /**
