@@ -1,3 +1,4 @@
+![deploy_to_cocoapods](https://github.com/52inc/Pulley/workflows/deploy_to_cocoapods/badge.svg)
 # Pulley
 A library to imitate the drawer in Maps for iOS 10/11. The master branch follows the latest currently released version of Swift. If you need an older version of Swift, you can specify it's version (e.g. 1.0.x) in your Podfile or use the code on the branch for that version. Older branches are unsupported.
 
