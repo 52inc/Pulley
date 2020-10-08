@@ -645,11 +645,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     fileprivate var isAnimatingDrawerPosition: Bool = false
     
-    fileprivate var isChangingDrawerPosition: Bool = false {
-        didSet {
-            print("Drawer Position Changing: \(isChangingDrawerPosition)")
-        }
-    }
+    fileprivate var isChangingDrawerPosition: Bool = false
     
     /// The height of the open position for the drawer
     private var heightOfOpenDrawer: CGFloat {
