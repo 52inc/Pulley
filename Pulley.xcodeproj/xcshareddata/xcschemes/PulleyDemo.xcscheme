@@ -61,7 +61,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-UIViewLayoutFeedbackLoopDebuggingThreshold 100"
+            argument = "-UIViewLayoutFeedbackLoopDebuggingThreshold 1"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

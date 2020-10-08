@@ -131,13 +131,28 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
             return .collapsed
         }
     }
-
+    
     public override func isEqual(_ object: Any?) -> Bool {
         guard let position = object as? PulleyPosition else {
             return false
         }
 
         return self.rawValue == position.rawValue
+    }
+    
+    public override var description: String {
+        switch rawValue {
+        case 0:
+            return "collapsed"
+        case 1:
+            return "partiallyrevealed"
+        case 2:
+            return "open"
+        case 3:
+            return "closed"
+        default:
+            return "collapsed"
+        }
     }
 }
 
@@ -630,6 +645,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     fileprivate var isAnimatingDrawerPosition: Bool = false
     
+    fileprivate var isChangingDrawerPosition: Bool = false
+    
     /// The height of the open position for the drawer
     private var heightOfOpenDrawer: CGFloat {
         
@@ -955,7 +972,14 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         maskDrawerVisualEffectView()
         maskBackgroundDimmingView()
-        setDrawerPosition(position: drawerPosition, animated: false)
+        
+        // Do not need to set the the drawer position in layoutSubview if the position of the drawer is changing
+        // and the view is being layed out. If the drawer position is changing and the view is layed out (i.e.
+        // a value or constraints are bing updated) the drawer is always set to the last position,
+        // and no longer scrolls properly.
+        if !isChangingDrawerPosition {
+            setDrawerPosition(position: drawerPosition, animated: false)
+        }
     }
 
     // MARK: Private State Updates
@@ -1527,6 +1551,7 @@ extension PulleyViewController: UIScrollViewDelegate {
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
+        
         if scrollView == drawerScrollView
         {
             // Find the closest anchor point and snap there.
@@ -1647,6 +1672,7 @@ extension PulleyViewController: UIScrollViewDelegate {
                 
                 setDrawerPosition(position: positionToSnapTo, animated: true)
             }
+            self.isChangingDrawerPosition = false
         }
     }
     
@@ -1667,6 +1693,7 @@ extension PulleyViewController: UIScrollViewDelegate {
         
         if scrollView == drawerScrollView
         {
+            self.isChangingDrawerPosition = true
             let partialRevealHeight: CGFloat = (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.partialRevealDrawerHeight?(bottomSafeArea: pulleySafeAreaInsets.bottom) ?? kPulleyDefaultPartialRevealHeight
 
             let lowestStop = getStopList().min() ?? 0
