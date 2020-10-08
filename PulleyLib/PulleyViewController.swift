@@ -645,7 +645,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     
     fileprivate var isAnimatingDrawerPosition: Bool = false
     
-    fileprivate var isChangingDrawerPosition: Bool = false
+    fileprivate var isChangingDrawerPosition: Bool = false {
+        didSet {
+            print("Drawer Position Changing: \(isChangingDrawerPosition)")
+        }
+    }
     
     /// The height of the open position for the drawer
     private var heightOfOpenDrawer: CGFloat {
@@ -977,7 +981,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         // and the view is being layed out. If the drawer position is changing and the view is layed out (i.e.
         // a value or constraints are bing updated) the drawer is always set to the last position,
         // and no longer scrolls properly.
-        if !isChangingDrawerPosition {
+        if self.isChangingDrawerPosition == false {
             setDrawerPosition(position: drawerPosition, animated: false)
         }
     }
@@ -1672,7 +1676,12 @@ extension PulleyViewController: UIScrollViewDelegate {
                 
                 setDrawerPosition(position: positionToSnapTo, animated: true)
             }
-            self.isChangingDrawerPosition = false
+        }
+    }
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if scrollView == drawerScrollView {
+            self.isChangingDrawerPosition = true
         }
     }
     
@@ -1686,6 +1695,7 @@ extension PulleyViewController: UIScrollViewDelegate {
             
             // Halt intertia
             targetContentOffset.pointee = scrollView.contentOffset
+            self.isChangingDrawerPosition = false
         }
     }
     
@@ -1693,7 +1703,6 @@ extension PulleyViewController: UIScrollViewDelegate {
         
         if scrollView == drawerScrollView
         {
-            self.isChangingDrawerPosition = true
             let partialRevealHeight: CGFloat = (drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.partialRevealDrawerHeight?(bottomSafeArea: pulleySafeAreaInsets.bottom) ?? kPulleyDefaultPartialRevealHeight
 
             let lowestStop = getStopList().min() ?? 0
