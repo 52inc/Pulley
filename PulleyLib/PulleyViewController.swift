@@ -90,6 +90,12 @@ public typealias PulleyAnimationCompletionBlock = ((_ finished: Bool) -> Void)
         .closed
     ]
     
+    public static let compact: [PulleyPosition] = [
+        .collapsed,
+        .open,
+        .closed
+    ]
+    
     public let rawValue: Int
     
     public init(rawValue: Int) {
@@ -641,7 +647,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             }
             
             guard supportedPositions.count > 0 else {
-                supportedPositions = PulleyPosition.all
+                supportedPositions = self.currentDisplayMode == .compact ? PulleyPosition.compact : PulleyPosition.all
                 return
             }
             
@@ -652,6 +658,10 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             if supportedPositions.contains(drawerPosition)
             {
                 setDrawerPosition(position: drawerPosition, animated: true)
+            }
+            else if (self.currentDisplayMode == .compact && drawerPosition == .partiallyRevealed && supportedPositions.contains(.open))
+            {
+                setDrawerPosition(position: .open, animated: false)
             }
             else
             {
@@ -675,6 +685,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
                 if self.isViewLoaded
                 {
                     self.view.setNeedsLayout()
+                    self.setNeedsSupportedDrawerPositionsUpdate()
                 }
                 
                 delegate?.drawerDisplayModeDidChange?(drawer: self)
@@ -1208,8 +1219,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             return
         }
         
-        guard currentDisplayMode == .drawer else {
-            print("Pulley: Error: You can only bounce the drawer when it's in the .drawer display mode.")
+        guard currentDisplayMode == .drawer || currentDisplayMode == .compact else {
+            print("Pulley: Error: You can only bounce the drawer when it's in the .drawer or .compact display mode.")
             return
         }
         
@@ -1482,11 +1493,15 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate
         {
-            supportedPositions = drawerVCCompliant.supportedDrawerPositions?() ?? PulleyPosition.all
+            if let setSupportedDrawerPositions = drawerVCCompliant.supportedDrawerPositions?() {
+                supportedPositions = self.currentDisplayMode == .compact ? setSupportedDrawerPositions.filter(PulleyPosition.compact.contains) : setSupportedDrawerPositions
+            } else {
+                supportedPositions = self.currentDisplayMode == .compact ?  PulleyPosition.compact : PulleyPosition.all
+            }
         }
         else
         {
-            supportedPositions = PulleyPosition.all
+            supportedPositions = self.currentDisplayMode == .compact ?  PulleyPosition.compact : PulleyPosition.all
         }
     }
     
@@ -1566,9 +1581,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     open func supportedDrawerPositions() -> [PulleyPosition] {
         if let drawerVCCompliant = drawerContentViewController as? PulleyDrawerViewControllerDelegate,
             let supportedPositions = drawerVCCompliant.supportedDrawerPositions?() {
-            return supportedPositions
+            return (self.currentDisplayMode == .compact ? supportedPositions.filter(PulleyPosition.compact.contains) : supportedPositions)
         } else {
-            return PulleyPosition.all
+            return (self.currentDisplayMode == .compact ? PulleyPosition.compact : PulleyPosition.all)
         }
     }
     
