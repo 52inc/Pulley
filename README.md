@@ -28,6 +28,7 @@ Pulley is an easy to use drawer library meant to imitate the drawer in iOS 10/11
 
 ##### Installation with Carthage
 `github "52inc/Pulley"`
+Please read this [issue](https://github.com/52inc/Pulley/issues/331#issue-435421067) regarding setup if using Carthage.
 
 ##### Installation with Swift Package Manager
 Follow the [developer documentation](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app) for Swift Package Manager (versions 2.8.x)
