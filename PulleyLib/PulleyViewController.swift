@@ -657,7 +657,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             
             if supportedPositions.contains(drawerPosition)
             {
-                setDrawerPosition(position: drawerPosition, animated: true)
+                setDrawerPosition(position: drawerPosition, animated: false)
             }
             else if (self.currentDisplayMode == .compact && drawerPosition == .partiallyRevealed && supportedPositions.contains(.open))
             {
