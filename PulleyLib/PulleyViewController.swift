@@ -895,11 +895,13 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         let safeAreaRightInset = pulleySafeAreaInsets.right
         
         var automaticDisplayMode: PulleyDisplayMode = .drawer
-        if (self.view.bounds.width >= 600.0 && self.traitCollection.horizontalSizeClass == .compact) {
-            automaticDisplayMode = .compact
-        }
-        if (self.view.bounds.width >= 600.0 && self.traitCollection.horizontalSizeClass == .regular) {
-            automaticDisplayMode = .panel
+        if (self.view.bounds.width >= 600.0 ) {
+            switch self.traitCollection.horizontalSizeClass {
+            case .compact:
+                automaticDisplayMode = .compact
+            default:
+                automaticDisplayMode = .panel
+            }
         }
         
         let displayModeForCurrentLayout: PulleyDisplayMode = displayMode != .automatic ? displayMode : automaticDisplayMode
@@ -1219,8 +1221,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             return
         }
         
-        guard currentDisplayMode == .drawer || currentDisplayMode == .compact else {
-            print("Pulley: Error: You can only bounce the drawer when it's in the .drawer or .compact display mode.")
+        guard currentDisplayMode == .drawer else {
+            print("Pulley: Error: You can only bounce the drawer when it's in the .drawer display mode.")
             return
         }
         
