@@ -142,7 +142,7 @@ extension DrawerContentViewController: PulleyDrawerViewControllerDelegate {
     func drawerDisplayModeDidChange(drawer: PulleyViewController) {
         
         print("Drawer: \(drawer.currentDisplayMode)")
-        gripperTopConstraint.isActive = drawer.currentDisplayMode == .drawer
+        gripperTopConstraint.isActive = (drawer.currentDisplayMode == .drawer || drawer.currentDisplayMode == .compact)
     }
 }
 
