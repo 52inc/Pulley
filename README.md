@@ -1,5 +1,15 @@
-![deploy_to_cocoapods](https://github.com/52inc/Pulley/workflows/deploy_to_cocoapods/badge.svg)
 # Pulley
+
+<p align="center">
+<a href="https://github.com/52inc/Pulley/actions?query=workflow%3Adeploy_to_cocoapods"><img src="https://github.com/52inc/Pulley/workflows/deploy_to_cocoapods/badge.svg"></a>
+<a href="https://cocoapods.org/pods/Pulley"><img src="https://img.shields.io/cocoapods/v/Pulley.svg?style=flat"></a>
+<a href="https://github.com/Carthage/Carthage/"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"></a>
+<a href="https://swift.org/package-manager/"><img src="https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat"></a>
+<br />
+<a href="https://raw.githubusercontent.com/52inc/Pulley/master/LICENSE"><img src="https://img.shields.io/cocoapods/l/Pulley.svg?style=flat"></a>
+<a href="https://github.com/52inc/Pulley/"><img src="https://img.shields.io/cocoapods/p/Pulley.svg?style=flat"></a>
+</p>
+
 A library to imitate the drawer in Maps for iOS 10/11. The master branch follows the latest currently released version of Swift. If you need an older version of Swift, you can specify it's version (e.g. 1.0.x) in your Podfile or use the code on the branch for that version. Older branches are unsupported.
 
 ### Update / Migration Info
@@ -146,3 +156,10 @@ if let drawer = self.parentViewController as? PulleyViewController
 15. By default, Pulley will only use the 'bottom' display mode (to preserve backwards compatibility). If you want to use the iPad / iPhone landscape modes, you can use 'panel' for the display mode. If you want it to automatically switch like Maps.app on iOS, you can set the display mode to 'automatic'.
 16. You can apply a custom mask to the Pulley drawer by setting your drawerViewController's view.layer.mask property to a CAShapeLayer. That mask will also be applied to the drawer in Pulley.
 17. You can specify which corner you'd like the panel to display in (when in 'panel' displayMode) by using the 'panelCornerPlacement` property.
+
+## Requirements
+
+- iOS 9.0+
+- Swift 4.0+
+
+
