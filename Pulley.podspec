@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Pulley'
-  s.version          = ENV['LIB_VERSION'] || '2.8.5'
+  s.version          = ENV['LIB_VERSION'] || '2.9.0'
   s.summary          = 'A library to imitate the iOS 10 Maps UI.'
 
 # This description is used to generate tags and improve search results.

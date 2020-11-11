@@ -14,7 +14,10 @@ A library to imitate the drawer in Maps for iOS 10/11. The master branch follows
 
 ### Update / Migration Info
 
-**ATTENTION:** 
+**ATTENTION:**
+Pulley 2.9.0 has new properties to support a new displayMode. The base functionality should work without any significant changes. The biggest change being the new displayMode of `.compact` to replicate Apple Maps Behavior on the iPhone SE size class devices. This is an exact replica of the behavior of the Apple Maps drawer, therefor when the `currentDisplayMode` of the `PulleyViewController` is `.compact` then the only `supportedDrawerPositions` for the view controller when in `.compact` mode are `.open`, `.closed`, and `.collapsed`. This mode also has new @IBInspectable properties, `compactInsets` and `compactWidth`. This mode behaves in a very similar way to `.panel` mode. See the pull request [here](https://github.com/52inc/Pulley/pull/347) for the motivation behind this feature. Also in this release, `setDrawerContentViewController(controller: UIViewController, position: PulleyPosition? = nil, animated: Bool = true, completion: PulleyAnimationCompletionBlock?)` has a new optional parameter `position` to set a new drawer position the drawer when a new `DrawerContentViewController` is set. See [this](https://github.com/52inc/Pulley/pull/349) pull request for the motivation behind this feature.
+
+
 Pulley 2.5.0 had significant renaming changes to support new features. Although property names have changed, the functionality should work without any significant changes (aside from renaming). See [this thread](https://github.com/52inc/Pulley/issues/252) for additional information.
 
 
