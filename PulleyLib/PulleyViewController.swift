@@ -1363,7 +1363,10 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
                     (drawer.drawerContentViewController as? PulleyDrawerViewControllerDelegate)?.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: self?.pulleySafeAreaInsets.bottom ?? 0.0)
                     (drawer.primaryContentViewController as? PulleyPrimaryContentControllerDelegate)?.drawerPositionDidChange?(drawer: drawer, bottomSafeArea: self?.pulleySafeAreaInsets.bottom ?? 0.0)
                     
-                    drawer.view.layoutIfNeeded()
+                    // Fix the bouncy drawer bug on iPad and Mac
+                    if UIDevice.current.userInterfaceIdiom == .phone {
+                        drawer.view.layoutIfNeeded()
+                    }
                 }
 
                 }, completion: { [weak self] (completed) in
