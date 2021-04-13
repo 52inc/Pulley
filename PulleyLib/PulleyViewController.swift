@@ -1273,8 +1273,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         }
 
         let lowestStop = getStopList().min() ?? 0
-        
-        drawerContentContainer.frame = CGRect(x: 0.0, y: drawerScrollView.bounds.height - lowestStop , width: drawerScrollView.bounds.width, height: drawerScrollView.contentOffset.y + lowestStop + bounceOverflowMargin)
+         
+        drawerContentContainer.frame = CGRect(x: 0.0, y: drawerScrollView.bounds.height - lowestStop , width: drawerScrollView.bounds.width, height: drawerScrollView.contentOffset.y + lowestStop + (drawerPosition != .closed ? bounceOverflowMargin : 0))
         drawerBackgroundVisualEffectView?.frame = drawerContentContainer.frame
         drawerShadowView.frame = drawerContentContainer.frame
         
