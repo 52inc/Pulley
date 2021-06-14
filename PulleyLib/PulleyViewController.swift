@@ -585,7 +585,7 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     public var feedbackGenerator: Any?
     
     /// Access to the safe areas that Pulley is using for layout (provides compatibility for iOS < 11)
-    public var pulleySafeAreaInsets: UIEdgeInsets {
+    open var pulleySafeAreaInsets: UIEdgeInsets {
         
         var safeAreaBottomInset: CGFloat = 0
         var safeAreaLeftInset: CGFloat = 0
