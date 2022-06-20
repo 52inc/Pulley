@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PulleyPassthroughScrollViewDelegate: class {
+protocol PulleyPassthroughScrollViewDelegate: AnyObject {
     
     func shouldTouchPassthroughScrollView(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> Bool
     func viewToReceiveTouch(scrollView: PulleyPassthroughScrollView, point: CGPoint) -> UIView

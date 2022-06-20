@@ -11,7 +11,7 @@ import UIKit
 /**
  *  The base delegate protocol for Pulley delegates.
  */
-@objc public protocol PulleyDelegate: class {
+@objc public protocol PulleyDelegate: AnyObject {
     
     /** This is called after size changes, so if you care about the bottomSafeArea property for custom UI layout, you can use this value.
      * NOTE: It's not called *during* the transition between sizes (such as in an animation coordinator), but rather after the resize is complete.
