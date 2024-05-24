@@ -506,8 +506,8 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
     }
     
     /// The starting position for the drawer when it first loads
-    open var initialDrawerPosition: PulleyPosition = .collapsed
-    
+    open var initialDrawerPosition: PulleyPosition!
+
     /// The display mode for Pulley. Default is 'drawer', which preserves the previous behavior of Pulley. If you want it to adapt automatically, choose 'automatic'. The current display mode is available by using the 'currentDisplayMode' property.
     public var displayMode: PulleyDisplayMode = .drawer {
         didSet {
