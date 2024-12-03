@@ -713,6 +713,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         } else if currentDisplayMode == .drawer {
             height -= drawerTopInset
         }
+#if targetEnvironment(macCatalyst)
+        height = roundToEven(height)
+#endif
         
         return height
     }
@@ -926,14 +929,22 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             
             if supportedPositions.contains(.open)
             {
+                var topPos = drawerTopInset + safeAreaTopInset
+#if targetEnvironment(macCatalyst)
+                topPos = roundToEven(topPos)
+#endif
                 // Layout scrollview
-                drawerScrollView.frame = CGRect(x: adjustedLeftSafeArea, y: drawerTopInset + safeAreaTopInset, width: self.view.bounds.width - adjustedLeftSafeArea - adjustedRightSafeArea, height: heightOfOpenDrawer)
+                drawerScrollView.frame = CGRect(x: adjustedLeftSafeArea, y: topPos, width: self.view.bounds.width - adjustedLeftSafeArea - adjustedRightSafeArea, height: heightOfOpenDrawer)
             }
             else
             {
                 // Layout scrollview
                 let adjustedTopInset: CGFloat = getStopList().max() ?? 0.0
-                drawerScrollView.frame = CGRect(x: adjustedLeftSafeArea, y: self.view.bounds.height - adjustedTopInset, width: self.view.bounds.width - adjustedLeftSafeArea - adjustedRightSafeArea, height: adjustedTopInset)
+                var topPos = self.view.bounds.height - adjustedTopInset
+#if targetEnvironment(macCatalyst)
+                topPos = roundToEven(topPos)
+#endif
+                drawerScrollView.frame = CGRect(x: adjustedLeftSafeArea, y: topPos, width: self.view.bounds.width - adjustedLeftSafeArea - adjustedRightSafeArea, height: adjustedTopInset)
             }
             
             drawerScrollView.addSubview(drawerShadowView)
@@ -1009,7 +1020,9 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
                 yOrigin = (panelCornerPlacement == .bottomLeft || panelCornerPlacement == .bottomRight) ? (panelInsets.top + safeAreaTopInset) : (panelInsets.top + safeAreaTopInset + bounceOverflowMargin)
                 
             }
-            
+#if targetEnvironment(macCatalyst)
+            yOrigin = roundToEven(yOrigin)
+#endif
             if supportedPositions.contains(.open)
             {
                 // Layout scrollview
@@ -1091,7 +1104,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             collapsedHeight = drawerVCCompliant.collapsedDrawerHeight?(bottomSafeArea: pulleySafeAreaInsets.bottom) ?? kPulleyDefaultCollapsedHeight
             partialRevealHeight = drawerVCCompliant.partialRevealDrawerHeight?(bottomSafeArea: pulleySafeAreaInsets.bottom) ?? kPulleyDefaultPartialRevealHeight
         }
-        
+#if targetEnvironment(macCatalyst)
+         collapsedHeight = roundToEven(collapsedHeight)
+         partialRevealHeight = roundToEven(partialRevealHeight)
+#endif
+         
         if supportedPositions.contains(.collapsed)
         {
             drawerStops.append(collapsedHeight)
@@ -1104,7 +1121,11 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
         
         if supportedPositions.contains(.open)
         {
-            drawerStops.append((self.view.bounds.size.height - drawerTopInset - pulleySafeAreaInsets.top))
+            var value = (self.view.bounds.size.height - drawerTopInset - pulleySafeAreaInsets.top)
+#if targetEnvironment(macCatalyst)
+            value = roundToEven(value)
+#endif
+            drawerStops.append(value)
         }
         
         return drawerStops
@@ -1622,6 +1643,13 @@ open class PulleyViewController: UIViewController, PulleyDrawerViewControllerDel
             drawerVCCompliant.drawerChangedDistanceFromBottom?(drawer: drawer, distance: distance, bottomSafeArea: bottomSafeArea)
         }
     }
+    
+#if targetEnvironment(macCatalyst)
+    func roundToEven(_ number: CGFloat) -> CGFloat {
+        let rounded = number.rounded()
+        return rounded.remainder(dividingBy: 2) == 0 ? rounded : rounded + 1
+    }
+#endif
 }
 
 extension PulleyViewController: PulleyPassthroughScrollViewDelegate {
